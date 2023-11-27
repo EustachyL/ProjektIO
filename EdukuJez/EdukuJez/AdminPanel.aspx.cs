@@ -20,6 +20,8 @@ namespace EdukuJez
 
                 AddTableRow(PanelFactory.MakePanel("Przedmiotami", "#996515", "AdminPanel.aspx", this),
                     PanelFactory.MakePanel("Grupami Zajęciowymi", "#DAA520", "AdminPanel.aspx", this));
+
+                AddTableRow(PanelFactory.MakePanel("Grupami użytkowników", "#F88158", "AdminPanel.aspx", this));
         }
         private void AddTableRow(params TablePanel[] cells)
         {

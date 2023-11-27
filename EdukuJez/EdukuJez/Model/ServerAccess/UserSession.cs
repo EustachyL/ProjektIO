@@ -27,7 +27,7 @@ namespace EdukuJez
         {
             return _instance;
         }
-        public static bool  CheckPermission(String PermissionSubject, String PermissionType)
+        public static bool  CheckPermission(String PermissionName)
         {
             return true;
         }

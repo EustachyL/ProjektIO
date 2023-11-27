@@ -12,14 +12,13 @@ namespace EdukuJez
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-                AddTableRow(PanelFactory.MakePanel("Przedmioty", "#808000", "Default.aspx", this),
+                this.AddTableRow(PanelFactory.MakePanel("Przedmioty", "#808000", "Default.aspx", this),
                     PanelFactory.MakePanel("Ogłoszenia", "#D2691E", "Main.aspx", this));
 
                 AddTableRow(PanelFactory.MakePanel("Plan Zajęć", "#996515", "Main.aspx", this),
-                    PanelFactory.MakePanel("Panel Administratora", "#DAA520", "Main.aspx", this));
+                    PanelFactory.MakePanel("Panel Administratora", "#DAA520", "AdminPanel.aspx", this));
 
-                AddTableRow(PanelFactory.MakePanel("Grupy i uprawnienia", "#F88158", "Main.aspx", this),
-                     PanelFactory.MakePanel("Zarządzanie Lekcjami", "#Ddff50f", "EditClasses.aspx", this));
+                AddTableRow(PanelFactory.MakePanel("Zarządzanie Lekcjami", "#Ddff50f", "EditClasses.aspx", this));
         }
         private void AddTableRow(params TablePanel[] cells)
         {

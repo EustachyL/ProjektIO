@@ -8,5 +8,6 @@
     </div>
     <asp:Label ID="MainLabel" runat="server" Text="Czym chcesz zarządzać?" Font-Size="48px"></asp:Label>
     <asp:Table ID="MainAdminTable" runat="server" CellSpacing="20" CssClass="Center-Form Main-Table">
+
     </asp:Table>
 </asp:Content>

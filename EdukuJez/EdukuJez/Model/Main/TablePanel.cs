@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace EdukuJez.Model.Main
 {
-    public class TablePanel
+    public class TablePanel :IRestricted
     {
         Panel main;
         public String REQPermission { get;}

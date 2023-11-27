@@ -143,8 +143,11 @@
     <Content Include="AccountsManagement.aspx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Imgs\Arrow_left.png" />
+    <Content Include="Imgs\Groups_Management_Page_Title.png" />
+    <Content Include="Imgs\Groups_Page_Title.png" />
     <Content Include="Imgs\Logo_PH.png" />
     <Content Include="Imgs\Main_Page_Title.png" />
+    <Content Include="GroupManger.aspx" />
     <Content Include="Main.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -207,6 +210,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GroupManger.aspx.cs">
+      <DependentUpon>GroupManger.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GroupManger.aspx.designer.cs">
+      <DependentUpon>GroupManger.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Main.aspx.cs">
       <DependentUpon>Main.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -218,9 +228,12 @@
     <Compile Include="Model\Main\TablePanel.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\EntityBase.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\User.cs" />
+    <Compile Include="Model\ServerAccess\DBEntity\Group.cs" />
+    <Compile Include="Model\ServerAccess\IRestricted.cs" />
     <Compile Include="Model\ServerAccess\Repositories\ClassesDataBaseAdd.cs" />
     <Compile Include="Model\ServerAccess\Repositories\ClassesDataBaseDelete.cs" />
     <Compile Include="Model\ServerAccess\Repositories\IRepository.cs" />
+    <Compile Include="Model\ServerAccess\Repositories\GroupsRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\UsersRepository.cs" />
     <Compile Include="Model\ServerAccess\ServerClient.cs" />
     <Compile Include="Model\ServerAccess\UserSession.cs" />
