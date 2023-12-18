@@ -62,15 +62,16 @@ namespace EdukuJez
 
 
 
-            int grupaId = Convert.ToInt32(DropDownListGroup.SelectedValue);
-            int przedmiotId = Convert.ToInt32(DropDownListSubject.SelectedValue);
+            var group = Convert.ToString(DropDownListGroup.SelectedValue);
+            var subject = Convert.ToString(DropDownListSubject.SelectedValue);
             int classRoom = Convert.ToInt32(DropDownListClass.SelectedValue);
 
-            var query = new ClassC() { Hour = godzina, Day = dzien, Name = parts[1], Surname = parts[2], Class=classRoom };
+            var c = new ClassC() { Hour = godzina, Day = dzien, Name = parts[0], Surname = parts[1], Class=classRoom };
 
-            scheduleRepo.Insert(query);
-
-
+            groupRepo.Table.First(x => x.Name == group).Classes.Add(c);
+            subjRepo.Table.First(x => x.SubjectName == subject).Classes.Add(c);
+            groupRepo.Update();
+            subjRepo.Update();
         }
 
         protected void DeleteButton_Click(object sender, EventArgs e)
@@ -82,17 +83,13 @@ namespace EdukuJez
             string Teacher = DropDownListTeacher.SelectedValue;
             string[] parts = Teacher.Split(' ');
 
-
-
-            int grupaId = Convert.ToInt32(DropDownListGroup.SelectedValue);
-            int przedmiotId = Convert.ToInt32(DropDownListSubject.SelectedValue);
+            var group = Convert.ToString(DropDownListGroup.SelectedValue);
+            var subject = Convert.ToString(DropDownListSubject.SelectedValue);
             int classRoom = Convert.ToInt32(DropDownListClass.SelectedValue);
 
-            var query = new ClassC() { Hour = godzina, Day = dzien, Name = parts[1], Surname = parts[2], Class = classRoom };
-
+            var query = scheduleRepo.Table
+                .FirstOrDefault(x => x.Hour == godzina && x.Day == dzien && x.Name == parts[0] && x.Surname == parts[1] && x.Class == classRoom);
             scheduleRepo.Delete(query);
-
-
         }
 
 

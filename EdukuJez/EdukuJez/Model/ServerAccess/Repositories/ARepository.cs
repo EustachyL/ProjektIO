@@ -17,11 +17,15 @@ namespace EdukuJez.Repositories
         }
         public void Insert(T entity)
         {
+            if (entity == null)
+                return;
             Context.Add(entity);
             Context.SaveChanges();
         }
         public void Delete(T entity)
         {
+            if (entity == null)
+                return;
             Context.Remove(entity);
             Context.SaveChanges();
         }
