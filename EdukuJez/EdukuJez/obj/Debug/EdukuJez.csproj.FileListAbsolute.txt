@@ -973,3 +973,4 @@ F:\GitHub\ProjektIO222\EdukuJez\EdukuJez\obj\Debug\EdukuJez.csproj.AssemblyRefer
 F:\GitHub\ProjektIO222\EdukuJez\EdukuJez\obj\Debug\EdukuJez.csproj.CoreCompileInputs.cache
 F:\GitHub\ProjektIO222\EdukuJez\EdukuJez\obj\Debug\EdukuJez.dll
 F:\GitHub\ProjektIO222\EdukuJez\EdukuJez\obj\Debug\EdukuJez.pdb
+D:\c#\Projekt__IO\ProjektIO\EdukuJez\EdukuJez\obj\Debug\EdukuJez.csproj.SuggestedBindingRedirects.cache
