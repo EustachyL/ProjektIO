@@ -2,8 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\EdukuJez",
-    "\\EdukuJez\\EdukuJez"
+    "\\EdukuJez\\EdukuJez",
+    "\\EdukuJez\\EdukuJez\\Migrations",
+    "\\EdukuJez\\EdukuJez\\Model",
+    "\\EdukuJez\\EdukuJez\\Model\\ServerAccess",
+    "\\EdukuJez\\EdukuJez\\Model\\ServerAccess\\DBEntity",
+    "\\EdukuJez\\EdukuJez\\Model\\ServerAccess\\Repositories"
   ],
-  "SelectedNode": "\\EdukuJez\\EdukuJez\\Site.Master.cs",
+  "SelectedNode": "\\EdukuJez\\EdukuJez\\Model\\ServerAccess\\DBEntity\\ClassC.cs",
   "PreviewInSolutionExplorer": false
 }
