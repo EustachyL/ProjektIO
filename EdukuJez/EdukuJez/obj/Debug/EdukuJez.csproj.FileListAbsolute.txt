@@ -965,7 +965,6 @@ D:\c#\Projekt__IO\ProjektIO\EdukuJez\EdukuJez\bin\pl\System.Web.Webpages.Razor.r
 D:\c#\Projekt__IO\ProjektIO\EdukuJez\EdukuJez\bin\pl\System.Web.Helpers.resources.dll
 D:\c#\Projekt__IO\ProjektIO\EdukuJez\EdukuJez\bin\pl\System.Web.Mvc.resources.dll
 D:\c#\Projekt__IO\ProjektIO\EdukuJez\EdukuJez\obj\Debug\EdukuJez.csproj.AssemblyReference.cache
-D:\c#\Projekt__IO\ProjektIO\EdukuJez\EdukuJez\obj\Debug\EdukuJez.csproj.SuggestedBindingRedirects.cache
 D:\c#\Projekt__IO\ProjektIO\EdukuJez\EdukuJez\obj\Debug\EdukuJez.csproj.CoreCompileInputs.cache
 D:\c#\Projekt__IO\ProjektIO\EdukuJez\EdukuJez\obj\Debug\EdukuJez.csproj.CopyComplete
 D:\c#\Projekt__IO\ProjektIO\EdukuJez\EdukuJez\obj\Debug\EdukuJez.dll
