@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI.WebControls;
 using EdukuJez.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace EdukuJez
 {
@@ -14,7 +13,7 @@ namespace EdukuJez
             {
                 // Pobierz plan lekcji z bazy danych i wyświetl na stronie
                 ScheduleRepository Lessons = new ScheduleRepository();
-                var lessonPlan = Lessons.Table.Include(u => u.Group).Include(s => s.Subject).ToList();
+                var lessonPlan = Lessons.Table.ToList();
                 PopulateLessonTable(lessonPlan);
             }
         }
@@ -25,14 +24,13 @@ namespace EdukuJez
             foreach (ClassC lesson in lessonPlan)
             {
                 TableRow row = new TableRow();
-                TableCell cellSubject = new TableCell { Text = lesson.Subject?.SubjectName.ToString() ?? string.Empty };
-                TableCell cellName = new TableCell { Text = lesson.Name ?? string.Empty };
-                TableCell cellSurname = new TableCell { Text = lesson.Surname ?? string.Empty };
+                TableCell cellSubject = new TableCell { Text = lesson.Subject.ToString() };
+                TableCell cellName = new TableCell { Text = lesson.Name.ToString() };
+                TableCell cellSurname = new TableCell { Text = lesson.Surname.ToString() };
                 TableCell cellClass = new TableCell { Text = lesson.Class.ToString() };
-                TableCell cellHour = new TableCell { Text = lesson.Hour ?? string.Empty };
-                TableCell cellDay = new TableCell { Text = lesson.Day ?? string.Empty };
-
-
+                TableCell cellHour = new TableCell { Text = lesson.Hour.ToString() };
+                TableCell cellDay = new TableCell { Text = lesson.Day.ToString() };
+                
                 row.Cells.Add(cellDay);
                 row.Cells.Add(cellSubject);
                 row.Cells.Add(cellName);
