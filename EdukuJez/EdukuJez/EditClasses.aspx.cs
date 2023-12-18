@@ -32,14 +32,12 @@ namespace EdukuJez
         List<string> Teacher = new List<string> { };
 
 
-        private ScheduleRepository scheduleRepo;
-        private GroupsRepository groupRepo;
-        private SubjectsRepository subjRepo;
+        private ScheduleRepository scheduleRepo = new ScheduleRepository();
+        private GroupsRepository groupRepo = new GroupsRepository();
+        private SubjectsRepository subjRepo = new SubjectsRepository();
         protected void Page_Load(object sender, EventArgs e)
         {
-            var a =  groupRepo = new GroupsRepository();
-            var Lessons = new ScheduleRepository();
-            var list = groupRepo.Table.ToList();
+            var Lessons = scheduleRepo;
             var lessonPlan = Lessons.Table.Include(u => u.Group).Include(u => u.Subject).ToList();
 
             LoadToList(lessonPlan);
@@ -49,9 +47,6 @@ namespace EdukuJez
 
         public EditClasses()
         {
-            scheduleRepo = new ScheduleRepository();
-            groupRepo = new GroupsRepository();
-            subjRepo = new SubjectsRepository();
         }
 
 
@@ -66,9 +61,8 @@ namespace EdukuJez
 
             var query = new ClassC() { Hour = godzina, Day = dzien, Class = Class };
 
-            var dbc = new ClassesAdminReposytory();
 
-            dbc.Insert(query);
+            scheduleRepo.Insert(query);
 
 
         }
@@ -186,11 +180,17 @@ namespace EdukuJez
                 TableCell cellClass = new TableCell { Text = lesson.Class.ToString() };
                 TableCell cellHour = new TableCell { Text = lesson.Hour.ToString() };
                 TableCell cellDay = new TableCell { Text = lesson.Day.ToString() };
+                TableCell cellTeacherName = new TableCell { Text = lesson.Name.ToString() };
+                TableCell cellTeacherSurname = new TableCell { Text = lesson.Surname.ToString() };
+                TableCell cellSubject = new TableCell { Text = lesson.Subject.SubjectName.ToString() };
 
                 // Dodawanie komórek do wiersza
                 row.Cells.Add(cellDay);
-                row.Cells.Add(cellClass);
                 row.Cells.Add(cellHour);
+                row.Cells.Add(cellClass);
+                row.Cells.Add(cellSubject);
+                row.Cells.Add(cellTeacherName);
+                row.Cells.Add(cellTeacherSurname);
 
                 // Dodawanie wiersza do tabeli MainTable
                 MainTable.Rows.Add(row);
@@ -204,10 +204,12 @@ namespace EdukuJez
             foreach (ClassC lesson in lessonPlan)
             {
                 Class.Add(lesson.Class.ToString());
-                //Subject.Add(lesson.Subject.Id.ToString());
-                Group.Add(lesson.Group.Id.ToString());
+                Subject.Add(lesson.Subject.SubjectName.ToString());
                 Name.Add(lesson.Name.ToString());
                 Surname.Add(lesson.Surname.ToString());
+
+                Group.Add(lesson.Group.Name.ToString());
+
                 a = lesson.Name.ToString() + " " + (lesson.Surname.ToString());
                 Teacher.Add(a);
             }
