@@ -8,7 +8,6 @@
 
     <div style="overflow: auto;">
         <div style="float: left;"><asp:Calendar ID="Calendar1" runat="server" Height="226px" OnSelectionChanged="Calendar1_SelectionChanged" Width="565px"></asp:Calendar></div>
-        <div style="float: right;"><asp:GridView ID="AttendanceGridView" runat="server" Visible = "false"></asp:GridView></div>
+        <div style="float: right;"><asp:GridView ID="AttendanceGridView" runat="server" Visible = "false" OnRowDataBound ="AttendanceGridView_RowDataBound"></asp:GridView></div>
     </div>
-    <asp:GridView ID="TeacherGridView" runat="server" Visible ="false"></asp:GridView>
-</asp:Content>
+    </asp:Content>
