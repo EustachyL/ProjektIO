@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using Microsoft.EntityFrameworkCore;
 using EdukuJez.Model.ServerAccess.Repositories;
 using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
 
 namespace EdukuJez
 {
@@ -43,44 +44,47 @@ namespace EdukuJez
         {
             if (UserSession.CheckPermission(UserSession.ADMIN_GROUP) == false)
                 UserSession.ChangeSiteNoPermission(this, "Main.aspx");
-            ReloadData();
-        }
+            if (!IsPostBack)
+            {
 
-        public EditClasses()
-        {
+                ReloadData();
+            }
+            else
+            {
+                LoadLessonPlan();
+            }
         }
 
 
         protected void AddButton_Click(object sender, EventArgs e)
         {
-            string dzien = DropDownListDay.SelectedValue;
-            string godzina = DropDownListHour.SelectedValue;
+            string dzien = DayDropDown.SelectedValue;
+            string godzina = HourDropDown.SelectedValue;
 
             // rozdzielenie imienia i nazwiska na dwa osobne stringi do wysłania do DB
-            string Teacher = DropDownListTeacher.SelectedValue;
+            string Teacher = TeacherDropDown.SelectedValue;
             string[] parts = Teacher.Split(' ');
 
 
+            int group = int.Parse(GroupDropDown.SelectedValue);
+            var subject = Convert.ToString(SubjectDropDown.SelectedValue);
+            int classRoom = Convert.ToInt32(ClassDropDown.SelectedValue);
 
-            var group = Convert.ToString(DropDownListGroup.SelectedValue);
-            var subject = Convert.ToString(DropDownListSubject.SelectedValue);
-            int classRoom = Convert.ToInt32(DropDownListClass.SelectedValue);
-            
             var c = new ClassC() { Hour = godzina, Day = dzien, Class = classRoom };
 
             userRepo.Table.First(x => x.UserName == parts[0] && x.UserSurname == parts[1]).Teaches.Add(c);
-            groupRepo.Table.First(x => x.Name == group).Classes.Add(c);
+            groupRepo.Table.First(x => x.Id == group).Classes.Add(c);
             subjRepo.Table.First(x => x.SubjectName == subject).Classes.Add(c);
 
 
 
             User u = userRepo.Table.First(x => x.UserName == parts[0] && x.UserSurname == parts[1]);
             var CU = new ClassUsers();
-            c.Users = new List<ClassUsers>() { CU };    
+            c.Users = new List<ClassUsers>() { CU };
             u.Clasess = new List<ClassUsers>() { CU };
 
 
-            if (scheduleRepo.Table.Any(x => x.Hour == godzina && x.Day == dzien && x.Warden.UserName == parts[0] && x.Warden.UserSurname == parts[1] && x.Class == classRoom && x.Group.Name == group && x.Subject.SubjectName == subject))
+            if (scheduleRepo.Table.Any(x => x.Hour == godzina && x.Day == dzien && x.Warden.UserName == parts[0] && x.Warden.UserSurname == parts[1] && x.Class == classRoom && x.Group.Id == group && x.Subject.SubjectName == subject))
             {
 
             }
@@ -95,6 +99,7 @@ namespace EdukuJez
 
 
             ReloadData();
+            LoadLessonPlan();
         }
 
         protected void DeleteButton_Click(object sender, EventArgs e)
@@ -110,10 +115,10 @@ namespace EdukuJez
             var subject = Convert.ToString(DropDownListSubject.SelectedValue);
             int classRoom = Convert.ToInt32(DropDownListClass.SelectedValue);
 
-          
 
-            ClassC query = scheduleRepo.Table.Include(x=>x.Users)
-                .FirstOrDefault(x => x.Hour == godzina && x.Day == dzien && x.Warden.UserName == parts[0] && x.Warden.UserSurname == parts[1] && x.Class == classRoom && x.Group.Name == group && x.Subject.SubjectName==subject);
+
+            ClassC query = scheduleRepo.Table.Include(x => x.Users)
+                .FirstOrDefault(x => x.Hour == godzina && x.Day == dzien && x.Warden.UserName == parts[0] && x.Warden.UserSurname == parts[1] && x.Class == classRoom && x.Group.Name == group && x.Subject.SubjectName == subject);
 
             scheduleRepo.Delete(query);
             if (query != null)
@@ -125,6 +130,7 @@ namespace EdukuJez
                     CURepo.Delete(users);
                 }
                 ReloadData();
+                LoadLessonPlan();
             }
             else { }
         }
@@ -149,6 +155,7 @@ namespace EdukuJez
                     CURepo.Delete(users);
                 }
                 ReloadData();
+                LoadLessonPlan();
             }
             else { }
         }
@@ -156,119 +163,45 @@ namespace EdukuJez
 
         private void CreateDynamicControls(ICollection<ClassC> lessonPlan)
         {
-            MainTable.Controls.Clear();
-            string[] dropdownNames = { "Dzien", "Godzina", "Nauczyciel", "Grupa", "Przedmiot", "Sala" };
+     //       DropDownListTeacher?.Items.Clear();
+     //       DropDownListGroup?.Items.Clear();
+     //       DropDownListSubject?.Items.Clear();
+     //       MainTable.Controls.Clear();
 
-            // Zakładając, że masz listy wartości dla każdego DropDownList
             List<string> days = new List<string> { "Poniedzialek", "Wtorek", "Sroda", "Czwartek", "Piatek" };
+            DayDropDown.DataSource = days;
+            DayDropDown.DataBind();
+
             List<string> hours = new List<string> { "8:00 – 8:45", "8:50 – 9:35", "9:45 – 10:30", "10:35 – 11:20", "11:40 – 12:25", "12:45 – 13:30", "13:35 – 14:20", "14:25 – 15:10" };
+            HourDropDown.DataSource = hours;
+            HourDropDown.DataBind();
+
             List<string> teachers = Teacher;
-            List<string> groups = Group;
+            TeacherDropDown.DataSource = teachers;
+            TeacherDropDown.DataBind();
+
+            List<Group> groups = groupRepo.Table.ToList();
+            GroupDropDown.DataSource = groups;
+            GroupDropDown.DataTextField = "Name";
+            GroupDropDown.DataValueField = "Id";
+            GroupDropDown.DataBind();
+
             List<string> subjects = Subject;
+            SubjectDropDown.DataSource = subjects;
+            SubjectDropDown.DataBind();
+
             List<string> classRoom = new List<string> { "1", "2", "3", "4", "5", "6" };
-
-            List<List<string>> values = new List<List<string>> { days, hours, teachers, groups, subjects, classRoom };
-
-            //Tworzenie dropdownlist
-            for (int i = 0; i < dropdownNames.Length; i++)
-            {
-                DropDownList dropdown = new DropDownList();
-                dropdown.ID = "DropDownList" + i;
-                dropdown.CssClass = "form-control";
-
-                // Dodawanie wartości do DropDownList
-                foreach (var value in values[i])
-                {
-                    dropdown.Items.Add(new ListItem(value, value)); // Tutaj 'value' zostanie ustawione jako Value i Text dla ListItem
-                }
-                // Dodanie utworzonego DropDownList do zmiennej klasy
-                switch (i)
-                {
-                    case 0:
-                        DropDownListDay = dropdown;
-                        break;
-                    case 1:
-                        DropDownListHour = dropdown;
-                        break;
-                    case 2:
-                        DropDownListTeacher = dropdown;
-                        break;
-                    case 3:
-                        DropDownListGroup = dropdown;
-                        break;
-                    case 4:
-                        DropDownListSubject = dropdown;
-                        break;
-                    case 5:
-                        DropDownListClass = dropdown;
-                        break;
-                }
-
-                TableCell cell = new TableCell();
-                cell.Controls.Add(dropdown);
-
-                Label label = new Label();
-                label.Text = dropdownNames[i] + ": ";
-                label.AssociatedControlID = dropdown.ID;
-
-                TableCell labelCell = new TableCell();
-                labelCell.Controls.Add(label);
-
-                TableRow row = new TableRow();
-                row.Cells.Add(labelCell);
-                row.Cells.Add(cell);
-
-                MainTable.Rows.Add(row);
-            }
-
-            Button AddButton = new Button();
-            AddButton.ID = "AddButton";
-            AddButton.Text = "Dodaj";
-            AddButton.Click += new EventHandler(AddButton_Click);
+            ClassDropDown.DataSource = classRoom;
+            ClassDropDown.DataBind();
 
 
-            Button DeleteButton = new Button();
-            DeleteButton.ID = "DeleteButton";
-            DeleteButton.Text = "Usuń";
-            DeleteButton.Click += new EventHandler(DeleteButton_Click);
+            //Pętla wypełnia tabela 5x8
+            ClearTable();
 
-            TableCell submitCell = new TableCell();
-            submitCell.ColumnSpan = 2;
-
-            submitCell.Controls.Add(AddButton);
-            submitCell.Controls.Add(DeleteButton);
-
-            TableRow submitRow = new TableRow();
-            submitRow.Cells.Add(submitCell);
-
-            MainTable.Rows.Add(submitRow);
-
-            TableRow rowStart = new TableRow();
-
-            // Tworzenie nowych komórek TableCell
-            TableCell StartcellClass = new TableCell { Text = "Sala" };
-            TableCell StartcellHour = new TableCell { Text = "Godzina"};
-            TableCell StartcellDay = new TableCell { Text = "Dzień"};
-            TableCell StartcellTeacherName = new TableCell { Text = "Imie" };
-            TableCell StartcellTeacherSurname = new TableCell { Text = "Nazwisko" };
-            TableCell StartcellGroup = new TableCell { Text = "Grupa"};
-            TableCell StartcellSubject = new TableCell { Text = "Przedmiot"};
-            TableCell StartcellId = new TableCell { Text = "Id" };
-
-            // Dodawanie komórek do wiersza
-            rowStart.Cells.Add(StartcellId);
-            rowStart.Cells.Add(StartcellDay);
-            rowStart.Cells.Add(StartcellHour);
-            rowStart.Cells.Add(StartcellClass);
-            rowStart.Cells.Add(StartcellGroup);
-            rowStart.Cells.Add(StartcellSubject);
-            rowStart.Cells.Add(StartcellTeacherName);
-            rowStart.Cells.Add(StartcellTeacherSurname);
-
-            // Dodawanie wiersza do tabeli MainTable
-            MainTable.Rows.Add(rowStart);
+            /*
             //dodawanie wartości do tabeli
             foreach (ClassC lesson in lessonPlan)
+            
             {
                 TableRow row = new TableRow();
 
@@ -304,54 +237,109 @@ namespace EdukuJez
                 // Dodawanie wiersza do tabeli MainTable
                 MainTable.Rows.Add(row);
             }
+            */
+
         }
 
-        //ładowanie listy do wyświetlania 
-        void LoadToList(ICollection<ClassC> lessonPlan)
+        private void LoadLessonPlan()
         {
-            string a;
-            foreach (ClassC lesson in lessonPlan)
+            int selectedGroupId;
+            if (int.TryParse(GroupDropDown.SelectedValue, out selectedGroupId))
             {
-                Class.Add(lesson.Class.ToString());
-                Subject.Add(lesson.Subject.SubjectName.ToString());
+                var lessonPlan = scheduleRepo.Table
+                    .Where(a => a.Group.Id == selectedGroupId)
+                    .Include(a => a.Warden)
+                    .Include(u => u.Group)
+                    .Include(w => w.Subject)
+                    .ToList();
 
-                Name.Add(lesson.Warden.UserName.ToString());
-                Surname.Add(lesson.Warden.UserSurname.ToString());
-
-                Group.Add(lesson.Group.Name.ToString());
-
-                a = lesson.Warden.UserName.ToString() + " " + (lesson.Warden.UserSurname.ToString());
-                Teacher.Add(a);
+                AssignToCell(lessonPlan);
             }
-
         }
+
+        private void AssignToCell(ICollection<ClassC> lessonPlan)
+        {
+
+            ClearTable();
+
+            Dictionary<string, int> dayIndex = new Dictionary<string, int>
+        {
+            { "Poniedzialek",1  },
+            { "Wtorek", 2 },
+            { "Sroda", 3 },
+            { "Czwartek", 4 },
+            { "Piatek", 5 }
+
+        };
+
+            Dictionary<string, int> hourIndex = new Dictionary<string, int>
+        {
+            { "8:00 – 8:45", 1 },
+            { "8:50 – 9:35", 2 },
+            { "9:45 – 10:30", 3 },
+            { "10:35 – 11:20", 4 },
+            { "11:40 – 12:25", 5 },
+            { "12:45 – 13:30", 6},
+            { "13:35 – 14:20", 7 },
+            { "14:25 – 15:10", 8 }
+        };
+
+
+
+            foreach (var lesson in lessonPlan)
+            {
+                int rowIndex = hourIndex[lesson.Hour];
+                int colIndex = dayIndex[lesson.Day];
+
+
+                // Czyszczenie komórki przed dodaniem nowej zawartości
+                MainTable.Rows[rowIndex].Cells[colIndex].Controls.Clear();
+
+                //kolor :)
+                MainTable.Rows[rowIndex].Cells[colIndex].BackColor = System.Drawing.Color.LightGreen;
+
+                // Tworzenie przycisku
+                Button deleteButton = new Button();
+                deleteButton.ID = "DeleteButton_" + lesson.Id.ToString();  // Ustawienie unikalnego identyfikatora dla przycisku
+                deleteButton.Text = "Usuń";
+                deleteButton.Click += new EventHandler(DeleteButtonDynamic_Click);  // Podłączenie metody obsługującej zdarzenie kliknięcia
+
+
+                // Dodanie tekstu i przycisku do komórki
+                Label lbl = new Label();
+                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + "<br />  Sala: " + lesson.Class + "<br />";
+                MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(lbl);
+
+                // Dodanie przycisku do komórki
+                MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(deleteButton);
+            }
+        }
+
+           
+
         private void ReloadData()
         {
-
-        DropDownListTeacher?.Items.Clear();
-            DropDownListGroup?.Items.Clear();    
-        DropDownListSubject?.Items.Clear();
 
 
             var subList = subjRepo.Table.ToList();
             var groupList = groupRepo.Table.Where(y => y.ParentGroup.Name == UserSession.STUDENT_GROUP).ToList();
             List<GroupUser> groupUserList = groupUserRepo.Table.Include(u => u.User).Include(g => g.Group).ToList();
             var userList = groupUserList.Where(x => x.Group != null && x.Group.Name == UserSession.TEACHER_GROUP && x.User != null).Select(x => x.User).ToList(); ;
+
             var lessonPlan = scheduleRepo.Table.Include(u => u.Group).Include(u => u.Warden).Include(u => u.Subject).ToList();
 
             LoadToChose(groupList, subList, userList, lessonPlan);
 
-
             CreateDynamicControls(lessonPlan);
-
+            
         }
         void LoadToChose(ICollection<Group> groupT, ICollection<Subject> SubjectT, ICollection<User> UserT, ICollection<ClassC> lessonPlan)
         {
             foreach (Group group in groupT)
             {
 
-                    Group.Add(group.Name);
-                
+                Group.Add(group.Name);
+
             }
             foreach (Subject subject in SubjectT)
             {
@@ -360,9 +348,9 @@ namespace EdukuJez
             foreach (User user in UserT)
             {
 
-                    var a = user.UserName.ToString() + " " + user.UserSurname.ToString();
-                    Teacher.Add(a);
-                
+                var a = user.UserName.ToString() + " " + user.UserSurname.ToString();
+                Teacher.Add(a);
+
             }
             foreach (ClassC lesson in lessonPlan)
             {
@@ -374,5 +362,30 @@ namespace EdukuJez
         {
             Response.Redirect("AdminPanel.aspx");
         }
+
+        protected void GroupSelectionChanged(object sender, EventArgs e)
+        {
+
+            // Zdarzenie wywoływane po zmianie wybranej grupy w DropDownList
+            LoadLessonPlan(); // Załaduj plan lekcji dla wybranej grupy
+        }
+
+        private void ClearTable()
+        {
+            for (int i = 1; i < 9; i++)
+            {
+
+                for (int j = 1; j < 6; j++)
+                {
+                    int a = MainTable.Rows.Count;
+                    int b = MainTable.Rows[i].Cells.Count;
+                    MainTable.Rows[i].Cells[j].Text = "    ";
+                }
+
+            }
+        }
     }
+
+
+
 }
