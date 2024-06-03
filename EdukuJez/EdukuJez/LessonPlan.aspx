@@ -12,35 +12,89 @@
     <asp:ListItem Text="-- Wybierz grupę --" Value="" />
     </asp:DropDownList>
 
-    <div class="Center-Form">
-            <asp:Repeater ID="myRepeater" runat="server">
-                <HeaderTemplate>
-                    <table border="1">
-                        <tr>
-                            <th>Dzień Tygodnia</th>
-                            <th>Przedmiot</th>
-                            <th>Prowadzący</th>
-                            <th>Prowadzący</th>
-                            <th>Sala</th>
-                            <th>Godzina</th>
+<asp:Table ID="MainTable" runat="server" CellSpacing="20" CssClass="Center-Form Main-Table" >
+    <asp:TableRow>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell>Poniedziałek</asp:TableCell>
+        <asp:TableCell>Wtorek</asp:TableCell>
+        <asp:TableCell>Środa</asp:TableCell>
+        <asp:TableCell>Czwartek</asp:TableCell>
+        <asp:TableCell>Piątek</asp:TableCell>
 
-                        </tr>
-                </HeaderTemplate>
-                <ItemTemplate>
-                    <tr>
-                        <td><%# Eval("Day") %></td>
-                        <td><%# Eval("SubjectName") %></td>
-                        <td><%# Eval("Name") %></td>
-                        <td><%# Eval("Surname") %></td>
-                        <td><%# Eval("Class") %></td>
-                        <td><%# Eval("Hour") %></td>
-                    </tr>
-                </ItemTemplate>
-                <FooterTemplate>
-                    </table>
-                </FooterTemplate>
-            </asp:Repeater>
-        </div>
+    </asp:TableRow>
+    <asp:TableRow>
+        <asp:TableCell>8:00 – 8:45</asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+
+    </asp:TableRow>
+    <asp:TableRow>
+        <asp:TableCell>8:50 – 9:35</asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+
+        <asp:TableCell></asp:TableCell>
+    </asp:TableRow>
+    <asp:TableRow>
+        <asp:TableCell>9:45 – 10:30</asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+
+        <asp:TableCell></asp:TableCell>
+    </asp:TableRow>
+    <asp:TableRow>
+        <asp:TableCell>10:35 – 11:20</asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+
+        <asp:TableCell></asp:TableCell>
+    </asp:TableRow>
+    <asp:TableRow>
+        <asp:TableCell>11:40 – 12:25</asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+
+        <asp:TableCell></asp:TableCell>
+    </asp:TableRow>
+    <asp:TableRow>
+        <asp:TableCell>12:45 – 13:30</asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+
+        <asp:TableCell></asp:TableCell>
+    </asp:TableRow>
+    <asp:TableRow>
+        <asp:TableCell>13:35 – 14:20</asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+
+        <asp:TableCell></asp:TableCell>
+    </asp:TableRow>
+    <asp:TableRow>
+        <asp:TableCell>14:25 – 15:10</asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+
+        <asp:TableCell></asp:TableCell>
+        <asp:TableCell></asp:TableCell>
+    </asp:TableRow>
+</asp:Table>
     
 
 </asp:Content>

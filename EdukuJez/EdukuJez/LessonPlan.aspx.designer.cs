@@ -28,17 +28,17 @@ namespace EdukuJez
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
-        /// By zmodyfikować deklaracje pola przenieś ją z pliku projektanta do pliku codebehind.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList GroupDropDown;
 
         /// <summary>
-        /// Kontrolka myRepeater.
+        /// Kontrolka MainTable.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater myRepeater;
+        protected global::System.Web.UI.WebControls.Table MainTable;
     }
 }

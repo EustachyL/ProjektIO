@@ -43,7 +43,59 @@ namespace EdukuJez
                     .Include(w => w.Subject)
                     .ToList();
 
-                PopulateLessonTable(lessonPlan);
+                AssignToCell(lessonPlan);
+            }
+        }
+
+
+
+        private void AssignToCell(ICollection<ClassC> lessonPlan)
+        {
+
+            ClearTable();
+
+            Dictionary<string, int> dayIndex = new Dictionary<string, int>
+        {
+            { "Poniedzialek",1  },
+            { "Wtorek", 2 },
+            { "Sroda", 3 },
+            { "Czwartek", 4 },
+            { "Piatek", 5 }
+
+        };
+
+            Dictionary<string, int> hourIndex = new Dictionary<string, int>
+        {
+            { "8:00 – 8:45", 1 },
+            { "8:50 – 9:35", 2 },
+            { "9:45 – 10:30", 3 },
+            { "10:35 – 11:20", 4 },
+            { "11:40 – 12:25", 5 },
+            { "12:45 – 13:30", 6},
+            { "13:35 – 14:20", 7 },
+            { "14:25 – 15:10", 8 }
+        };
+
+
+
+            foreach (var lesson in lessonPlan)
+            {
+                int rowIndex = hourIndex[lesson.Hour];
+                int colIndex = dayIndex[lesson.Day];
+
+
+                // Czyszczenie komórki przed dodaniem nowej zawartości
+                MainTable.Rows[rowIndex].Cells[colIndex].Controls.Clear();
+
+                //kolor :)
+                MainTable.Rows[rowIndex].Cells[colIndex].BackColor = System.Drawing.Color.LightGreen;
+
+                // Dodanie tekstu i przycisku do komórki
+                Label lbl = new Label();
+                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + "<br />  Sala: " + lesson.Class + "<br />";
+                MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(lbl);
+
+
             }
         }
 
@@ -53,20 +105,19 @@ namespace EdukuJez
             LoadLessonPlan(); // Załaduj plan lekcji dla wybranej grupy
         }
 
-        private void PopulateLessonTable(ICollection<ClassC> lessonPlan)
+        private void ClearTable()
         {
-            var l = lessonPlan.Select(a => new
+            for (int i = 1; i < 9; i++)
             {
-                Day = a.Day,
-                SubjectName = a.Subject.SubjectName,
-                Name = a.Warden.UserName,
-                Surname = a.Warden.UserSurname,
-                Class = a.Class,
-                Hour = a.Hour
-            });
 
-            myRepeater.DataSource = l.ToList();
-            myRepeater.DataBind();
+                for (int j = 1; j < 6; j++)
+                {
+
+                    MainTable.Rows[i].Cells[j].BackColor = System.Drawing.Color.Empty;
+                    MainTable.Rows[i].Cells[j].Text = "    ";
+                }
+
+            }
         }
     }
 }

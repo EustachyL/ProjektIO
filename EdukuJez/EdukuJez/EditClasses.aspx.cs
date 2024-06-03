@@ -377,8 +377,7 @@ namespace EdukuJez
 
                 for (int j = 1; j < 6; j++)
                 {
-                    int a = MainTable.Rows.Count;
-                    int b = MainTable.Rows[i].Cells.Count;
+                    MainTable.Rows[i].Cells[j].BackColor = System.Drawing.Color.Empty;
                     MainTable.Rows[i].Cells[j].Text = "    ";
                 }
 
