@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web.UI.WebControls;
 using EdukuJez.Repositories;
@@ -10,27 +12,68 @@ namespace EdukuJez
     public partial class Calendars : System.Web.UI.Page
     {
         CalendarRepository Calend = new CalendarRepository();
+        DataTable dataTable = new DataTable();
+
+
+
+
+
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            var calendarE = Calend.Table.OrderBy(a => a.Date).ToList();
-            PopulateCalendar(calendarE);
+        
         }
 
         private void PopulateCalendar(List<Repositories.Calendar> calendarE)
         {
-            // Filtrowanie wydarzeń, które są równa lub późniejsze niż obecna data
-            var currentDate = DateTime.Now.Date;
-            var filteredCalendar = calendarE.Where(a => a.Date >= currentDate).ToList();
 
-            var l = filteredCalendar.Select(a => new
-            {
-                Date = a.Date.ToString("dd-MM-yyyy"), // Użyj właściwości Date, aby uzyskać tylko datę
-                Desc = a.Desc,
-            });
+          //  var filteredCalendar = calendarE.Where(a => a.Date >= currentDate).ToList();
 
-            myRepeater.DataSource = l.ToList();
-            myRepeater.DataBind();
+   
         }
+
+
+
+
+        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+        {
+            //Czyszczenie
+            TextHolder.Text = "";
+            dataTable.Clear();
+
+            string date = Calendar1.SelectedDate.ToString().Substring(0, 10); //wybrana data bez godziny
+
+            var calendar = Calend.Table.ToList();
+
+            int i = 1;
+            foreach(var Day in calendar)
+            {
+                var ax = Day.Date.ToString().Substring(0, 10);
+                if(date == ax)
+                {
+                    TextHolder.Text += "Wydarzenie "+ i + "\n" + Day.Desc + "\n" ;
+                }
+            }
+
+          
+        }
+
+        protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
+        {
+            var calendar = Calend.Table.ToList();
+
+            foreach (var Day in calendar)
+            {
+                 if (e.Day.Date.Month==Day.Date.Month)
+                 {   
+                    if (e.Day.Date == Day.Date)
+                    {
+                        e.Cell.BackColor = System.Drawing.Color.Green;
+                    }
+                 }
+            }
+        }
+
     }
 }

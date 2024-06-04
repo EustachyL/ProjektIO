@@ -9,27 +9,14 @@
         <div>
             <asp:Table ID="Calendar" runat="server" CssClass="Calendars"></asp:Table>
         </div>
-    <div class="Center-Form">
-            <asp:Repeater ID="myRepeater" runat="server">
-                <HeaderTemplate>
-                    <table border="1">
-                        <tr>
-                            <th>Data</th>
-                            <th>Opis</th>
 
-                        </tr>
-                </HeaderTemplate>
-                <ItemTemplate>
-                    <tr>
-                        <td><%# Eval("Date") %></td>
-                        <td><%# Eval("Desc") %></td>
-                    </tr>
-                </ItemTemplate>
-                <FooterTemplate>
-                    </table>
-                </FooterTemplate>
-            </asp:Repeater>
+        <div style="overflow: auto;">
+        <div style="float: left;"><asp:Calendar ID="Calendar1" runat="server" Height="700px" OnSelectionChanged="Calendar1_SelectionChanged" OnDayRender="Calendar1_DayRender" Width="565px" ></asp:Calendar></div>
+  
+                <div style="float: right; margin-left: 20px; background-color: white;">
+            <asp:Label ID="TextHolder" runat="server" Text="Tutaj wyświetli się tekst po wybraniu daty z kalendarza" Height="700px" Width="565px" ></asp:Label>
+     </div> 
         </div>
-    
+
 
 </asp:Content>
