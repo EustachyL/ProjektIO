@@ -33,6 +33,15 @@ namespace EdukuJez
         protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
+        /// Kontrolka Calendar1.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar Calendar1;
+
+        /// <summary>
         /// Kontrolka ListBoxAllDates.
         /// </summary>
         /// <remarks>

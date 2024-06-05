@@ -1,6 +1,8 @@
 ﻿using System;
 using EdukuJez.Repositories;
 using System.Linq;
+using System.Data;
+using System.Web.UI.WebControls;
 
 namespace EdukuJez
 {
@@ -49,11 +51,12 @@ namespace EdukuJez
                 {
                     // Trim to remove any leading or trailing whitespaces
                     string selectedDateText = selectedItemParts[0].Trim();
+                    string selectedDescText = selectedItemParts[1].Trim();
 
                     if (DateTime.TryParse(selectedDateText, out DateTime selectedDate))
                     {
                         // Pobierz zaznaczony wpis do edycji na podstawie daty
-                        var selectedEntry = Calend.Table.FirstOrDefault(entry => entry.Date == selectedDate);
+                        var selectedEntry = Calend.Table.FirstOrDefault(entry => entry.Date == selectedDate && entry.Desc == selectedDescText);
 
                         if (selectedEntry != null)
                         {
@@ -110,11 +113,11 @@ namespace EdukuJez
                 {
                     // Trim to remove any leading or trailing whitespaces
                     string selectedDateText = selectedItemParts[0].Trim();
-
+                    string selectedDescText = selectedItemParts[1];
                     if (DateTime.TryParse(selectedDateText, out DateTime selectedDate))
                     {
                         // Pobierz zaznaczony wpis do usunięcia na podstawie daty
-                        var selectedEntry = Calend.Table.FirstOrDefault(entry => entry.Date == selectedDate);
+                        var selectedEntry = Calend.Table.FirstOrDefault(entry => entry.Date == selectedDate && entry.Desc == selectedDescText);
 
                         if (selectedEntry != null)
                         {
@@ -152,6 +155,40 @@ namespace EdukuJez
             ListBoxAllDates.DataSource = listBoxItems;
             ListBoxAllDates.DataBind();
         }
+
+
+
+
+        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+        {
+            //Czyszczenie
+            TextBoxDescription.Text = "";
+
+            string date = Calendar1.SelectedDate.ToString().Substring(0, 10);
+
+            TextBoxDate.Text = date;
+
+
+        }
+
+        protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
+        {
+            var calendar = Calend.Table.ToList();
+
+            foreach (var Day in calendar)
+            {
+                if (e.Day.Date.Month == Day.Date.Month)
+                {
+                    if (e.Day.Date == Day.Date)
+                    {
+                        e.Cell.BackColor = System.Drawing.Color.Green;
+                    }
+                }
+            }
+        }
+
+
+
 
         protected void GoBackButton_Click(object sender, EventArgs e)
         {

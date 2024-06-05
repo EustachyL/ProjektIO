@@ -12,26 +12,7 @@ namespace EdukuJez
     public partial class Calendars : System.Web.UI.Page
     {
         CalendarRepository Calend = new CalendarRepository();
-        DataTable dataTable = new DataTable();
 
-
-
-
-
-
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
-        
-        }
-
-        private void PopulateCalendar(List<Repositories.Calendar> calendarE)
-        {
-
-          //  var filteredCalendar = calendarE.Where(a => a.Date >= currentDate).ToList();
-
-   
-        }
 
 
 
@@ -40,7 +21,6 @@ namespace EdukuJez
         {
             //Czyszczenie
             TextHolder.Text = "";
-            dataTable.Clear();
 
             string date = Calendar1.SelectedDate.ToString().Substring(0, 10); //wybrana data bez godziny
 
@@ -52,8 +32,11 @@ namespace EdukuJez
                 var ax = Day.Date.ToString().Substring(0, 10);
                 if(date == ax)
                 {
-                    TextHolder.Text += "Wydarzenie "+ i + "\n" + Day.Desc + "\n" ;
+                    TextHolder.Text += "Wydarzenie " + i + "<br>" + Day.Desc + "<br><br>";
+
+                    i++;
                 }
+       
             }
 
           

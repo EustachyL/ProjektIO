@@ -7,22 +7,26 @@
          <hr />
     </div>
 
-    <div style="text-align:center;">
-        <asp:ListBox ID="ListBoxAllDates" runat="server" style="width: 350px; height: 400px; font-size: 20px;"></asp:ListBox>
-    </div>
-    <br />
-    <div style="text-align:center;">
-        <asp:TextBox ID="TextBoxDate" runat="server" placeholder="Wprowadź datę" style="width: 300px; height: 30px; font-size: 16px;"></asp:TextBox>
-        <br />
+<div style="display: flex; justify-content: space-between; align-items: flex-start;">
+    <asp:Calendar ID="Calendar1" runat="server" Height="500px" OnSelectionChanged="Calendar1_SelectionChanged" OnDayRender="Calendar1_DayRender" Width="465px"></asp:Calendar>
+
+    <asp:ListBox ID="ListBoxAllDates" runat="server" style="width: 350px; height: 400px; font-size: 20px; margin-right: 150px;"></asp:ListBox>
+
+    <div style="display: flex; flex-direction: column;">
+        <asp:TextBox ID="TextBoxDate" runat="server" placeholder="Wprowadź datę" style="width: 300px; height: 30px; font-size: 16px; margin-bottom: 10px;"></asp:TextBox>
         <asp:TextBox ID="TextBoxDescription" runat="server" placeholder="Wprowadź opis" style="width: 300px; height: 30px; font-size: 16px;"></asp:TextBox>
-        <br />
-        <asp:Button ID="ButtonAdd" runat="server" Text="Dodaj nowy wpis" OnClick="ButtonAdd_Click" Style="width: 220px; height: 40px; font-size: 20px;" />
     </div>
+</div>
+    <br />
+    <asp:Button ID="ButtonAdd" runat="server" Text="Dodaj nowy wpis" OnClick="ButtonAdd_Click" Style="width: 220px; height: 40px; font-size: 20px;" />
     <br />
     <asp:Button ID="ButtonEdit" runat="server" Text="Edytuj date" OnClick="ButtonEdit_Click" Style="width: 220px; height: 40px; font-size: 20px;" />
     <br />
     <asp:Button ID="ButtonDelete" runat="server" Text="Usuń date" OnClick="ButtonDelete_Click" Style="width: 220px; height: 40px; font-size: 20px;" />
+   
+    
     <div style="margin-top: 20px; width: 2000px; text-align: center;">
         <asp:Label ID="LabelInfo" runat="server" Text="Label" Visible="False" Font-Size="24px" ForeColor="#CC0000"></asp:Label>
     </div>
+         
 </asp:Content>
