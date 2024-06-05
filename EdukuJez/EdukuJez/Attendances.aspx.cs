@@ -17,20 +17,30 @@ namespace EdukuJez
     public partial class Attendances : System.Web.UI.Page
     {
         User currentuser = UserSession.GetSession()?.user;
-        DataTable dataTable = new DataTable();
         AttendancesRepository attendancesRepo = new AttendancesRepository();
         ScheduleRepository scheduleRepository = new ScheduleRepository();
         ClassUsersRepository classUsersRepository = new ClassUsersRepository();
         UsersRepository usersRepo = new UsersRepository();
+        SubjectsRepository subjectsRepo = new SubjectsRepository(); 
        
         string dayOfWeek;
-        string date="";
+        string subject;
         protected void Page_Load(object sender, EventArgs e)
         {
-            
-            if (!IsPostBack)
-            {
+            subject = (string)Session["AttendancesSubject"];
+            subject = "przedmiot1"; //tymczasowo
+            List<string> subjects = new List<string>(); //przedmioty ktorych uczy zalogowany
 
+            subjects = subjectsRepo.Table
+                .Where(x => x.Classes.Any(c => c.Warden == currentuser))
+                .Select(x => x.SubjectName).ToList();
+
+            SubjectDropDownList.DataSource = subjects;
+            SubjectDropDownList.SelectedValue = subject;
+            SubjectDropDownList.DataBind();
+            if (IsPostBack)
+            {
+                dayOfWeek = (string)Session["dayOfWeek"];
             }
         }
        //zaznaczenie dnia w kalendarzu
@@ -63,15 +73,17 @@ namespace EdukuJez
                     dayOfWeek = "Wystąpił problem z dniem tyg.";
                     break;
             }
+            Session["dayOfWeek"] = dayOfWeek;
+            DateLabel.Text = Calendar1.SelectedDate.ToString().Substring(0, 10) + " " + dayOfWeek; //wybrana data bez godziny i dzień tygodnia
+            DateLabel.Visible = true;
 
-            dataTable.Clear();
-            //wiersz z data i dniem tyg:
-            date = Calendar1.SelectedDate.ToString().Substring(0, 10); //wybrana data bez godziny
+            AdditionalLabel.Text = subject;
+            AdditionalLabel.Visible = true;
 
-            dataTable.Columns.Add(date + " " + dayOfWeek); //pierwszy wiersz to data i dzien tygodnia
             if (UserSession.CheckPermission(UserSession.ADMIN_GROUP) == true) //jesli zalogowany jest adminem
             {
-                SelectedDateAdmin();
+                //SelectedDateAdmin();
+                //TO DO
             }
             else if (UserSession.CheckPermission(UserSession.STUDENT_GROUP) == true) //jesli zalogowany jest uczniem
             {
@@ -83,23 +95,20 @@ namespace EdukuJez
             }
             else if (UserSession.CheckPermission(UserSession.TEACHER_GROUP) == true)
             {
-                if(Session["AttendancesSubject"] != null)
-                    SelectedDateTeacher((string)Session["AttendancesSubject"]);
+                if(subject != null)
+                    SelectedDateTeacher(subject);
                 else
                 {
-                    SelectedDateTeacher("przedmiot1"); //tymczasowo
+                    
+                    SelectedDateTeacher(subject); 
                 }
             }
-
-
-            AttendanceGridView.DataBind();
-            AttendanceGridView.Visible = true;
         }
 
         //wybor daty w kalendarzu przez ucznia
         void SelectedDateStudent(User uczen) 
         {
-            
+            DataTable dataTable = new DataTable();
 
             List<ClassC> classes  = classUsersRepository.Table
                 .Include(x=>x.Class.Attendances)
@@ -127,94 +136,127 @@ namespace EdukuJez
                     }
                     DataRow row = dataTable.NewRow();
                     row[0] =c.Subject.SubjectName + "\n" + attendance; //wiersz z nazwą przedmiotu i obecnoscia
-
-                    if (attendance == "+") //jesli obecny na zielono
-                    {
-                        AttendanceGridView.Rows[numClass].ForeColor = Color.Green;
-                    }
-                    else if (attendance == "-") //jesli nieobecny na czerwono
-                    {
-                        AttendanceGridView.Rows[numClass].BackColor = Color.Red;
-                    }
-                    //INNE OPCJE DO DOPISANIA
-
                     dataTable.Rows.Add(row);
                     numClass++;
                 }
             }
-            AttendanceGridView.DataSource = dataTable;
+            StudentGridView.DataSource = dataTable;
         }
         
         //wybor daty w kalendarzu przez nauczyciela
         void SelectedDateTeacher(string subjectName)
         {
-            var students = classUsersRepository.Table
-                .Where(x => x.Class.Warden == currentuser && x.Class.Subject.SubjectName == subjectName) //zajecia gdzie opiekunem jest zalogowany i maja okreslona nazwe
+            var students = classUsersRepository.Table //studenci uczeszczajacy na dany przedmiot
+                .Where(x => x.Class.Warden == currentuser && x.Class.Subject.SubjectName == subjectName && x.Class.Day == dayOfWeek) //zajecia gdzie opiekunem jest zalogowany i maja okreslona nazwe
                 .SelectMany(x => x.Class.Group.Users.Select(y=>y.User)).ToList();
 
-
-            var attendances = attendancesRepo.Table //lista studentow ktorzy danego dnia maja zajecia o danej nazwie
-                .Where(x => x.Class.Subject.SubjectName == subjectName && x.Date == Calendar1.SelectedDate)//przedmiot wybrany przez nauczyciela w konkretnym dniu
-                .Select(y => y.Student).ToList();
-
-            if(students.Count == 0)
+            if (students.Count == 0)//jesli  nie ma uczniow
             {
-                DataRow row = dataTable.NewRow();
-                row[0] = "Brak przypisanych uczniow";
-                dataTable.Rows.Add(row);
+                DateLabel.Text += ": Brak przypisanych uczniów";
+                TeacherGridView.Visible = false;
                 return;
             }
-            dataTable.Columns.Add("Obecność");
-            foreach (var s in students) //uzupelnienie tabeli imionami, nazwiskami i obecnoscia ucznia na wybranym przedmiocie w wybranej dacie
-            {
-                DataRow row = dataTable.NewRow();
-                row[0] = s.UserName + " " + s.UserSurname;
-                try { 
-                    row[1] = s.Attendance.Where(x => x.Date == Calendar1.SelectedDate && x.Class.Subject.SubjectName == subjectName).Select(x => x.Presence).First(); //obecnosc ucznia
-                }
-                catch (Exception ex)
-                {
-                    row[1] = "brak";
-                }
-                
-                dataTable.Rows.Add(row);
-            }
-
-            AttendanceGridView.DataSource = dataTable;
-            AttendanceGridView.DataBind();
-            AttendanceGridView.Visible = true;
+            TeacherGridView.DataSource = students;
+            TeacherGridView.DataBind();
+            TeacherGridView.Visible = true;
         }
-        protected void AttendanceGridView_RowDataBound(object sender, GridViewRowEventArgs e)
+        
+        //odpowiednie uzupełnienie dropDown list z obecnościami
+        protected void TeacherGridView_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (dataTable.Rows.Count > 0) {
-                // Pobierz dane dla bieżącego wiersza
-                DataRow row = (DataRow)e.Row.DataItem;
+            User dataItem = (User)e.Row.DataItem;
+            DropDownList ddl = (DropDownList)e.Row.FindControl("AttendanceDropDownList");
 
-                // Tworzymy nową kontrolkę DropDownList
-                DropDownList ddl = new DropDownList();
+            if (ddl != null)
+            {
+                string attendance = dataItem.Attendance //obecnosc ucznia
+                    .Where(x=>x.Class.Subject.SubjectName == subject && x.Date == Calendar1.SelectedDate)
+                    .Select(x=>x.Presence).ToString();
 
-                // Pobieramy wartość dla kolumny, która będzie używana do zapełnienia DropDownList
-                string data = row["Obecność"].ToString(); // Załóżmy, że kolumna zawiera dane dla listy rozwijanej
+                switch (attendance)
+                {
+                    case "Obecny":
+                        ddl.SelectedValue = "Obecny";
+                        break;
+                    case "Nieobecny":
+                        ddl.SelectedValue = "Nieobecny/a";
+                        break;
+                    case "Spóźniony":
+                        ddl.SelectedValue = "Spóźniony/a";
+                        break;
+                    default:
+                        ddl.SelectedValue = "";
+                        break;
+                }
+                ddl.DataBind();
+            }
+        }
+        //nauczyciel zmienia / wpisuje obecność
+        protected void TeacherSetsAttendance(object sender, EventArgs e)
+        {
+            DropDownList ddl = (DropDownList)sender;
+            GridViewRow row = (GridViewRow)ddl.NamingContainer; //wiersz w ktorym jest dana DrpDown Lista
+            string prevValue = ViewState[ddl.UniqueID] as string;
+            
+            if (prevValue != ddl.SelectedValue)
+            {
+                int id = (int)TeacherGridView.DataKeys[row.RowIndex].Value; //pobranie id obiektu ucznia, który uzupełnił ten wiersz tabeli
+                if(prevValue == null) //jesli nie bylo wpisanej obenosci -> dodanie nowej
+                {
+                    Attendance attendance = new Attendance();
+                    
+                    
+                    attendance.Student = (User)usersRepo.Table
+                        .Where(x=>x.Id == id)
+                        .First();
 
-                // Dodajemy elementy do DropDownList
-                ddl.Items.Add(new ListItem("Brak", "0"));
-                ddl.Items.Add(new ListItem("Obecny", "1"));
-                ddl.Items.Add(new ListItem("Nieobecny", "2"));
-                ddl.Items.Add(new ListItem("Spóźniony", "3"));
+                    attendance.Date = Calendar1.SelectedDate;
 
-                // Zaznaczamy wybraną wartość
-                ddl.SelectedValue = data;
+                    attendance.Class = (ClassC)classUsersRepository.Table
+                        .Include(x=>x.Class.Subject)
+                        .Where(x => x.Class.Subject.SubjectName == subject && x.Class.Day == dayOfWeek)
+                        .Select(x => x.Class)
+                        .First();
 
-                // Dodajemy DropDownList do komórki wiersza
-                e.Row.Cells[1].Controls.Add(ddl); // Załóżmy, że DropDownList ma być dodany do drugiej komórki wiersza
+                    attendance.Presence = ddl.SelectedValue;
+
+                    attendancesRepo.Table.Add(attendance); //dodanie obecnosci
+                    attendancesRepo.Update(); //<--------------------------------------------------------- sprawdzic !
+                }
+                else //zmiana wczesniej wpisanej obecnosci
+                {
+                    Attendance attendance = (Attendance)attendancesRepo.Table
+                        .Where(x => x.Student.Id == id && x.Date == Calendar1.SelectedDate && x.Class.Subject.SubjectName == subject)
+                        .Select(x => x);
+                    attendance.Presence = ddl.SelectedValue;
+
+                    attendancesRepo.Table.Update(attendance); //zmiana obecnosci
+                }
+               
             }
         }
         //wybor daty w kalendarzu przez admina
-        void SelectedDateAdmin()
+       /* void SelectedDateAdmin()
+        {
+           
+
+        }
+       */
+        protected void SubjectDropDownList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddl = (DropDownList)sender;
+            subject = ddl.SelectedValue;
+            Session["AttendancesSubject"] = subject;
+        }
+
+        protected void AdminGridView_DataBound(object sender, EventArgs e)
         {
 
         }
 
+        protected void AdminGridView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
 
+        }
     }
 }

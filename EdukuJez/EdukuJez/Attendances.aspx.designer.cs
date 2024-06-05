@@ -15,6 +15,15 @@ namespace EdukuJez
     {
 
         /// <summary>
+        /// Kontrolka SubjectDropDownList.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList SubjectDropDownList;
+
+        /// <summary>
         /// Kontrolka Calendar1.
         /// </summary>
         /// <remarks>
@@ -24,12 +33,48 @@ namespace EdukuJez
         protected global::System.Web.UI.WebControls.Calendar Calendar1;
 
         /// <summary>
-        /// Kontrolka AttendanceGridView.
+        /// Kontrolka DateLabel.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView AttendanceGridView;
+        protected global::System.Web.UI.WebControls.Label DateLabel;
+
+        /// <summary>
+        /// Kontrolka AdditionalLabel.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label AdditionalLabel;
+
+        /// <summary>
+        /// Kontrolka StudentGridView.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView StudentGridView;
+
+        /// <summary>
+        /// Kontrolka TeacherGridView.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView TeacherGridView;
+
+        /// <summary>
+        /// Kontrolka AdminGridView.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView AdminGridView;
     }
 }
