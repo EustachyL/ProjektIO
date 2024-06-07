@@ -449,6 +449,7 @@
     <Compile Include="Model\ServerAccess\DBEntity\UserParent.cs" />
     <Compile Include="Model\ServerAccess\Repositories\AttachmentsRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\AttendancesRepository.cs" />
+    <Compile Include="Model\ServerAccess\Repositories\SubmissionsRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\UserParentsRepository.cs" />
     <Compile Include="StudentsListSubject.aspx.cs">
       <DependentUpon>StudentsListSubject.aspx</DependentUpon>
