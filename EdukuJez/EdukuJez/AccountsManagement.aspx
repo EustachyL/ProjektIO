@@ -34,7 +34,8 @@
         <div style="margin-top: 20px; width: 2020px;">
             <asp:Button ID="ConfirmDeleteButton" runat="server" Text="Potwierdź" Style="width: 150px; height: 40px; font-size: 20px;" OnClick="ConfirmDeleteClick" Visible="false" />
             <asp:Button ID="AddUserButton" runat="server" Text="Dodaj" OnClick="AddClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
-             <asp:Button ID="EditUserButton" runat="server" Text="Edytuj" OnClick="EditClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
+            <asp:Button ID="EditUserButton" runat="server" Text="Edytuj" OnClick="EditClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
+            <asp:Button ID="DeactivateUserButton" runat="server" Text="Dezaktywuj" OnClick="DeactivateClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
             <asp:Button ID="DeleteUserButton" runat="server" Text="Usuń" OnClick="DeleteClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
         </div>
         <div style="margin-top: 20px; width: 2020px">
