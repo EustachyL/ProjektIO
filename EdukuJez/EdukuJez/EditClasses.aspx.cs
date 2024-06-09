@@ -1,5 +1,4 @@
-﻿
-using EdukuJez.Repositories;
+﻿using EdukuJez.Repositories;
 using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
@@ -135,6 +134,8 @@ namespace EdukuJez
                 LoadLessonPlan();
             }
             else { }
+
+
         }
 
         protected void DeleteButtonDynamic_Click(object sender, EventArgs e)
