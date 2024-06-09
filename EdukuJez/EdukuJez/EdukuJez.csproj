@@ -449,8 +449,13 @@
     <Compile Include="Migrations\20240507014242_deactivation.Designer.cs">
       <DependentUpon>20240507014242_deactivation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20240609084225_classesAndRooms.cs" />
+    <Compile Include="Migrations\20240609084225_classesAndRooms.Designer.cs">
+      <DependentUpon>20240609084225_classesAndRooms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\BaseContextModelSnapshot.cs" />
     <Compile Include="Model\Main\FormulaDecoder.cs" />
+    <Compile Include="Model\ServerAccess\DBEntity\ClassRoom.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\Frequency.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\Submission.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\Substitution.cs" />
