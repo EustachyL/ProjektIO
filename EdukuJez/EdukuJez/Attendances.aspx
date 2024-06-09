@@ -7,9 +7,15 @@
     </div>
 
     <div style="overflow: auto;">
-        <asp:DropDownList ID="SubjectDropDownList" runat="server" AutoPostBack ="true" OnSelectedIndexChanged="SubjectDropDownList_SelectedIndexChanged"></asp:DropDownList>
+        <asp:DropDownList ID="SubjectDropDownList" runat="server" AutoPostBack ="true" OnSelectedIndexChanged="SubjectDropDownList_SelectedIndexChanged" Visible ="false"></asp:DropDownList>
+        <asp:Panel ID="AdminDropDownListsPanel" runat="server" Visible ="false">
+            <asp:DropDownList ID="SubjectAdminDropDownList" runat="server" OnSelectedIndexChanged="UpdateAdminGridView" AutoPostBack="true"></asp:DropDownList>
+            <asp:DropDownList ID="GroupDropDownList" runat="server" OnSelectedIndexChanged="UpdateAdminGridView" AutoPostBack="true"></asp:DropDownList>
+            <asp:DropDownList ID="StudentsDropDownList" runat="server" OnSelectedIndexChanged="UpdateAdminGridView" AutoPostBack="true"></asp:DropDownList>
+        </asp:Panel>
         <br />
-        <div style="float: left;"><asp:Calendar ID="Calendar1" runat="server" Height="226px" OnSelectionChanged="Calendar1_SelectionChanged" Width="565px"></asp:Calendar></div>
+        <div style="float: left;"><asp:Calendar ID="Calendar1" runat="server" Height="226px" OnSelectionChanged="Calendar1_SelectionChanged" Width="565px"></asp:Calendar><asp:Button ID="CalendarButton" runat="server" Text="Odznacz datę" Enabled="false" Visible="false" OnClick="CalendarButton_Click"/></div>
+        
         <div style="float: right;">
             <asp:Label ID="DateLabel" runat="server" Text="Data" Visible = "false"/>
             <br /><asp:Label ID="AdditionalLabel" runat="server" Text="Addidional Data" Visible = "false"/>
@@ -34,22 +40,7 @@
                 </asp:TemplateField>
             </Columns>
             </asp:GridView>
-            <asp:GridView ID="AdminGridView" runat="server" AutoGenerateColumns ="false" OnDataBound="AdminGridView_DataBound" Visible ="false" OnRowDataBound="AdminGridView_RowDataBound">
-                <Columns>
-                    <asp:TemplateField HeaderText ="Data" >
-                        <ItemTemplate>
-                            <asp:DropDownList ID="AdminDateDropDownList" runat="server" AutoPostBack ="true"/>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Uczeń">
-                        <ItemTemplate>
-                            <%# Eval("UserName") %> <%# " " %> <%# Eval("UserSurname") %>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText ="Przedmiot" />
-                    <asp:TemplateField HeaderText ="Obecność" />
-                </Columns>
-            </asp:GridView>
+            <asp:GridView ID="AdminGridView" runat="server" Visible = "False"></asp:GridView>
         </div>
        </div>
     </asp:Content>
