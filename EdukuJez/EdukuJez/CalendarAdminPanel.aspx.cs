@@ -22,6 +22,9 @@ namespace EdukuJez
         protected void ButtonAdd_Click(object sender, EventArgs e)
         {
             DateTime date;
+           
+            
+
             if (DateTime.TryParse(TextBoxDate.Text, out date))
             {
                 string desc = TextBoxDescription.Text;
@@ -151,6 +154,8 @@ namespace EdukuJez
 
             // Przygotuj listę niestandardowych ciągów do wyświetlenia w ListBoxie
             var listBoxItems = calendarE.Select(a => $"{a.Date.ToString("dd-MM-yyyy")} : {a.Desc}").ToList();
+
+            var b = Calend.Table.Select(a => a.Date.DayOfWeek).ToList();
 
             ListBoxAllDates.DataSource = listBoxItems;
             ListBoxAllDates.DataBind();
