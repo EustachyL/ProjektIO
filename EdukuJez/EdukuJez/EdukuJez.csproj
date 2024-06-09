@@ -246,6 +246,7 @@
     <Content Include="Attendances.aspx" />
     <Content Include="CalendarAdminPanel.aspx" />
     <Content Include="Calendars.aspx" />
+    <Content Include="ActivityContentPage.aspx" />
     <Content Include="ChangingPassword.aspx" />
     <Content Include="ChildForParent.aspx" />
     <Content Include="Content\LessonPlan.css" />
@@ -391,6 +392,13 @@
     </Compile>
     <Compile Include="Calendars.aspx.designer.cs">
       <DependentUpon>Calendars.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityContentPage.aspx.cs">
+      <DependentUpon>ActivityContentPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ActivityContentPage.aspx.designer.cs">
+      <DependentUpon>ActivityContentPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="ChangingPassword.aspx.cs">
       <DependentUpon>ChangingPassword.aspx</DependentUpon>
