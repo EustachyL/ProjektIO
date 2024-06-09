@@ -7,14 +7,14 @@
          <hr />
     </div>
 
-<div style="display: flex; justify-content: space-between; align-items: flex-start;">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-left: 40px;">
     <asp:Calendar ID="Calendar1" runat="server" Height="500px" OnSelectionChanged="Calendar1_SelectionChanged" OnDayRender="Calendar1_DayRender" Width="465px"></asp:Calendar>
 
     <asp:ListBox ID="ListBoxAllDates" runat="server" style="width: 350px; height: 400px; font-size: 20px; margin-right: 150px;"></asp:ListBox>
 
-    <div style="display: flex; flex-direction: column;">
-        <asp:TextBox ID="TextBoxDate" runat="server" placeholder="Wprowadź datę" style="width: 300px; height: 30px; font-size: 16px; margin-bottom: 10px;"></asp:TextBox>
-        <asp:TextBox ID="TextBoxDescription" runat="server" placeholder="Wprowadź opis" style="width: 300px; height: 30px; font-size: 16px;"></asp:TextBox>
+    <div style="display: flex; flex-direction: column; margin-right: 40px;">
+        <asp:TextBox ID="TextBoxDate" runat="server" placeholder="Wprowadź datę" style="width: 300px; height: 30px; font-size: 16px; margin-bottom: 10px; "></asp:TextBox>
+        <asp:TextBox ID="TextBoxDescription" runat="server" placeholder="Wprowadź opis" style="width: 300px; height: 300px; font-size: 16px;"></asp:TextBox>
     </div>
 </div>
     <br />
