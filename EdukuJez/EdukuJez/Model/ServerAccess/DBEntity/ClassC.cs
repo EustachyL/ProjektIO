@@ -15,7 +15,7 @@ namespace EdukuJez.Repositories
         public ClassRoom Class { get; set; }
         public string Hour { get; set; }
         public string Day { get; set; }
-        public DateTime Cyclicality { get; set; }
+        public DateTime? Cyclicality { get; set; }
         public ICollection<Frequency> Frequency { get; set; } = new List<Frequency>();
 
         public int? SubstitutionId { get; set; }
