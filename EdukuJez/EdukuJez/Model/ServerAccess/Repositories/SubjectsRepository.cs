@@ -22,5 +22,19 @@ namespace EdukuJez.Repositories
         {
             return Table.ToList();
         }
+        public override void Delete(Subject subject)
+        {
+            if (subject == null)
+                return;
+
+            // Usuń powiązane rekordy przedmiotu
+            var relatedRecords = Context.Subjects.Where(s => s.Id == subject.Id).ToList();
+            Context.Subjects.RemoveRange(relatedRecords);
+
+            // Usuń przedmiot
+            Context.Subjects.Remove(subject);
+            Context.SaveChanges();
+        }
+
     }
 }
