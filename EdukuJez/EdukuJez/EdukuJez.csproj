@@ -456,6 +456,10 @@
     <Compile Include="Migrations\20240609084819_classesAndRooms2.Designer.cs">
       <DependentUpon>20240609084819_classesAndRooms2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20240610195812_submissions_name_change.cs" />
+    <Compile Include="Migrations\20240610195812_submissions_name_change.designer.cs">
+      <DependentUpon>20240610195812_submissions_name_change.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\BaseContextModelSnapshot.cs" />
     <Compile Include="Model\Main\FormulaDecoder.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\ClassRoom.cs" />
