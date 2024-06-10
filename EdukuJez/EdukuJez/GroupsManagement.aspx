@@ -28,7 +28,7 @@
             <asp:Button  ID="AddNewGroupButton" runat="server" Text="Dodaj" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" OnClick="AddNewGroupButton_Click"/>
            <asp:Button ID="EditGroupButton" runat="server" Text="Edytuj" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" OnClick="EditGroupButton_Click" />
            <asp:Button ID="DeactivateGroupButton" runat="server" Text="Dezaktywuj" OnClick="DeactivateClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
-           <asp:Button  ID="DeleteGroupButton" runat="server" Text="Usuń" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" OnClick="DeleteGroupButton_Click"/>
+           <asp:Button ID="DeleteGroupButton" runat="server" Text="Usuń" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" OnClick="DeleteGroupButton_Click"/>
             </div>
         <div style="margin-top: 20px; width: 2020px;">
             <asp:Button ID="RestartButton" runat="server" Text="Zatwierdź" Style="width: 150px; height: 40px; font-size: 20px;" OnClick="ConfirmRestartClick" Visible="false" />

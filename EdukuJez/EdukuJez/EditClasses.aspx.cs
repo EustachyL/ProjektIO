@@ -58,6 +58,14 @@ namespace EdukuJez
                 ListBoxDates.Visible = false;
                 DelButton.Visible = false;
                 ReloadData();
+
+                List<User> users = userRepo.Table.ToList();
+                List<GroupUser> groupUserList = groupUserRepo.Table.Include(u => u.User).Include(g => g.Group).ToList();
+                List<int> teachersId = groupUserList.Where(x => x.Group != null && x.Group.Name == UserSession.TEACHER_GROUP && x.User != null).Select(x => x.User.Id).ToList();
+
+
+                TeachersList.DataSource = users.Where(x => teachersId.Contains(x.Id)).Select(user => $"{user.UserName} {user.UserSurname}");
+                TeachersList.DataBind();
             }
 
                 LoadLessonPlan();
@@ -164,6 +172,8 @@ namespace EdukuJez
             }
             else { }
         }
+
+
 
 
         private void CreateDynamicControls(ICollection<ClassC> lessonPlan)
@@ -304,6 +314,10 @@ namespace EdukuJez
                 deleteButton.Text = "Usuń";
                 deleteButton.Click += new EventHandler(DeleteButtonDynamic_Click);  // Podłączenie metody obsługującej zdarzenie kliknięcia
 
+                Button addSubstitutionButton = new Button();
+                addSubstitutionButton.ID = "AddSubstitutionButton" + lesson.Id.ToString();
+                addSubstitutionButton.Text = "Dodaj zastępstwo";
+                addSubstitutionButton.Click += new EventHandler(ShowOtherPanelClick);
 
                 // Dodanie tekstu i przycisku do komórki
                 Label lbl = new Label();
@@ -312,9 +326,21 @@ namespace EdukuJez
 
                 // Dodanie przycisku do komórki
                 MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(deleteButton);
+                MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(addSubstitutionButton);
             }
         }
 
+
+        protected void ShowOtherPanelClick(object sender, EventArgs e)
+        {
+            MainPanel.Visible = !MainPanel.Visible;
+            SubstitutionPanel.Visible = !SubstitutionPanel.Visible;
+        }
+
+        protected void AddSubstitionButtonDynamicClick(object sender, EventArgs e)
+        {
+
+        }
 
 
         private void ReloadData()
@@ -390,7 +416,7 @@ namespace EdukuJez
         {
             if (DateBox.Visible == false)
             {
-                ChangeButton.Text = "nie cykliczne";
+                ChangeButton.Text = "Przejdź do zajęć regularnych";
 
                 DelButton.Visible = true;
                 DateBox.Visible = true;
@@ -402,7 +428,7 @@ namespace EdukuJez
             }
             else
             {
-                ChangeButton.Text = "cykliczne";
+                ChangeButton.Text = "Przejdź do zajęć nieregularnych";
 
                 DelButton.Visible = false;
                 DateBox.Visible = false;

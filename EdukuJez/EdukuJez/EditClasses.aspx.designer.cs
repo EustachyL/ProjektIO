@@ -51,6 +51,15 @@ namespace EdukuJez
         protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
+        /// Kontrolka MainPanel.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel MainPanel;
+
+        /// <summary>
         /// Kontrolka GroupDropDown.
         /// </summary>
         /// <remarks>
@@ -166,5 +175,50 @@ namespace EdukuJez
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Table MainTable;
+
+        /// <summary>
+        /// Kontrolka SubstitutionPanel.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel SubstitutionPanel;
+
+        /// <summary>
+        /// Kontrolka SubInfo.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label SubInfo;
+
+        /// <summary>
+        /// Kontrolka TeachersList.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList TeachersList;
+
+        /// <summary>
+        /// Kontrolka GoBackToMainPanelButton.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button GoBackToMainPanelButton;
+
+        /// <summary>
+        /// Kontrolka ConfirmSubstitutionButton.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ConfirmSubstitutionButton;
     }
 }
