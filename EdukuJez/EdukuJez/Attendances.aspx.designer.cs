@@ -24,42 +24,6 @@ namespace EdukuJez
         protected global::System.Web.UI.WebControls.DropDownList SubjectDropDownList;
 
         /// <summary>
-        /// Kontrolka AdminDropDownListsPanel.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel AdminDropDownListsPanel;
-
-        /// <summary>
-        /// Kontrolka SubjectAdminDropDownList.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList SubjectAdminDropDownList;
-
-        /// <summary>
-        /// Kontrolka GroupDropDownList.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList GroupDropDownList;
-
-        /// <summary>
-        /// Kontrolka StudentsDropDownList.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList StudentsDropDownList;
-
-        /// <summary>
         /// Kontrolka Calendar1.
         /// </summary>
         /// <remarks>
@@ -67,15 +31,6 @@ namespace EdukuJez
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Calendar Calendar1;
-
-        /// <summary>
-        /// Kontrolka CalendarButton.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button CalendarButton;
 
         /// <summary>
         /// Kontrolka DateLabel.

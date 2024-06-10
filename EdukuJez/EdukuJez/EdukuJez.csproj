@@ -246,6 +246,7 @@
     <Content Include="Attendances.aspx" />
     <Content Include="CalendarAdminPanel.aspx" />
     <Content Include="Calendars.aspx" />
+    <Content Include="ActivityContentPage.aspx" />
     <Content Include="ChangingPassword.aspx" />
     <Content Include="ChildForParent.aspx" />
     <Content Include="Content\LessonPlan.css" />
@@ -392,6 +393,13 @@
     <Compile Include="Calendars.aspx.designer.cs">
       <DependentUpon>Calendars.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ActivityContentPage.aspx.cs">
+      <DependentUpon>ActivityContentPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ActivityContentPage.aspx.designer.cs">
+      <DependentUpon>ActivityContentPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ChangingPassword.aspx.cs">
       <DependentUpon>ChangingPassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -441,14 +449,24 @@
     <Compile Include="Migrations\20240507014242_deactivation.Designer.cs">
       <DependentUpon>20240507014242_deactivation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20240609084225_classesAndRooms.cs" />
+    <Compile Include="Migrations\20240609084225_classesAndRooms.Designer.cs">
+      <DependentUpon>20240609084225_classesAndRooms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20240609084819_classesAndRooms2.cs" />
+    <Compile Include="Migrations\20240609084819_classesAndRooms2.Designer.cs">
+      <DependentUpon>20240609084819_classesAndRooms2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\BaseContextModelSnapshot.cs" />
     <Compile Include="Model\Main\FormulaDecoder.cs" />
+    <Compile Include="Model\ServerAccess\DBEntity\ClassRoom.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\Frequency.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\Submission.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\Substitution.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\UserParent.cs" />
     <Compile Include="Model\ServerAccess\Repositories\AttachmentsRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\AttendancesRepository.cs" />
+    <Compile Include="Model\ServerAccess\Repositories\SubmissionsRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\UserParentsRepository.cs" />
     <Compile Include="StudentsListSubject.aspx.cs">
       <DependentUpon>StudentsListSubject.aspx</DependentUpon>

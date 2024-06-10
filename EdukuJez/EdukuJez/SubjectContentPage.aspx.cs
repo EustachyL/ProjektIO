@@ -15,6 +15,7 @@ namespace EdukuJez
     {
         const String SUBJECT_SITE = "SubjectPage.aspx";
         const String SUBJECT_SELF = "SubjectContentPage.aspx";
+        const String SHOW_ACTIVITY_SITE = "ActivityContentPage.aspx";
         const String ADD_ATTACHMENT_SITE = "AddAttachment.aspx";
         const String ADD_ACTIVITY_SITE = "Activities.aspx";
         const String STUDENTS_LIST_SITE = "StudentsListSubject.aspx";
@@ -71,13 +72,15 @@ namespace EdukuJez
             Response.Clear();
             Response.Buffer = true;
             Response.ContentType = attachment.ContentType; // Ustaw typ MIME
-            Response.AddHeader("Content-Disposition", $"attachment; filename={attachment.Name}.{extension}");
+            Response.AddHeader("Content-Disposition", $"attachment; filename={attachment.Text}");
             Response.BinaryWrite(attachment.Content);
             Response.End();
         }
         protected void ShowActivity(object sender, EventArgs e)
         {
-            Activity attachment = (Activity)sender;
+            Activity act = (Activity)sender;
+            SubjectManager.ShowedActivity = act;
+            Response.Redirect(SHOW_ACTIVITY_SITE);
         }
         private void FillTables()
         {
