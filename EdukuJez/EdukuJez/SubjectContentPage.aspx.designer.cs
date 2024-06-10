@@ -24,13 +24,31 @@ namespace EdukuJez
         protected global::System.Web.UI.WebControls.Label SubjectNameLabel;
 
         /// <summary>
-        /// Kontrolka StudentsListButton.
+        /// Kontrolka Panel1.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button StudentsListButton;
+        protected global::System.Web.UI.WebControls.Panel Panel1;
+
+        /// <summary>
+        /// Kontrolka AttendancesButton.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AttendancesButton;
+
+        /// <summary>
+        /// Kontrolka GradesButton.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button GradesButton;
 
         /// <summary>
         /// Kontrolka AttachmentPanel.
@@ -67,6 +85,15 @@ namespace EdukuJez
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button NewAttachmentButton;
+
+        /// <summary>
+        /// Kontrolka DeactivateAttachmentButton.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeactivateAttachmentButton;
 
         /// <summary>
         /// Kontrolka DelAttachmentButton.
@@ -121,6 +148,15 @@ namespace EdukuJez
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button NewActivityButton;
+
+        /// <summary>
+        /// Kontrolka DeactivateActivityButton.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeactivateActivityButton;
 
         /// <summary>
         /// Kontrolka DelActivityButton.

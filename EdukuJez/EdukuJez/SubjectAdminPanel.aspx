@@ -14,6 +14,8 @@
         <br />
     <asp:Button ID="ButtonEdit" runat="server" Text="Edytuj przedmiot" Visible="False" OnClick="ButtonEdit_Click" Style="width: 220px; height: 40px; font-size: 20px;"/>
         <br />
+    <asp:Button ID="ButtonDeactivate" runat="server" Text="Deaktywuj przedmiot" Visible="False" OnClick="ButtonDeactivate_Click" Style="width: 220px; height: 40px; font-size: 20px;"/>
+    <br />
     <asp:Button ID="ButtonDelete" runat="server" Text="Usuń przedmiot" Visible="False" OnClick="ButtonDelete_Click" Style="width: 220px; height: 40px; font-size: 20px;" />
         <div style="margin-top: 20px; width: 2000px; text-align: center;">
             <asp:Label ID="LabelInfo" runat="server" Text="Label" Visible="False" Font-Size="24px" ForeColor="#CC0000"></asp:Label>

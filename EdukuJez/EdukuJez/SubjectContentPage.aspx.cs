@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using EdukuJez.Model.Main;
 using EdukuJez.Repositories;
+using Microsoft.Ajax.Utilities;
 
 namespace EdukuJez
 {
@@ -18,7 +19,8 @@ namespace EdukuJez
         const String SHOW_ACTIVITY_SITE = "ActivityContentPage.aspx";
         const String ADD_ATTACHMENT_SITE = "AddAttachment.aspx";
         const String ADD_ACTIVITY_SITE = "Activities.aspx";
-        const String STUDENTS_LIST_SITE = "StudentsListSubject.aspx";
+        const String ATTENDANCES_SITE = "Attendances.aspx";
+        const String GRADES_SITE = "Grades.aspx";
         Subject presentedSubject;
         protected void Page_load(object sender, EventArgs e)
         {
@@ -38,7 +40,8 @@ namespace EdukuJez
                     DelAttachmentButton.Visible = true;
                     ActivityDropDownList.Visible = true;
                     AttachmentDropDownList.Visible = true;
-                    StudentsListButton.Visible = true;
+                    DeactivateActivityButton.Visible = true;
+                    DeactivateAttachmentButton.Visible = true;
                 }
             }
             SubjectNameLabel.Text = presentedSubject.SubjectName;
@@ -176,9 +179,24 @@ namespace EdukuJez
             Response.Redirect(SUBJECT_SELF);
         }
 
-        protected void StudentsListButton_Click(object sender, EventArgs e)
+        protected void AttendancesButton_Click(object sender, EventArgs e)
         {
-            Response.Redirect(STUDENTS_LIST_SITE);
+            Session["AttendancesSubject"] = presentedSubject.SubjectName;
+            Response.Redirect(ATTENDANCES_SITE);
+        }
+        protected void GradesButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(GRADES_SITE);
+        }
+
+        protected void DeactivateActivityButton_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        protected void DeactivateAttachmentButton_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
