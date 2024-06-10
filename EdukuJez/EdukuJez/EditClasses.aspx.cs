@@ -224,6 +224,7 @@ namespace EdukuJez
                     .Include(a => a.Warden)
                     .Include(u => u.Group)
                     .Include(w => w.Subject)
+                    .Include (w => w.Class)
                     .ToList();
 
                 ClearTable();
@@ -237,6 +238,7 @@ namespace EdukuJez
                .Include(a => a.Warden)
                .Include(u => u.Group)
                .Include(w => w.Subject)
+               .Include(w => w.Class)
                .ToList();
 
                 AssignToCell(lessonPlan);
@@ -321,7 +323,7 @@ namespace EdukuJez
 
                 // Dodanie tekstu i przycisku do komórki
                 Label lbl = new Label();
-                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + "<br />  Sala: " + lesson.Class + "<br />";
+                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + "<br />  Sala: " + lesson.Class.Number + "<br />";
                 MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(lbl);
 
                 // Dodanie przycisku do komórki

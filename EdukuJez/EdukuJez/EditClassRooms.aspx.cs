@@ -65,70 +65,34 @@ namespace EdukuJez
 
         }
 
-/*        protected void ButtonEdit_Click(object sender, EventArgs e)
+       protected void ButtonEdit_Click(object sender, EventArgs e)
         {
-            if (ListBoxAllDates.SelectedIndex >= 0)
+            string selectedDateText = TextBoxNumber.Text;
+            string selectedDescText = TextBoxDesc.Text; ;
+
+            var query = ClassRoomsRepo.Table.FirstOrDefault(x => x.Number == TextBoxNumber.Text);
+
+
+            if (query != null)
             {
-                // Split the selected item to separate date and description
-                string[] selectedItemParts = ListBoxAllDates.SelectedItem.Text.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-
-                if (selectedItemParts.Length == 2)
-                {
-                    // Trim to remove any leading or trailing whitespaces
-                    string selectedDateText = selectedItemParts[0].Trim();
-                    string selectedDescText = selectedItemParts[1].Trim();
-
-                    if (DateTime.TryParse(selectedDateText, out DateTime selectedDate))
-                    {
-                        // Pobierz zaznaczony wpis do edycji na podstawie daty
-                        var selectedEntry = Calend.Table.FirstOrDefault(entry => entry.Date == selectedDate && entry.Desc == selectedDescText);
-
-                        if (selectedEntry != null)
-                        {
-                            // Zaktualizuj dane z formularza
-                            DateTime date;
-                            if (DateTime.TryParse(TextBoxDate.Text, out date))
-                            {
-                                string desc = TextBoxDescription.Text;
-
-                                // Ustaw nowe wartości
-                                selectedEntry.Date = date;
-                                selectedEntry.Desc = desc;
-
-                                // Zapisz zmiany
-                                Calend.EditEntry(selectedEntry);
-
-                                // Odśwież dane i przekształć kalendarz
-                                RefreshListBox();
-                            }
-                            else
-                            {
-                                // Informacja o błędnej dacie
-                                LabelInfo.Text = "Wprowadź poprawną datę.";
-                                LabelInfo.Visible = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Obsługa błędu parsowania daty
-                        LabelInfo.Text = "Nieprawidłowy format daty w ListBoxie.";
-                        LabelInfo.Visible = true;
-                    }
-                }
-                else
-                {
-                    // Handle invalid format
-                    LabelInfo.Text = "Nieprawidłowy format daty w ListBoxie.";
-                    LabelInfo.Visible = true;
-                }
+                query.Desc = selectedDescText;
+                ClassRoomsRepo.EditEntry(query);
+                ReloadData();
             }
-        }*/
+            else
+            {
+
+                LabelInfo.Text = "Nieprawidłow dane";
+                LabelInfo.Visible = true;
+            }
+        }
+        
 
 
 
         protected void ButtonDelete_Click(object sender, EventArgs e)
         {
+
 
             var query = ClassRoomsRepo.Table.FirstOrDefault(x => x.Number == TextBoxNumber.Text);
 

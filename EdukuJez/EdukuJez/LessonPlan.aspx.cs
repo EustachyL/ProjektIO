@@ -11,7 +11,7 @@ namespace EdukuJez
     {
         ScheduleRepository Lessons = new ScheduleRepository();
         GroupsRepository GroupsRepo = new GroupsRepository(); // Dodane repozytorium do obsługi grup
-
+        DateTime currentTime = DateTime.Now; // obecny czas systemowy
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -36,14 +36,31 @@ namespace EdukuJez
             int selectedGroupId;
             if (int.TryParse(GroupDropDown.SelectedValue, out selectedGroupId))
             {
+
                 var lessonPlan = Lessons.Table
-                    .Where(a => a.Group.Id == selectedGroupId)
+                    .Where(a => a.Group.Id == selectedGroupId && a.Cyclicality == null)
                     .Include(a => a.Warden)
                     .Include(u => u.Group)
                     .Include(w => w.Subject)
+                    .Include(w => w.Class)
                     .ToList();
 
+                ClearTable();
+                //Czyszczenie tabeli
+
                 AssignToCell(lessonPlan);
+                //zajecia cykliczne
+
+                lessonPlan = Lessons.Table
+               .Where(a => a.Group.Id == selectedGroupId && a.Cyclicality != null)
+               .Include(a => a.Warden)
+               .Include(u => u.Group)
+               .Include(w => w.Subject)
+               .Include(w => w.Class)
+               .ToList();
+
+                AssignToCell(lessonPlan);
+                //nie cykliczne
             }
         }
 
@@ -52,15 +69,23 @@ namespace EdukuJez
         private void AssignToCell(ICollection<ClassC> lessonPlan)
         {
 
-            ClearTable();
+            // Znalezienie zeszłej soboty
+            DateTime lastSaturday = currentTime.AddDays(-(int)currentTime.DayOfWeek - 1);
+            // Znalezienie nadchodzącej soboty
+            DateTime nextSaturday = lastSaturday.AddDays(7);
 
             Dictionary<string, int> dayIndex = new Dictionary<string, int>
         {
-            { "Poniedzialek",1  },
-            { "Wtorek", 2 },
-            { "Sroda", 3 },
-            { "Czwartek", 4 },
-            { "Piatek", 5 }
+    { "Poniedzialek", 1 },
+    { "Monday", 1 },
+    { "Wtorek", 2 },
+    { "Tuesday", 2 },
+    { "Sroda", 3 },
+    { "Wednesday", 3 },
+    { "Czwartek", 4 },
+    { "Thursday", 4 },
+    { "Piatek", 5 },
+    { "Friday", 5 }
 
         };
 
@@ -81,8 +106,24 @@ namespace EdukuJez
             foreach (var lesson in lessonPlan)
             {
                 int rowIndex = hourIndex[lesson.Hour];
-                int colIndex = dayIndex[lesson.Day];
+                int colIndex;
 
+                if (lesson.Cyclicality == null)
+                {
+                    colIndex = dayIndex[lesson.Day];
+                }
+                else
+                {
+                    DateTime cyclicalityDate = lesson.Cyclicality.Value;
+
+                    // przedział od soboty do soboty 
+                    if (cyclicalityDate >= lastSaturday && cyclicalityDate <= nextSaturday)
+                    {
+                        var day = lesson.Cyclicality.Value.DayOfWeek;
+                        colIndex = dayIndex[day.ToString()];
+                    }
+                    else break;
+                }
 
                 // Czyszczenie komórki przed dodaniem nowej zawartości
                 MainTable.Rows[rowIndex].Cells[colIndex].Controls.Clear();
@@ -92,7 +133,7 @@ namespace EdukuJez
 
                 // Dodanie tekstu i przycisku do komórki
                 Label lbl = new Label();
-                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + "<br />  Sala: " + lesson.Class + "<br />";
+                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + "<br />  Sala: " + lesson.Class.Number + "<br />";
                 MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(lbl);
 
 

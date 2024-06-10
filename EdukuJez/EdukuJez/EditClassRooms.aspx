@@ -23,7 +23,7 @@ float: left; white-space: normal;" OnClick="GoBackAdminButton_Click"
 <div class="Center-Form" style="margin-top: 20px; width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center;">
 
     <div style="margin-bottom: 20px;">
-        <asp:TextBox ID="TextBoxNumber" runat="server" placeholder="Wprowadź datę" style="width: 300px; height: 30px; font-size: 16px; margin-bottom: 10px;"></asp:TextBox>
+        <asp:TextBox ID="TextBoxNumber" runat="server" placeholder="Wprowadź numer" style="width: 300px; height: 30px; font-size: 16px; margin-bottom: 10px;"></asp:TextBox>
         <asp:TextBox ID="TextBoxDesc" runat="server" placeholder="Wprowadź opis" style="width: 300px; height: 30px; font-size: 16px;"></asp:TextBox>
     </div>
 
@@ -31,6 +31,7 @@ float: left; white-space: normal;" OnClick="GoBackAdminButton_Click"
         <asp:Button ID="ButtonAdd" runat="server" Text="Dodaj nową klasę" OnClick="ButtonAdd_Click" style="width: 220px; height: 40px; font-size: 20px;" />
         <br />
         <asp:Button ID="ButtonDelete" runat="server" Text="Usuń klasę" OnClick="ButtonDelete_Click" style="width: 220px; height: 40px; font-size: 20px; margin-top: 10px;" />
+        <asp:Button ID="ButtonEdit" runat="server" Text="Edytuj klasę" OnClick="ButtonEdit_Click" style="width: 220px; height: 40px; font-size: 20px; margin-top: 10px;" />
         <asp:Label ID="LabelInfo" runat="server" Text="Label" Visible="False" Font-Size="24px" ForeColor="#CC0000" style="display: block; margin-top: 10px;"></asp:Label>
     </div>
 

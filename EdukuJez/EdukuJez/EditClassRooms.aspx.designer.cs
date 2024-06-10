@@ -69,6 +69,15 @@ namespace EdukuJez
         protected global::System.Web.UI.WebControls.Button ButtonDelete;
 
         /// <summary>
+        /// Kontrolka ButtonEdit.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonEdit;
+
+        /// <summary>
         /// Kontrolka LabelInfo.
         /// </summary>
         /// <remarks>
