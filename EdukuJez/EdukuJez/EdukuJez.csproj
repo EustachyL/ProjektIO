@@ -449,6 +449,11 @@
     <Compile Include="Model\ServerAccess\DBEntity\UserParent.cs" />
     <Compile Include="Model\ServerAccess\Repositories\AttachmentsRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\AttendancesRepository.cs" />
+<<<<<<< Updated upstream
+=======
+    <Compile Include="Model\ServerAccess\Repositories\ClassRoomsRepository.cs" />
+    <Compile Include="Model\ServerAccess\Repositories\SubmissionsRepository.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Model\ServerAccess\Repositories\UserParentsRepository.cs" />
     <Compile Include="StudentsListSubject.aspx.cs">
       <DependentUpon>StudentsListSubject.aspx</DependentUpon>

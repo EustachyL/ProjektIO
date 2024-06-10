@@ -15,6 +15,7 @@ namespace EdukuJez.Repositories
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Calendar> Calendar { get; set; }
         public DbSet<ClassC> Classes { get; set; }
+        public DbSet<ClassRoom> ClassRoom { get; set; }
         public DbSet<ClassUsers> ClassUsers { get; set; }
         public DbSet<Grade> Grades { get; set; }
         public DbSet<GradeFormula> GradeFormulas { get; set; }
