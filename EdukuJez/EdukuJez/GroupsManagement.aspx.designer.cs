@@ -132,6 +132,15 @@ namespace EdukuJez
         protected global::System.Web.UI.WebControls.Button EditGroupButton;
 
         /// <summary>
+        /// Kontrolka DeactivateGroupButton.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeactivateGroupButton;
+
+        /// <summary>
         /// Kontrolka DeleteGroupButton.
         /// </summary>
         /// <remarks>
@@ -157,6 +166,15 @@ namespace EdukuJez
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ConfirmDeleteButton;
+
+        /// <summary>
+        /// Kontrolka ConfirmDeactivateButton.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ConfirmDeactivateButton;
 
         /// <summary>
         /// Kontrolka myRepeater.

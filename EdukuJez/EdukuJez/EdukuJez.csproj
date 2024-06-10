@@ -468,6 +468,7 @@
     <Compile Include="Model\ServerAccess\Repositories\AttendancesRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\ClassRoomRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\UserParentsRepository.cs" />
+    <Compile Include="Model\ServerAccess\ServerClient.cs" />
     <Compile Include="StudentsListSubject.aspx.cs">
       <DependentUpon>StudentsListSubject.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -567,7 +568,6 @@
     <Compile Include="Model\ServerAccess\Repositories\SubjectsRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\SubjViewRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\UsersRepository.cs" />
-    <Compile Include="Model\ServerAccess\ServerClient.cs" />
     <Compile Include="Model\ServerAccess\UserSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Remarks.aspx.cs">

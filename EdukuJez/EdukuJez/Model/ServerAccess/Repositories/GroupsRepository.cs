@@ -17,9 +17,9 @@ namespace EdukuJez.Repositories
 
         public Group GetById(int id)
         {
-            foreach (var row in Table)      
+            foreach (var row in Table)
             {
-                if (row.Id==id) return row;
+                if (row.Id == id) return row;
             }
             return null;
         }
@@ -27,7 +27,18 @@ namespace EdukuJez.Repositories
         public bool IsGroupInDatabase(string name)
         {
             return Table.Any(x => x.Name == name);
+        }
 
+        public override void Delete(Group group)
+        {
+            if (group == null)
+                return;
+
+            var groupUsers = Context.GroupUsers.Where(gu => gu.Group.Id == group.Id).ToList();
+            Context.GroupUsers.RemoveRange(groupUsers);
+
+            Context.Groups.Remove(group);
+            Context.SaveChanges();
         }
     }
 }

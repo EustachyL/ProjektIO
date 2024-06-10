@@ -6,7 +6,7 @@
         <img src="Imgs/Accounts_Management_Page_Title.png" class="logo1" style="height: 82px; width: 661px" />
              <asp:Button ID="x" runat="server" Text=" " Style="width: 250px; height: 40px; font-size: 20px; float: right;" BackColor="#FEFAE0" BorderColor="#FEFAE0" BorderStyle="None" />
         <hr />
-    </div>
+    </div>z
     <div>
         <asp:Label ID="MainInfoLabel" runat="server" Text="Wpisz login użytkownika, którego chcesz dodać, edytować lub usunąć:" Font-Size="28px"></asp:Label>
         <div style="margin-top: 20px; width: 2000px;">
@@ -32,13 +32,14 @@
         </div>
 
         <div style="margin-top: 20px; width: 2020px;">
-            <asp:Button ID="ConfirmDeleteButton" runat="server" Text="Potwierdź" Style="width: 150px; height: 40px; font-size: 20px;" OnClick="ConfirmDeleteClick" Visible="false" />
             <asp:Button ID="AddUserButton" runat="server" Text="Dodaj" OnClick="AddClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
             <asp:Button ID="EditUserButton" runat="server" Text="Edytuj" OnClick="EditClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
             <asp:Button ID="DeactivateUserButton" runat="server" Text="Dezaktywuj" OnClick="DeactivateClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
             <asp:Button ID="DeleteUserButton" runat="server" Text="Usuń" OnClick="DeleteClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
         </div>
         <div style="margin-top: 20px; width: 2020px">
+            <asp:Button ID="ConfirmDeleteButton" runat="server" Text="Potwierdź" Style="width: 150px; height: 40px; font-size: 20px;" OnClick="ConfirmDeleteClick" Visible="false" />
+            <asp:Button ID="ConfirmDeactivateButton" runat="server" Text="Potwierdź Dezaktywację" Style="width: 240px; height: 40px; font-size: 20px;" OnClick="ConfirmDeactivateClick" Visible="false" />
             <asp:Button ID="ConfirmAddButton" runat="server" Text="Zatwierdź" Style="width: 150px; height: 40px; font-size: 20px;" OnClick="ConfirmAddClick" Visible="false" />
          <asp:Button ID="ConfirmEditButton" runat="server" Text="Zatwierdź Edycję" Style="width: 170px; height: 40px; font-size: 20px;" OnClick="ConfirmEditClick" Visible="false" />
         
@@ -48,33 +49,34 @@
         </div>
     </div>
 
-    <div class="Center-Form" style="margin-top: 20px; width: 2000px; text-align: center;">
-            <asp:Repeater ID="myRepeater" runat="server">
-                <HeaderTemplate>
-                    <table border="1">
-                        <tr>
-                            <th>Id</th>
-                            <th>Login</th>
-                            <th>Imię</th>
-                            <th>Nazwisko</th>
-                            <th>Grupa podstawowa</th>
-                        </tr>
-                </HeaderTemplate>
-                <ItemTemplate>
-                    <tr>
-                        <td><%# Eval("UserId") %></td>
-                        <td><%# Eval("UserLogin") %></td>
-                        <td><%# Eval("UserName")%></td>
-                        <td><%# Eval("UserSurname") %></td>
-                        <td><%# Eval("ParentGroup") %></td>
-
-                    </tr>
-                </ItemTemplate>
-                <FooterTemplate>
-                    </table>
-                </FooterTemplate>
-            </asp:Repeater>
-        </div>
+   <div class="Center-Form" style="margin-top: 20px; width: 2000px; text-align: center;">
+    <asp:Repeater ID="myRepeater" runat="server">
+        <HeaderTemplate>
+            <table border="1">
+                <tr>
+                    <th>Id</th>
+                    <th>Login</th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Grupa podstawowa</th>
+                    <th>Dezaktywowano</th>
+                </tr>
+        </HeaderTemplate>
+        <ItemTemplate>
+            <tr style='<%# (bool)Eval("Deactivated") ? "background-color: #b53636;" : "background-color: #a0b891;" %>'>
+                <td><%# Eval("UserId") %></td>
+                <td><%# Eval("UserLogin") %></td>
+                <td><%# Eval("UserName")%></td>
+                <td><%# Eval("UserSurname") %></td>
+                <td><%# Eval("ParentGroup") %></td>
+                <td><%# (bool)Eval("Deactivated") ? "PRAWDA" : String.Empty %></td>
+            </tr>
+        </ItemTemplate>
+        <FooterTemplate>
+            </table>
+        </FooterTemplate>
+    </asp:Repeater>
+</div>
 
 
 </asp:Content>

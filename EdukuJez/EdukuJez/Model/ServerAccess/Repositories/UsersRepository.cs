@@ -13,7 +13,6 @@ namespace EdukuJez.Repositories
         {
             Table = Context.Users;
         }
-        //Wyszukiwanie linq na kolekcji repozytorium
         public bool CheckLogin(string login, string password)
         {
             return Table.Any(x => x.UserLogin == login && x.UserPassword == password);
@@ -23,10 +22,21 @@ namespace EdukuJez.Repositories
             return Table.First(x => x.UserLogin == login);
         }
 
-        public bool IsLoginInDatabase(string login) 
+        public bool IsLoginInDatabase(string login)
         {
             return Table.Any(x => x.UserLogin == login);
-            
+
+        }
+        public override void Delete(User user)
+        {
+            if (user == null)
+                return;
+
+            var groupUsers = Context.GroupUsers.Where(gu => gu.User.Id == user.Id).ToList();
+            Context.GroupUsers.RemoveRange(groupUsers);
+
+            Context.Users.Remove(user);
+            Context.SaveChanges();
         }
     }
 }

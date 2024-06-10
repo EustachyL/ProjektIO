@@ -38,7 +38,7 @@ namespace EdukuJez
                 List<User> users = userRepo.Table.ToList();
                 List<GroupUser> groupUserList = groupUserRepo.Table.Include(u => u.User).Include(g => g.Group).ToList();
                 List<int> teachersId = groupUserList.Where(x => x.Group != null && x.Group.Name == UserSession.TEACHER_GROUP && x.User != null).Select(x => x.User.Id).ToList();
-                
+
 
                 TeachersList.DataSource = users.Where(x => teachersId.Contains(x.Id)).Select(user => $"{user.UserName} {user.UserSurname}");
                 TeachersList.DataBind();
@@ -75,6 +75,7 @@ namespace EdukuJez
             EducatorLabel.Visible = false;
             NameLabel.Visible = false;
             DeleteGroupButton.Visible = false;
+            DeactivateGroupButton.Visible = false;
             AddNewGroupButton.Visible = false;
             RestartButton.Visible = true;
             EditGroupButton.Visible = false;
@@ -83,25 +84,66 @@ namespace EdukuJez
 
         protected void DeleteGroupButton_Click(object sender, EventArgs e)
         {
-            MainInfoLabel.Text = "Czy na pewno chcesz usunąć tę grupę? Ta operacja jest nieodwracalna!";
+            MainInfoLabel.ForeColor = System.Drawing.ColorTranslator.FromHtml("#CC0000");
+            MainInfoLabel.Text = "Czy na pewno chcesz usunąć tę grupę? Spowoduje to również usunięcie wszystkich powiązanych z nią użytkowników! <br> TA OPERACJA JEST NIEODWRACALNA! <br> Jeśli chcesz usunąć grupę beż usuwania powiązanych z nią użytkowników czy aktywności, użyj opcji dezaktywacji.";
             NewGroupTextBox.Enabled = false;
             TeachersList.Visible = false;
             EducatorLabel.Visible = false;
             MainGroupList.Visible = false;
             MainGroupLabel.Visible = false;
             DeleteGroupButton.Visible = false;
+            DeactivateGroupButton.Visible = false;
             AddNewGroupButton.Visible = false;
             EditGroupButton.Visible = false;
             ConfirmDeleteButton.Visible = true;
+            ConfirmDeactivateButton.Visible = false;
         }
 
         protected void ConfirmDeleteClick(object sender, EventArgs e)
         {
+            MainInfoLabel.ForeColor = System.Drawing.ColorTranslator.FromHtml("#000000");
             groupRepo.Delete(groupRepo.Table.First(x => x.Name == NewGroupTextBox.Text));
-            MainInfoLabel.Text = "Usunąłeś z bazy danych grupę o nazwie " + NewGroupTextBox.Text + ". <br> Kliknij poniższy przycisk, aby dodać, edytować lub usunąć kolejną grupę.";
+            MainInfoLabel.Text = "Usunąłeś z bazy danych grupę o nazwie " + NewGroupTextBox.Text + ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywowaćlub usunąć kolejną grupę.";
             MainGroupLabel.Visible = false;
             NewGroupTextBox.Visible = false;
             ConfirmDeleteButton.Visible = false;
+            ConfirmDeactivateButton.Visible = false;
+            NameLabel.Visible = false;
+            RestartButton.Visible = true;
+            EditGroupButton.Visible = false;
+            myRepeater.DataBind();
+        }
+
+        protected void DeactivateClick(object sender, EventArgs e)
+        {
+            MainInfoLabel.Text = "Czy na pewno chcesz dezaktywować tę grupę? Zostanie ona usunięta, ale powiązani z nią użytkownicy i inne aktywności zostaną dostępne.";
+            NewGroupTextBox.Enabled = false;
+            TeachersList.Visible = false;
+            EducatorLabel.Visible = false;
+            MainGroupList.Visible = false;
+            MainGroupLabel.Visible = false;
+            DeleteGroupButton.Visible = false;
+            DeactivateGroupButton.Visible = false;
+            AddNewGroupButton.Visible = false;
+            EditGroupButton.Visible = false;
+            ConfirmDeleteButton.Visible = false;
+            ConfirmDeactivateButton.Visible = true;
+        }
+
+        protected void ConfirmDeactivateClick(object sender, EventArgs e)
+        {
+            List<Group> groupList = groupRepo.Table.ToList();
+            Group groupToUpdate = groupRepo.Table.FirstOrDefault(x => x.Name == NewGroupTextBox.Text);
+            groupToUpdate.Deactivated = true;
+            userRepo.Update();
+            groupRepo.Update();
+
+            MainInfoLabel.Text = "Dezaktywowałeś grupę o nazwie " + groupToUpdate.Name + ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywować lub usunąć kolejną grupę.";
+
+            MainGroupLabel.Visible = false;
+            NewGroupTextBox.Visible = false;
+            ConfirmDeleteButton.Visible = false;
+            ConfirmDeactivateButton.Visible = false;
             NameLabel.Visible = false;
             RestartButton.Visible = true;
             EditGroupButton.Visible = false;
@@ -119,7 +161,7 @@ namespace EdukuJez
             string educatorSurname = groupToUpdate.Educator?.UserSurname;
 
             MainInfoLabel.Text = "Edytowałeś w bazie danych grupę o nazwie " + groupToUpdate.Name +
-                                     ". <br> Kliknij poniższy przycisk, aby dodać, edytować lub usunąć kolejną grupę.";
+                                     ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywowaćlub usunąć kolejną grupę.";
             NameLabel.Visible = false;
             NewGroupTextBox.Visible = false;
             TeachersList.Visible = false;
@@ -127,9 +169,10 @@ namespace EdukuJez
             MainGroupList.Visible = false;
             MainGroupLabel.Visible = false;
             DeleteGroupButton.Visible = false;
+            DeactivateGroupButton.Visible = false;
             AddNewGroupButton.Visible = false;
             EditGroupButton.Visible = false;
-            
+
             if (pn == "Uczeń")
             {
                 string educatorFullName = TeachersList.SelectedValue;
@@ -150,6 +193,7 @@ namespace EdukuJez
             {
                 EditGroupButton.Enabled = true;
                 DeleteGroupButton.Enabled = true;
+                DeactivateGroupButton.Enabled = true;
                 AddNewGroupButton.Enabled = false;
                 TeachersList.Visible = true;
                 EducatorLabel.Visible = true;
@@ -172,6 +216,7 @@ namespace EdukuJez
                 AddNewGroupButton.Enabled = true;
                 DeleteGroupButton.Enabled = false;
                 EditGroupButton.Enabled = false;
+                DeactivateGroupButton.Enabled = false;
                 TeachersList.Visible = true;
                 EducatorLabel.Visible = true;
                 MainGroupList.Visible = true;
@@ -185,7 +230,7 @@ namespace EdukuJez
                 // InfoLabel.Text = "Login może się składać z 3-30 liter (nie polskich) oraz cyfr. Nie zaczynaj loginu od cyfry.";
             }
         }
-        
+
         protected void ConfirmRestartClick(object sender, EventArgs e)
         {
             Response.Redirect("GroupsManagement.aspx");
@@ -193,7 +238,7 @@ namespace EdukuJez
 
         protected void MainGroupListSelectedIndexChanged(object sender, EventArgs e)
         {
-            if(MainGroupList.SelectedIndex != 0)
+            if (MainGroupList.SelectedIndex != 0)
             {
                 EducatorLabel.Visible = false;
                 TeachersList.Visible = false;

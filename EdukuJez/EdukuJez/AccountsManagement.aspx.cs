@@ -17,7 +17,8 @@ namespace EdukuJez
         private GroupUsersRepository groupsUsersRepository = new GroupUsersRepository();
         private GroupsRepository groupsRepo = new GroupsRepository();
 
-        protected void Page_Load(object sender, EventArgs e) {
+        protected void Page_Load(object sender, EventArgs e)
+        {
             if (UserSession.CheckPermission(UserSession.ADMIN_GROUP) == false)
                 UserSession.ChangeSiteNoPermission(this, "Main.aspx");
             if (!IsPostBack)
@@ -31,8 +32,9 @@ namespace EdukuJez
                     UserLogin = user.UserLogin,
                     UserName = user.UserName,
                     UserSurname = user.UserSurname,
-                    ParentGroup = returnGroup(user.Id)
-                }) ;
+                    ParentGroup = returnGroup(user.Id),
+                    Deactivated = user.Deactivated
+                });
 
                 myRepeater.DataSource = mergedData;
                 myRepeater.DataBind();
@@ -42,7 +44,7 @@ namespace EdukuJez
                 GroupBox.DataBind();
             }
         }
-        
+
         protected string returnGroup(int UserId)
         {
             string groupName = null;
@@ -53,64 +55,84 @@ namespace EdukuJez
             return groupName;
         }
 
+        private void SetControlVisibility(bool loginBox, bool passwordBox, bool groupBox, bool confirmAddButton, bool confirmEditButton,
+            bool confirmDeactivateButton, bool confirmDeleteButton, bool restartButton, bool nameLabel, bool nameBox,
+            bool surnameLabel, bool surnameBox, bool passwordLabel, bool groupLabel, bool loginLabel, bool loginBoxVisible = true)
+        {
+            LoginBox.Enabled = loginBox;
+            PasswordBox.Visible = passwordBox;
+            GroupBox.Visible = groupBox;
+            ConfirmAddButton.Visible = confirmAddButton;
+            ConfirmEditButton.Visible = confirmEditButton;
+            ConfirmDeactivateButton.Visible = confirmDeactivateButton;
+            ConfirmDeleteButton.Visible = confirmDeleteButton;
+            RestartButton.Visible = restartButton;
+            NameLabel.Visible = nameLabel;
+            NameBox.Visible = nameBox;
+            SurnameLabel.Visible = surnameLabel;
+            SurnameBox.Visible = surnameBox;
+            PasswordLabel.Visible = passwordLabel;
+            GroupLabel.Visible = groupLabel;
+            LoginLabel.Visible = loginLabel;
+            LoginBox.Visible = loginBoxVisible;
+        }
+
         protected void AddClick(object sender, EventArgs e)
         {
             MainInfoLabel.Text = "Wypełnij dane nowego użytkownika:";
-            LoginBox.Enabled = false;
-            EditUserButton.Visible = false;
-            AddUserButton.Visible = false;
+            SetControlVisibility(false, true, true, true, false, false, false, false, true, true, true, true, true, true, false);
             DeleteUserButton.Visible = false;
-            PasswordBox.Visible = true;
-            GroupBox.Visible = true;
-            ConfirmAddButton.Visible = true;
-            NameLabel.Visible = true;
-            NameBox.Visible = true;
-            SurnameLabel.Visible = true;
-            SurnameBox.Visible = true;
-            PasswordLabel.Visible = true;
-            GroupLabel.Visible = true;
+            DeactivateUserButton.Visible = false;
+            AddUserButton.Visible = false;
+            EditUserButton.Visible = false;
+        }
+
+        protected void DeactivateClick(object sender, EventArgs e)
+        {
+            MainInfoLabel.Text = "Czy na pewno chcesz dezaktywować tego użytkownika? Konto o tej nazwie zostanie usunięte, ale aktywności do niego przypisane nadal będą widoczne.";
+            SetControlVisibility(false, false, false, false, false, true, false, false, false, false, false, false, false, false, false);
         }
 
         protected void DeleteClick(object sender, EventArgs e)
         {
-            MainInfoLabel.Text = "Czy na pewno chcesz usunąć tego użytkownika? Ta operacja jest nieodwracalna!";
-            LoginBox.Enabled = false;
-            EditUserButton.Visible = false;
-            AddUserButton.Visible = false;
-            DeleteUserButton.Visible = false;
-            ConfirmDeleteButton.Visible = true;
+            MainInfoLabel.ForeColor = System.Drawing.ColorTranslator.FromHtml("#CC0000");
+            MainInfoLabel.Text = "Czy na pewno chcesz usunąć tego użytkownika?  TA OPERACJA JEST NIEODWRACALNA! <br> Spowoduje to również usunięcie wszystkich powiązanych z nim aktywności. Jeśli chcesz usunąć użytkownika bez usuwania jego aktywności, użyj opcji dezaktywacji.";
+            SetControlVisibility(false, false, false, false, false, false, true, false, false, false, false, false, false, false, false);
         }
 
         protected void EditClick(object sender, EventArgs e)
         {
             MainInfoLabel.Text = "Wpisz nowe dane wybranego użytkownika:";
-            LoginBox.Enabled = false;
-            AddUserButton.Visible = false;
-            EditUserButton.Visible = false;
-            DeleteUserButton.Visible = false;
-            PasswordBox.Visible = true;
-            ConfirmEditButton.Visible = true;
-            NameLabel.Visible = true;
-            NameBox.Visible = true;
-            SurnameLabel.Visible = true;
-            SurnameBox.Visible = true;
-            PasswordLabel.Visible = true;
+            SetControlVisibility(false, true, false, false, true, false, false, false, true, true, true, true, true, false, true);
 
             userToEdit = usersRepository.Table.FirstOrDefault(x => x.UserLogin == LoginBox.Text);
             NameBox.Text = userToEdit.UserName;
             SurnameBox.Text = userToEdit.UserSurname;
+        }
 
+        protected void ConfirmDeactivateClick(object sender, EventArgs e)
+        {
+            userToEdit = usersRepository.Table.FirstOrDefault(x => x.UserLogin == LoginBox.Text);
+            userToEdit.UserName = usersRepository.Table.Where(x => x.UserLogin == LoginBox.Text).Select(x => x.UserName).FirstOrDefault();
+            userToEdit.UserSurname = usersRepository.Table.Where(x => x.UserLogin == LoginBox.Text).Select(x => x.UserSurname).FirstOrDefault();
+            userToEdit.UserPassword = usersRepository.Table.Where(x => x.UserLogin == LoginBox.Text).Select(x => x.UserPassword).FirstOrDefault();
 
+            userToEdit.Deactivated = true;
+
+            usersRepository.UpdateRow(userToEdit);
+
+            MainInfoLabel.Text = "Dezaktywowałeś konto użytkownika o loginie " + LoginBox.Text + ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywować lub usunąć kolejnego użytkownika.";
+
+            SetControlVisibility(false, false, false, false, false, false, false, true, false, false, false, false, false, false, false);
+            myRepeater.DataBind();
         }
 
         protected void ConfirmDeleteClick(object sender, EventArgs e)
         {
+            MainInfoLabel.ForeColor = System.Drawing.ColorTranslator.FromHtml("#000000");
             usersRepository.Delete(usersRepository.Table.First(x => x.UserLogin == LoginBox.Text));
-            MainInfoLabel.Text = "Usunąłeś z bazy danych użytkownika o loginie " + LoginBox.Text + ". <br> Kliknij poniższy przycisk, aby dodać, edytować lub usunąć kolejnego użytkownika.";
-            ConfirmDeleteButton.Visible = false;
-            LoginBox.Visible = false;
-            LoginLabel.Visible = false;
-            RestartButton.Visible = true;
+            MainInfoLabel.Text = "Usunąłeś z bazy danych użytkownika o loginie " + LoginBox.Text + ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywować lub usunąć kolejnego użytkownika.";
+            SetControlVisibility(false, false, false, false, false, false, false, true, false, false, false, false, false, false, false);
             myRepeater.DataBind();
         }
 
@@ -136,7 +158,6 @@ namespace EdukuJez
                 newUser.UserSurname = SurnameBox.Text;
                 newUser.UserPassword = PasswordBox.Text;
 
-
                 Group g = groupsRepo.Table.FirstOrDefault(x => x.Name == GroupBox.SelectedValue.ToString());
                 var gu = new GroupUser();
                 g.Users = new List<GroupUser>() { gu };
@@ -144,23 +165,10 @@ namespace EdukuJez
                 usersRepository.Insert(newUser);
                 groupsRepo.Update();
 
-
-
                 MainInfoLabel.Text = "Dodałeś do bazy danych użytkownika o loginie " + newUser.UserLogin +
-                                     ". <br> Kliknij poniższy przycisk, aby dodać, edytować lub usunąć kolejnego użytkownika.";
+                                     ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywować lub usunąć kolejnego użytkownika.";
 
-                PasswordBox.Visible = false;
-                GroupBox.Visible = false;
-                ConfirmAddButton.Visible = false;
-                NameLabel.Visible = false;
-                NameBox.Visible = false;
-                SurnameLabel.Visible = false;
-                SurnameBox.Visible = false;
-                PasswordLabel.Visible = false;
-                GroupLabel.Visible = false;
-                LoginBox.Visible = false;
-                LoginLabel.Visible = false;
-                RestartButton.Visible = true;
+                SetControlVisibility(false, false, false, false, false, false, false, true, false, false, false, false, false, false, false);
                 myRepeater.DataBind();
             }
         }
@@ -168,52 +176,44 @@ namespace EdukuJez
         protected void ConfirmEditClick(object sender, EventArgs e)
         {
             userToEdit = usersRepository.Table.FirstOrDefault(x => x.UserLogin == LoginBox.Text);
-            if (!userToEdit.IsNameValid(NameBox.Text))
+            userToEdit.UserName = usersRepository.Table.Where(x => x.UserLogin == LoginBox.Text).Select(x => x.UserName).FirstOrDefault();
+            userToEdit.UserSurname = usersRepository.Table.Where(x => x.UserLogin == LoginBox.Text).Select(x => x.UserSurname).FirstOrDefault();
+            userToEdit.UserPassword = usersRepository.Table.Where(x => x.UserLogin == LoginBox.Text).Select(x => x.UserPassword).FirstOrDefault();
+            if (!userToEdit.IsNameValid(NameBox.Text) && !string.IsNullOrEmpty(NameBox.Text))
             {
-                    InfoLabel.Text = "Niepoprawne imię.";
+                InfoLabel.Text = "Niepoprawne imię.";
             }
-            else if (!userToEdit.IsSurnameValid(SurnameBox.Text))
+            else if (!userToEdit.IsSurnameValid(SurnameBox.Text) && !string.IsNullOrEmpty(SurnameBox.Text))
             {
-                    InfoLabel.Text = "Niepoprawne nazwisko.";
+                InfoLabel.Text = "Niepoprawne nazwisko.";
             }
-            else if (!string.IsNullOrEmpty(PasswordBox.Text))
+            else if (!userToEdit.IsPasswordValid(PasswordBox.Text) && !string.IsNullOrEmpty(PasswordBox.Text))
             {
-                if (!userToEdit.IsPasswordValid(PasswordBox.Text))
-                {
-                    InfoLabel.Text = "Hasło musi się składać od 8 do 50 znaków, <br> co najmniej: jednej cyfry, jednej małej i jednej wielkiej litery <br> oraz co najmniej jednego ze znaków: . ! @ # $ % & ? <br> nie może także zawierać znaków polskich.";
-                }
+                InfoLabel.Text = "Hasło musi się składać od 8 do 50 znaków, <br> co najmniej: jednej cyfry, jednej małej i jednej wielkiej litery <br> oraz co najmniej jednego ze znaków: . ! @ # $ % & ? <br> nie może także zawierać znaków polskich.";
             }
             else
             {
                 InfoLabel.Visible = false;
 
-                userToEdit.UserName = NameBox.Text;
-                userToEdit.UserSurname = SurnameBox.Text;
-                if (PasswordBox.Text != null)
+                if (!string.IsNullOrEmpty(NameBox.Text))
+                {
+                    userToEdit.UserName = NameBox.Text;
+                }
+                if (!string.IsNullOrEmpty(SurnameBox.Text))
+                {
+                    userToEdit.UserSurname = SurnameBox.Text;
+                }
+                if (!string.IsNullOrEmpty(PasswordBox.Text))
                 {
                     userToEdit.UserPassword = PasswordBox.Text;
                 }
-                else
-                {
-                    userToEdit.UserPassword = usersRepository.Table.Where(x => x.UserLogin == LoginBox.Text).Select(x => x.UserPassword).FirstOrDefault();
-                }
+
                 usersRepository.UpdateRow(userToEdit);
 
                 MainInfoLabel.Text = "Edytowałeś dane użytkownika o loginie " + userToEdit.UserLogin +
-                                     ". <br> Kliknij poniższy przycisk, aby dodać, edytować lub usunąć kolejnego użytkownika.";
+                                     ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywować lub usunąć kolejnego użytkownika.";
 
-                PasswordBox.Visible = false;
-                GroupBox.Visible = false;
-                ConfirmEditButton.Visible = false;
-                NameLabel.Visible = false;
-                NameBox.Visible = false;
-                SurnameLabel.Visible = false;
-                SurnameBox.Visible = false;
-                PasswordLabel.Visible = false;
-                GroupLabel.Visible = false;
-                LoginBox.Visible = false;
-                LoginLabel.Visible = false;
-                RestartButton.Visible = true;
+                SetControlVisibility(false, false, false, false, false, false, false, true, false, false, false, false, false, false, false);
                 myRepeater.DataBind();
             }
         }
@@ -223,6 +223,7 @@ namespace EdukuJez
             if (usersRepository.IsLoginInDatabase(LoginBox.Text))
             {
                 DeleteUserButton.Enabled = true;
+                DeactivateUserButton.Enabled = true;
                 AddUserButton.Enabled = false;
                 EditUserButton.Enabled = true;
             }
@@ -231,12 +232,14 @@ namespace EdukuJez
                 AddUserButton.Enabled = true;
                 EditUserButton.Enabled = false;
                 DeleteUserButton.Enabled = false;
+                DeactivateUserButton.Enabled = false;
             }
             else
-            { 
+            {
                 AddUserButton.Enabled = false;
                 EditUserButton.Enabled = false;
                 DeleteUserButton.Enabled = false;
+                DeactivateUserButton.Enabled = false;
                 InfoLabel.Text = "Login może się składać z 3-30 liter (nie polskich) oraz cyfr. Nie zaczynaj loginu od cyfry.";
             }
         }

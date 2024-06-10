@@ -27,12 +27,14 @@
             <br/>
             <asp:Button  ID="AddNewGroupButton" runat="server" Text="Dodaj" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" OnClick="AddNewGroupButton_Click"/>
            <asp:Button ID="EditGroupButton" runat="server" Text="Edytuj" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" OnClick="EditGroupButton_Click" />
-            <asp:Button  ID="DeleteGroupButton" runat="server" Text="Usuń" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" OnClick="DeleteGroupButton_Click"/>
+           <asp:Button ID="DeactivateGroupButton" runat="server" Text="Dezaktywuj" OnClick="DeactivateClick" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" />
+           <asp:Button  ID="DeleteGroupButton" runat="server" Text="Usuń" Style="width: 150px; height: 40px; font-size: 20px;" Enabled="False" OnClick="DeleteGroupButton_Click"/>
             </div>
         <div style="margin-top: 20px; width: 2020px;">
             <asp:Button ID="RestartButton" runat="server" Text="Zatwierdź" Style="width: 150px; height: 40px; font-size: 20px;" OnClick="ConfirmRestartClick" Visible="false" />
             <asp:Button ID="ConfirmDeleteButton" runat="server" Text="Potwierdź" Style="width: 150px; height: 40px; font-size: 20px;" OnClick="ConfirmDeleteClick" Visible="false" />
-            </div>
+            <asp:Button ID="ConfirmDeactivateButton" runat="server" Text="Potwierdź Dezaktywację" Style="width: 240px; height: 40px; font-size: 20px;" OnClick="ConfirmDeactivateClick" Visible="false" />
+           </div>
 
 
 
@@ -45,14 +47,16 @@
                             <th>Nazwa</th>
                             <th>Grupa nadrzędna</th>
                             <th>Wychowawca</th>
+                            <th>Dezaktywowano</th>
                         </tr>
                 </HeaderTemplate>
                 <ItemTemplate>
-                    <tr>
+                    <tr style='<%# (bool)Eval("Deactivated") ? "background-color: #b53636;" : "background-color: #a0b891;" %>'>
                         <td><%# Eval("Id") %></td>
                         <td><%# Eval("Name") %></td>
                         <td><%# Eval("ParentGroup.Name") ?? "brak" %></td>
                         <td><%# Eval("Educator") != null ? string.Format("{0} {1}", Eval("Educator.UserName") ?? "brak", Eval("Educator.UserSurname") ?? "brak") : "brak" %></td>
+                        <td><%# (bool)Eval("Deactivated") ? "PRAWDA" : String.Empty %></td>
                     </tr>
                 </ItemTemplate>
                 <FooterTemplate>
