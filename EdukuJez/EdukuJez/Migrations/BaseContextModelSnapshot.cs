@@ -19,24 +19,6 @@ namespace EdukuJez.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ClassRoom", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Desc")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Number")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClassRoom");
-                });
-
             modelBuilder.Entity("EdukuJez.Repositories.Activity", b =>
                 {
                     b.Property<int>("Id")
@@ -155,17 +137,14 @@ namespace EdukuJez.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClassId")
+                    b.Property<int>("Class")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Cyclicality")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Cyclicality")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Day")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Deactivated")
-                        .HasColumnType("bit");
 
                     b.Property<int?>("GroupId")
                         .HasColumnType("int");
@@ -183,8 +162,6 @@ namespace EdukuJez.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
 
                     b.HasIndex("GroupId");
 
@@ -526,7 +503,7 @@ namespace EdukuJez.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Submissions");
+                    b.ToTable("Submission");
                 });
 
             modelBuilder.Entity("EdukuJez.Repositories.Substitution", b =>
@@ -636,10 +613,6 @@ namespace EdukuJez.Migrations
 
             modelBuilder.Entity("EdukuJez.Repositories.ClassC", b =>
                 {
-                    b.HasOne("ClassRoom", "Class")
-                        .WithMany("Classes")
-                        .HasForeignKey("ClassId");
-
                     b.HasOne("EdukuJez.Repositories.Group", "Group")
                         .WithMany("Classes")
                         .HasForeignKey("GroupId");

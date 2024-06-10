@@ -21,20 +21,6 @@ namespace EdukuJez
             {
                 DropDownListAttachmentContentType.Items.Add(c);
             }
-            if (DropDownListAttachmentContentType.SelectedValue == Attachment.FILE)
-            {
-                FileUpload1.Visible = true;
-                TextBoxAttachmentLink.Visible = false;
-                LabelAttachmentLink.Visible = false;
-
-            }
-            else
-            {
-                FileUpload1.Visible = false;
-                TextBoxAttachmentLink.Visible = true;
-                LabelAttachmentLink.Visible = true;
-
-            }
         }
 
         protected void ButtonAttachmentCancel_Click(object sender, EventArgs e)
@@ -49,7 +35,7 @@ namespace EdukuJez
             a.Subject = subject;
             a.Name = TextBoxAttachmentName.Text;
 
-            if (DropDownListAttachmentContentType.SelectedValue == Attachment.FILE)
+            if (DropDownListAttachmentContentType.SelectedValue == Attachment.DOCUMENT)
             {
                 if (FileUpload1.HasFile)
                 {
@@ -62,7 +48,6 @@ namespace EdukuJez
                         byte[] fileData = new byte[postedFile.ContentLength];
                         postedFile.InputStream.Read(fileData, 0, postedFile.ContentLength);
                         a.Content = fileData;
-                        a.Text = postedFile.FileName;
                         repoS.Table.FirstOrDefault(x => x.Id == subject.Id).Attachments.Add(a);
                         repoS.Update();
                     }

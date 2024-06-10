@@ -12,14 +12,13 @@ namespace EdukuJez.Repositories
         public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
         public Group Group { get; set; }
         public User Warden { get; set; }
-        public ClassRoom Class { get; set; }
+        public int Class { get; set; }
         public string Hour { get; set; }
         public string Day { get; set; }
-        public DateTime? Cyclicality { get; set; }
+        public string Cyclicality { get; set; }
         public ICollection<Frequency> Frequency { get; set; } = new List<Frequency>();
 
         public int? SubstitutionId { get; set; }
-        public Substitution Substitution { get; set; }
-        public bool Deactivated { get; set; } = false;
+        public Substitution Substitution { get; set; } 
     }
 }
