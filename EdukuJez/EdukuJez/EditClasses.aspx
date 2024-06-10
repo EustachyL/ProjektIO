@@ -36,15 +36,17 @@
     </asp:DropDownList>
 
     <asp:Button ID="AddButton" runat="server" Text="Dodaj" OnClick="AddButton_Click" CssClass="btn btn-primary" />
+
+      <asp:Button ID="DelButton" runat="server" Text="Usuń" OnClick="DelNoncycButton_Click" CssClass="btn btn-primary" />
     <br/>
      <asp:Button ID="ChangeButton" runat="server" Text="Zajęcia cykliczne" OnClick="ChangeButton_Click" CssClass="btn btn-primary" />
     <br/>
-                <asp:Label ID="Label" runat="server" Text="Dla zajęć niecyklicznych wprowadź datę: DD.MM.RRRR "></asp:Label>
+                <asp:Label ID="Label" runat="server" Text="Dla dodania zajęć niecyklicznych wprowadź datę: DD.MM.RRRR "></asp:Label>
     <br/>
 
  <div style="text-align: center;">
 
-<asp:ListBox ID="ListBoxDates" runat="server" Width="1200px" Height="400px" Font-Size="20px" style="margin-right: 150px;"></asp:ListBox>
+<asp:ListBox ID="ListBoxDates" runat="server" Width="1200px" Height="400px" Font-Size="20px" style="margin-right: 150px; max-width: 1000px;"></asp:ListBox>
 
 
  </div>

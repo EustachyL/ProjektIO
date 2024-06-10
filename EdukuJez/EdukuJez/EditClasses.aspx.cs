@@ -12,6 +12,7 @@ using EdukuJez.Model.ServerAccess.Repositories;
 using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
 using EdukuJez.Migrations;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 
 //po zmainie bazy z 09.06 -roomsAndClasses zakomentowany kod z salami
@@ -453,17 +454,63 @@ namespace EdukuJez
             int selectedGroupId;
             if (int.TryParse(GroupDropDown.SelectedValue, out selectedGroupId))
             {
-                // Pobierz dane z kalendarza i przypisz do ListBo
-                var calendarE = scheduleRepo.Table.Where(a => a.Cyclicality != null && a.Group.Id == selectedGroupId).ToList();
+                // Pobierz dane z kalendarza i przypisz do ListBox
+                var calendarE = scheduleRepo.Table
+                    .Where(a => a.Cyclicality != null && a.Group.Id == selectedGroupId)
+                    .OrderBy(a => a.Cyclicality.Value)
+                    .ToList();
 
                 // Przygotuj listę niestandardowych ciągów do wyświetlenia w ListBoxie
-                var listBoxItems = calendarE.Select(a => a.Cyclicality).ToList();
+                var listBoxItems = calendarE.Select(a =>
+                {
+                    var cyclicalityDate = a.Cyclicality.HasValue ? a.Cyclicality.Value.ToString("dd-MM-yyyy") : "Brak daty";
+                    var hour = !string.IsNullOrEmpty(a.Hour) ? $" Godzina:{a.Hour}" : " Brak godziny";
+                    var subjectName = a.Subject?.SubjectName ?? "Brak przedmiotu";
+                    var wardenName = $"{a.Warden?.UserName ?? "Brak imienia"} {a.Warden?.UserSurname ?? "Brak nazwiska"}";
+                    var classNumber = a.Class?.Number ?? "Brak sali";
+
+                    return $"{cyclicalityDate},{hour}, {subjectName}, {wardenName}, Sala:{classNumber}";
+                }).ToList();
 
                 ListBoxDates.DataSource = listBoxItems;
                 ListBoxDates.DataBind();
             }
         }
 
-    }
+        protected void DelNoncycButton_Click(object sender, EventArgs e)
+        {
+            string[] selectedItemParts = ListBoxDates.SelectedItem.Text.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
+
+            DateTime Date = DateTime.Parse(selectedItemParts[0]);
+            string Hour = selectedItemParts[1];
+            string Subject = selectedItemParts[2];
+            string Name = selectedItemParts[3];
+            string Surname = selectedItemParts[4];
+            string Class = selectedItemParts[5];
+
+            var query = scheduleRepo.Table.FirstOrDefault(x => x.Hour == Hour && x.Cyclicality.Value == Date && x.Warden.UserName == Name && x.Warden.UserSurname == Surname && x.Class.Number == Class && x.Group.Name == GroupDropDown.SelectedValue && x.Subject.SubjectName == Subject);
+
+            if (query != null)
+            {
+                scheduleRepo.Delete(query);
+
+                if (query != null)
+                {
+                    var CU = query.Users.ToList();
+
+                    foreach (var users in CU)
+                    {
+                        CURepo.Delete(users);
+                    }
+                    ReloadData();
+                    LoadLessonPlan();
+                    RefreshListBox();
+                }
+                else { }
+            }
+        }
+
+
+    }
 }
