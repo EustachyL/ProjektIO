@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.UI.WebControls;
 
 namespace EdukuJez.Repositories
 {
+    [Table("Substitutions")]
     public class Substitution : EntityBase
     {
         public string Desc { get; set; }

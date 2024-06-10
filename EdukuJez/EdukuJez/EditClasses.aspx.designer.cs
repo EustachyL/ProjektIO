@@ -33,6 +33,15 @@ namespace EdukuJez
         protected global::System.Web.UI.WebControls.Button GoBackButton;
 
         /// <summary>
+        /// Kontrolka ClassRoomButton.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ClassRoomButton;
+
+        /// <summary>
         /// Kontrolka Button1.
         /// </summary>
         /// <remarks>

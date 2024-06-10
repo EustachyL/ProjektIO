@@ -254,6 +254,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\Master.site.css" />
     <Content Include="AttendancesAdminPanel.aspx" />
+    <Content Include="EditClassRooms.aspx" />
     <Content Include="Imgs\Calendar_Title.png" />
     <Content Include="Imgs\Changing_Password_Title.png" />
     <Content Include="Imgs\Child_To_Parent_Management_Title.png" />
@@ -420,6 +421,13 @@
     <Compile Include="AttendancesAdminPanel.aspx.designer.cs">
       <DependentUpon>AttendancesAdminPanel.aspx</DependentUpon>
     </Compile>
+    <Compile Include="EditClassRooms.aspx.cs">
+      <DependentUpon>EditClassRooms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditClassRooms.aspx.designer.cs">
+      <DependentUpon>EditClassRooms.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\20240129143232_final_initial.cs" />
     <Compile Include="Migrations\20240129143232_final_initial.designer.cs">
       <DependentUpon>20240129143232_final_initial.cs</DependentUpon>
@@ -455,6 +463,10 @@
     <Compile Include="Migrations\20240609084819_classesAndRooms2.cs" />
     <Compile Include="Migrations\20240609084819_classesAndRooms2.Designer.cs">
       <DependentUpon>20240609084819_classesAndRooms2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20240610195812_submissions_name_change.cs" />
+    <Compile Include="Migrations\20240610195812_submissions_name_change.designer.cs">
+      <DependentUpon>20240610195812_submissions_name_change.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\BaseContextModelSnapshot.cs" />
     <Compile Include="Model\Main\FormulaDecoder.cs" />

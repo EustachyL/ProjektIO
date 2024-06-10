@@ -12,7 +12,7 @@ using EdukuJez.Model.ServerAccess.Repositories;
 using System.Data;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Substitution = EdukuJez.Repositories.Substitution;
-
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 //po zmainie bazy z 09.06 -roomsAndClasses zakomentowany kod z salami
 namespace EdukuJez
@@ -55,6 +55,7 @@ namespace EdukuJez
                 DateBox.Visible = false;
                 Label.Visible = false;
                 ListBoxDates.Visible = false;
+                DelButton.Visible = false;
                 ReloadData();
 
                 List<User> users = userRepo.Table.ToList();
@@ -65,10 +66,9 @@ namespace EdukuJez
                 TeachersList.DataSource = users.Where(x => teachersId.Contains(x.Id)).Select(user => $"{user.UserName} {user.UserSurname}");
                 TeachersList.DataBind();
             }
-            else
-            {
+
                 LoadLessonPlan();
-            }
+            
         }
 
 
@@ -145,40 +145,6 @@ namespace EdukuJez
             RefreshListBox();
         }
 
-        protected void DeleteButton_Click(object sender, EventArgs e)
-        {
-            string dzien = DropDownListDay.SelectedValue;
-            string godzina = DropDownListHour.SelectedValue;
-
-            // rozdzielenie imienia i nazwiska na dwa osobne stringi do wysłania do DB
-            string Teacher = DropDownListTeacher.SelectedValue;
-            string[] parts = Teacher.Split(' ');
-
-            var group = Convert.ToString(DropDownListGroup.SelectedValue);
-            var subject = Convert.ToString(DropDownListSubject.SelectedValue);
-            var classRoom = Convert.ToString(DropDownListClass.SelectedValue);
-
-
-
-            ClassC query = scheduleRepo.Table.Include(x => x.Users)
-                .FirstOrDefault(x => x.Hour == godzina && x.Day == dzien && x.Warden.UserName == parts[0] && x.Warden.UserSurname == parts[1] && x.Class.Number == classRoom && x.Group.Name == group && x.Subject.SubjectName == subject);
-
-            scheduleRepo.Delete(query);
-            if (query != null)
-            {
-                var CU = query.Users.ToList();
-
-                foreach (var users in CU)
-                {
-                    CURepo.Delete(users);
-                }
-                ReloadData();
-                LoadLessonPlan();
-            }
-            else { }
-
-
-        }
 
         protected void DeleteButtonDynamic_Click(object sender, EventArgs e)
         {
@@ -257,6 +223,7 @@ namespace EdukuJez
                     .Include(a => a.Warden)
                     .Include(u => u.Group)
                     .Include(w => w.Subject)
+                    .Include (w => w.Class)
                     .ToList();
 
                 ClearTable();
@@ -270,6 +237,7 @@ namespace EdukuJez
                .Include(a => a.Warden)
                .Include(u => u.Group)
                .Include(w => w.Subject)
+               .Include(w => w.Class)
                .ToList();
 
                 AssignToCell(lessonPlan);
@@ -354,7 +322,7 @@ namespace EdukuJez
 
                 // Dodanie tekstu i przycisku do komórki
                 Label lbl = new Label();
-                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + "<br />  Sala: " + lesson.Class + "<br />";
+                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + "<br />  Sala: " + lesson.Class.Number + "<br />";
                 MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(lbl);
 
                 // Dodanie przycisku do komórki
@@ -449,10 +417,6 @@ namespace EdukuJez
             }
         }
 
-        protected void GoBackButton_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("AdminPanel.aspx");
-        }
 
         protected void GroupSelectionChanged(object sender, EventArgs e)
         {
@@ -483,6 +447,7 @@ namespace EdukuJez
             {
                 ChangeButton.Text = "Przejdź do zajęć regularnych";
 
+                DelButton.Visible = true;
                 DateBox.Visible = true;
                 Label.Visible = true;
                 DayDropDown.Visible = false;
@@ -494,6 +459,7 @@ namespace EdukuJez
             {
                 ChangeButton.Text = "Przejdź do zajęć nieregularnych";
 
+                DelButton.Visible = false;
                 DateBox.Visible = false;
                 Label.Visible = false;
                 DayDropDown.Visible = true;
@@ -509,21 +475,22 @@ namespace EdukuJez
             if (int.TryParse(GroupDropDown.SelectedValue, out selectedGroupId))
             {
                 // Pobierz dane z kalendarza i przypisz do ListBox
-                var calendarE = scheduleRepo.Table
+                var calendarE = scheduleRepo.Table.Include(a => a.Class).Include(a => a.Group)
                     .Where(a => a.Cyclicality != null && a.Group.Id == selectedGroupId)
                     .OrderBy(a => a.Cyclicality.Value)
                     .ToList();
+
 
                 // Przygotuj listę niestandardowych ciągów do wyświetlenia w ListBoxie
                 var listBoxItems = calendarE.Select(a =>
                 {
                     var cyclicalityDate = a.Cyclicality.HasValue ? a.Cyclicality.Value.ToString("dd-MM-yyyy") : "Brak daty";
-                    var hour = !string.IsNullOrEmpty(a.Hour) ? $" Godzina:{a.Hour}" : " Brak godziny";
+                    var hour =  $"{a.Hour}" ?? " Brak godziny";
                     var subjectName = a.Subject?.SubjectName ?? "Brak przedmiotu";
                     var wardenName = $"{a.Warden?.UserName ?? "Brak imienia"} {a.Warden?.UserSurname ?? "Brak nazwiska"}";
                     var classNumber = a.Class?.Number ?? "Brak sali";
 
-                    return $"{cyclicalityDate},{hour}, {subjectName}, {wardenName}, Sala:{classNumber}";
+                    return $"{cyclicalityDate}; Godzina;{hour};{subjectName};{wardenName}; Sala;{classNumber}";
                 }).ToList();
 
                 ListBoxDates.DataSource = listBoxItems;
@@ -533,17 +500,20 @@ namespace EdukuJez
 
         protected void DelNoncycButton_Click(object sender, EventArgs e)
         {
-            string[] selectedItemParts = ListBoxDates.SelectedItem.Text.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] selectedItemParts = ListBoxDates.SelectedItem.Text.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
-
+            var group = int.Parse(GroupDropDown.SelectedValue);
             DateTime Date = DateTime.Parse(selectedItemParts[0]);
-            string Hour = selectedItemParts[1];
-            string Subject = selectedItemParts[2];
-            string Name = selectedItemParts[3];
-            string Surname = selectedItemParts[4];
-            string Class = selectedItemParts[5];
+            string Hour = selectedItemParts[2];
+            string Subject = selectedItemParts[3];
+            string[] NameParts = selectedItemParts[4].Split(' ');
 
-            var query = scheduleRepo.Table.FirstOrDefault(x => x.Hour == Hour && x.Cyclicality.Value == Date && x.Warden.UserName == Name && x.Warden.UserSurname == Surname && x.Class.Number == Class && x.Group.Name == GroupDropDown.SelectedValue && x.Subject.SubjectName == Subject);
+            string Name = NameParts[0];
+            string Surname = NameParts[1];
+
+
+            var query = scheduleRepo.Table.Include(x => x.Users)
+           .FirstOrDefault(x => x.Hour == Hour && x.Cyclicality.Value == Date && x.Warden.UserName == Name && x.Warden.UserSurname == Surname  && x.Group.Id == group && x.Subject.SubjectName == Subject);
 
             if (query != null)
             {
@@ -566,5 +536,14 @@ namespace EdukuJez
         }
 
 
+        protected void GoClassRoomButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("EditClassRooms.aspx");
+        }
+
+        protected void GoBackButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("AdminPanel.aspx");
+        }
     }
 }
