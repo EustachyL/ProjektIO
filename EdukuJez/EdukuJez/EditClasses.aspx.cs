@@ -9,12 +9,10 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.EntityFrameworkCore;
 using EdukuJez.Model.ServerAccess.Repositories;
-using System.Runtime.CompilerServices;
-using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
-using EdukuJez.Migrations;
+using System.Data;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Substitution = EdukuJez.Repositories.Substitution;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-
 
 //po zmainie bazy z 09.06 -roomsAndClasses zakomentowany kod z salami
 namespace EdukuJez
@@ -44,6 +42,7 @@ namespace EdukuJez
         private UsersRepository userRepo = new UsersRepository();
         private ClassUsersRepository CURepo = new ClassUsersRepository();
         private ClassRoomsRepository classRoomsRepo = new ClassRoomsRepository();
+        private SubstitutionRepository substRepo = new SubstitutionRepository();
 
         DateTime currentTime = DateTime.Now;
 
@@ -341,8 +340,36 @@ namespace EdukuJez
 
         protected void AddSubstitionButtonDynamicClick(object sender, EventArgs e)
         {
+            // Create a new substitution instance
+            Substitution subst = new Substitution();
 
+            // Get the selected teacher's full name from the list
+            var teacherFullName = TeachersList.SelectedValue;
+
+            // Split the full name into first name and surname
+            string[] parts = teacherFullName.Split(' ');
+
+            // Insert the new substitution into the repository
+            substRepo.Insert(subst);
+
+            // Find the user (teacher) by matching the full name
+            User subTeacher = userRepo.Table.FirstOrDefault(x => (x.UserName + " " + x.UserSurname) == teacherFullName);
+            if (subTeacher == null)
+            {
+                // Handle the case where the teacher is not found
+                throw new Exception("Teacher not found.");
+            }
+
+            // Assign the found teacher to the substitution
+            subst.SubTeacher = subTeacher;
+
+            // Add the substitution to the teacher's substitution collection
+            subTeacher.Substitutions.Add(subst);
+
+            // Update the user repository to save changes
+            userRepo.Update();
         }
+
 
 
         private void ReloadData()

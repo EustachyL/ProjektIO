@@ -478,6 +478,7 @@
     <Compile Include="Model\ServerAccess\Repositories\AttachmentsRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\AttendancesRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\ClassRoomRepository.cs" />
+    <Compile Include="Model\ServerAccess\Repositories\SubstitutionRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\UserParentsRepository.cs" />
     <Compile Include="Model\ServerAccess\ServerClient.cs" />
     <Compile Include="SubjectContentPage.aspx.cs">
