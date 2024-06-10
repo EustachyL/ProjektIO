@@ -70,7 +70,7 @@ namespace EdukuJez
             var subject = Convert.ToString(SubjectDropDown.SelectedValue);
             int classRoom = Convert.ToInt32(ClassDropDown.SelectedValue);
 
-            var c = new ClassC() { Hour = godzina, Day = dzien, Class = classRoom };
+            var c = new ClassC() { Hour = godzina, Day = dzien, /*Class = classRoom*/ };
 
             userRepo.Table.First(x => x.UserName == parts[0] && x.UserSurname == parts[1]).Teaches.Add(c);
             groupRepo.Table.First(x => x.Id == group).Classes.Add(c);
@@ -84,7 +84,7 @@ namespace EdukuJez
             u.Clasess = new List<ClassUsers>() { CU };
 
 
-            if (scheduleRepo.Table.Any(x => x.Hour == godzina && x.Day == dzien && x.Warden.UserName == parts[0] && x.Warden.UserSurname == parts[1] && x.Class == classRoom && x.Group.Id == group && x.Subject.SubjectName == subject))
+            if (scheduleRepo.Table.Any(x => x.Hour == godzina && x.Day == dzien && x.Warden.UserName == parts[0] && x.Warden.UserSurname == parts[1] /*&& x.Class == classRoom*/ && x.Group.Id == group && x.Subject.SubjectName == subject))
             {
 
             }
@@ -118,7 +118,7 @@ namespace EdukuJez
 
 
             ClassC query = scheduleRepo.Table.Include(x => x.Users)
-                .FirstOrDefault(x => x.Hour == godzina && x.Day == dzien && x.Warden.UserName == parts[0] && x.Warden.UserSurname == parts[1] && x.Class == classRoom && x.Group.Name == group && x.Subject.SubjectName == subject);
+                .FirstOrDefault(x => x.Hour == godzina && x.Day == dzien && x.Warden.UserName == parts[0] && x.Warden.UserSurname == parts[1] /*&& x.Class == classRoom*/ && x.Group.Name == group && x.Subject.SubjectName == subject);
 
             scheduleRepo.Delete(query);
             if (query != null)

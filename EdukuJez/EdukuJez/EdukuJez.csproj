@@ -239,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Activities.aspx" />
+    <Content Include="ActivityContentPage.aspx" />
     <Content Include="AddAttachment.aspx" />
     <Content Include="AddGradeFormula.aspx" />
     <Content Include="AddUsersToGroups.aspx" />
@@ -340,6 +341,13 @@
     </Compile>
     <Compile Include="Activities.aspx.designer.cs">
       <DependentUpon>Activities.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityContentPage.aspx.cs">
+      <DependentUpon>ActivityContentPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ActivityContentPage.aspx.designer.cs">
+      <DependentUpon>ActivityContentPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="AddAttachment.aspx.cs">
       <DependentUpon>AddAttachment.aspx</DependentUpon>
@@ -443,6 +451,7 @@
     </Compile>
     <Compile Include="Migrations\BaseContextModelSnapshot.cs" />
     <Compile Include="Model\Main\FormulaDecoder.cs" />
+    <Compile Include="Model\ServerAccess\DBEntity\ClassRoom.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\Frequency.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\Submission.cs" />
     <Compile Include="Model\ServerAccess\DBEntity\Substitution.cs" />
