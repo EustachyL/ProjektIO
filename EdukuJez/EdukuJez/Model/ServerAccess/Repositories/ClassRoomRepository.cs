@@ -6,7 +6,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.UI.WebControls;
 
-namespace EdukuJez.Model.ServerAccess.Repositories
+namespace EdukuJez.Repositories
 {
     public class ClassRoomsRepository : ARepository<ClassRoom>
     {
@@ -15,5 +15,18 @@ namespace EdukuJez.Model.ServerAccess.Repositories
             Table = Context.ClassRoom;
         }
 
+        public void AddNewEntry(ClassRoom entry)
+        {
+            Insert(entry);
+        }
+        public void RemoveEntry(ClassRoom entry)
+        {
+            Delete(entry);
+        }
+
+        public void EditEntry(ClassRoom entry)
+        {
+            UpdateRow(entry);
+        }
     }
 }
