@@ -51,15 +51,6 @@ namespace EdukuJez
         protected global::System.Web.UI.WebControls.DropDownList GroupDropDown;
 
         /// <summary>
-        /// Kontrolka DateBox.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox DateBox;
-
-        /// <summary>
         /// Kontrolka DayDropDown.
         /// </summary>
         /// <remarks>
@@ -112,33 +103,6 @@ namespace EdukuJez
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddButton;
-
-        /// <summary>
-        /// Kontrolka ChangeButton.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ChangeButton;
-
-        /// <summary>
-        /// Kontrolka Label.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label;
-
-        /// <summary>
-        /// Kontrolka ListBoxDates.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox ListBoxDates;
 
         /// <summary>
         /// Kontrolka MainTable.
