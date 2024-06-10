@@ -167,7 +167,7 @@ namespace EdukuJez
                 .Include(x => x.Class.Attendances)
                 .Include(x => x.Class.Subject)
                 .Include(x => x.Class.Group)
-                .Where(x => (x.Class.Day == dayOfWeek || x.Class.Cyclicality == Calendar1.SelectedDate.ToString()) && x.Class.Group.Users.Any(y => y.User == currentuser))
+                .Where(x => (x.Class.Day == dayOfWeek || x.Class.Cyclicality == Calendar1.SelectedDate) && x.Class.Group.Users.Any(y => y.User == currentuser))
                 .Select(x => x.Class).ToList();  //zajecia w ktorych bierze udzial zalogowany uzytkownik, ktore odbywaja sie dnia zaznaczonego w kalendarzu
 
             //wiersze z zajeciami:
