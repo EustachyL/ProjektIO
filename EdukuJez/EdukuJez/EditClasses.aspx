@@ -6,10 +6,16 @@
 
         <div style="margin-bottom: 30px;" class="header Container-Title ">
                 <asp:Button ID="GoBackButton" runat="server" Text="Panel Administratora" Style="margin-top: 12px; width: 170px; height: 60px; font-size: 20px; float: left; white-space: normal;" OnClick="GoBackButton_Click" CssClass="Main-Panel-Image" ForeColor="Black" EnableTheming="True"/>
-        <img src="Imgs/Timetable_Management_Page_Title.png" class="logo1" style="height: 82px; width: 661px" />
+        <img src="Imgs/Timetable_Management_Page_Title.png" class="logo1" style="height: 82px; width: 661px; margin-left: 100px;"  />
+
+<asp:Button ID="ClassRoomButton" runat="server" Text="Zarządzanie Klasami" 
+    Style="margin-top: 12px; width: 170px; height: 60px; font-size: 20px; float: right; white-space: normal;" 
+    OnClick="GoClassRoomButton_Click" CssClass="Main-Panel-Image" ForeColor="Black" EnableTheming="True"/>
+  
             <asp:Button ID="Button1" runat="server" Text=" " Style="width: 250px; height: 40px; font-size: 20px; float: right;" BackColor="#FEFAE0" BorderColor="#FEFAE0" BorderStyle="None" />
          <hr />
     </div>
+    <asp:Panel ID="MainPanel" runat="server">
 
     <asp:DropDownList ID="GroupDropDown" runat="server" AutoPostBack="true" OnSelectedIndexChanged="GroupSelectionChanged">
     <asp:ListItem Text="-- Wybierz grupę --" Value="" />
@@ -39,10 +45,13 @@
 
       <asp:Button ID="DelButton" runat="server" Text="Usuń" OnClick="DelNoncycButton_Click" CssClass="btn btn-primary" />
     <br/>
-     <asp:Button ID="ChangeButton" runat="server" Text="Zajęcia cykliczne" OnClick="ChangeButton_Click" CssClass="btn btn-primary" />
+     <asp:Button ID="ChangeButton" runat="server" Text="Przejdź do zajęć nieregularnych" OnClick="ChangeButton_Click" CssClass="btn btn-primary" />
     <br/>
                 <asp:Label ID="Label" runat="server" Text="Dla dodania zajęć niecyklicznych wprowadź datę: DD.MM.RRRR "></asp:Label>
     <br/>
+
+        
+
 
  <div style="text-align: center;">
 
@@ -135,5 +144,13 @@
         <asp:TableCell></asp:TableCell>
     </asp:TableRow>
 </asp:Table>
-
+        </asp:Panel>
+        <asp:Panel ID="SubstitutionPanel" runat="server" Visible="false">
+                    <div style="margin-top: 20px; width: 2020px;">
+                        <asp:Label ID="SubInfo" runat="server" Text="Wybierz nauczyciela na to zastępstwo:" Style="margin-bottom: 40px; font-size: 24px;"></asp:Label>
+                        <br /><asp:DropDownList ID="TeachersList" runat="server" Style="margin-bottom: 10px; width: 255px; height: 30px; font-size: 16px;"></asp:DropDownList>
+             <br /><asp:Button ID="GoBackToMainPanelButton" runat="server" Text="Wróć" OnClick="ShowOtherPanelClick" Style="width: 150px; height: 40px; font-size: 20px;"/>
+            <asp:Button ID="ConfirmSubstitutionButton" runat="server" Text="Zatwierdź" OnClick="AddSubstitionButtonDynamicClick" Style="width: 150px; height: 40px; font-size: 20px;" />
+                </div>
+    </asp:Panel>
 </asp:Content>

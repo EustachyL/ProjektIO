@@ -32,17 +32,36 @@ namespace EdukuJez
         protected void Page_Load(object sender, EventArgs e)
         {
             subject = (string)Session["AttendancesSubject"];
+            //subject = "przedmiot1"; //tymczasowo
             if (!IsPostBack)
             {
                 if (UserSession.CheckPermission(UserSession.TEACHER_GROUP) == true)
                 {
                     List<string> subjects = new List<string>(); //przedmioty ktorych uczy zalogowany
 
-                    subjects = subjectsRepo.Table
+                    subjects = subjectsRepo.Table //przedmioty ktore uczy zalogowany
                         .Where(x => x.Classes.Any(c => c.Warden == currentuser))
                         .Select(x => x.SubjectName).ToList();
-                    SubjectDropDownList.DataSource = subjects;
-                    SubjectDropDownList.SelectedValue = subject;
+
+                    if (subjects.Any())
+                    {
+                        SubjectDropDownList.DataSource = subjects;
+                        SubjectDropDownList.DataBind();
+                        if (subject != null)
+                        {
+                            ListItem item = SubjectDropDownList.Items.FindByText(subject);
+                            SubjectDropDownList.SelectedIndex = SubjectDropDownList.Items.IndexOf(item);
+                        }
+                        else
+                        {
+                            SubjectDropDownList.SelectedValue = SubjectDropDownList.Items[0].Value;
+                            subject = SubjectDropDownList.SelectedItem.Text;
+                        }
+                    }
+                    else
+                    {
+                        SubjectDropDownList.Items.Add("Brak przedmiotów");
+                    }
                     SubjectDropDownList.DataBind();
                     SubjectDropDownList.Visible = true;
                 }
@@ -57,9 +76,23 @@ namespace EdukuJez
                     if (!subjects.Any()) //jesli nie ma zadnych przedmiotow w bazie
                         SubjectAdminDropDownList.Items.Add(new ListItem("Brak przedmiotów", "-1"));
                     else
+                    {
                         foreach (var s in subjects)
+                        {
                             SubjectAdminDropDownList.Items.Add(new ListItem(s.Item1, s.Item2.ToString())); //tekst listy to nazwa przedmiotu, wartosc to id przedmiotu
-
+                            
+                        }
+                        SubjectAdminDropDownList.DataBind();
+                        if (subject != null)
+                        {
+                            ListItem item = SubjectAdminDropDownList.Items.FindByText(subject);
+                            SubjectAdminDropDownList.SelectedIndex = SubjectAdminDropDownList.Items.IndexOf(item);
+                        }
+                        else
+                            SubjectAdminDropDownList.SelectedIndex = 0;
+                        SubjectAdminDropDownList.DataBind();
+                        
+                    }
                     //grupy:
                     List<Tuple<string, int>> groups = groupsRepo.Table
                         .Select(x => new Tuple<string, int>(x.Name, x.Id)).ToList();
@@ -86,6 +119,8 @@ namespace EdukuJez
 
                     //widocznosc przycisku do odklikania daty:
                     CalendarButton.Visible = true;
+                    if(subject!= null)
+                        UpdateAdminGridView(null, null);
                 }
             }
             if (IsPostBack)
@@ -149,7 +184,7 @@ namespace EdukuJez
                 else
                 {
 
-                    SelectedDateTeacher(subject);
+                    SelectedDateTeacher(SubjectDropDownList.SelectedItem.Text);
                 }
             }
             CalendarButton.Enabled = true;
@@ -166,6 +201,7 @@ namespace EdukuJez
                 .Include(x => x.Class.Attendances)
                 .Include(x => x.Class.Subject)
                 .Include(x => x.Class.Group)
+
                 .Where(x => (x.Class.Day == dayOfWeek || x.Class.Cyclicality == Calendar1.SelectedDate) && x.Class.Group.Users.Any(y => y.User == currentuser))
                 .Select(x => x.Class).ToList();  //zajecia w ktorych bierze udzial zalogowany uzytkownik, ktore odbywaja sie dnia zaznaczonego w kalendarzu
 
@@ -196,7 +232,7 @@ namespace EdukuJez
                 StudentGridView.Visible = true;
                 AdditionalLabel.Visible = false;
             }
-            
+
         }
         #endregion
 
@@ -271,6 +307,8 @@ namespace EdukuJez
 
                     attendance.Date = Calendar1.SelectedDate;
 
+                    if (subject == null)
+                        subject = SubjectDropDownList.SelectedItem.Text;
                     attendance.Class = (ClassC)classUsersRepository.Table
                         .Include(x => x.Class.Subject)
                         .Where(x => x.Class.Subject.SubjectName == subject && x.Class.Day == dayOfWeek)
@@ -326,7 +364,7 @@ namespace EdukuJez
             {
                 query = query.Where(x => x.Student.Id == int.Parse(StudentsDropDownList.SelectedValue));
             }
-            string uaha = attendancesRepo.Table.Include(x => x.Class.Subject).Include(x => x.Class.Group).Include(x => x.Student).Where(x=>x.Student.Id == 2).Select(x=>x.Student.UserName).First().ToString();
+            
             List<Attendance> attendances = query.Select(a => a).ToList();
 
             if (!attendances.Any())
@@ -335,7 +373,7 @@ namespace EdukuJez
                 AdditionalLabel.Visible = true;
                 AdminGridView.Visible = false;
             }
-            else 
+            else
             {
                 DataTable adminDataTable = new DataTable();
                 adminDataTable.Columns.Add("Data");
@@ -360,7 +398,7 @@ namespace EdukuJez
                 AdminGridView.Visible = true;
                 AdditionalLabel.Visible = false;
             }
-        } 
+        }
         protected void CalendarButton_Click(object sender, EventArgs e)
         {
             Calendar1.SelectedDates.Clear();

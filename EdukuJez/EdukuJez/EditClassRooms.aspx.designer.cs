@@ -11,89 +11,71 @@ namespace EdukuJez
 {
 
 
-    public partial class AddAttachment
+    public partial class EditClassRooms
     {
 
         /// <summary>
-        /// Kontrolka LabelAttachmentName.
+        /// Kontrolka GoBackAdminButton.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAttachmentName;
+        protected global::System.Web.UI.WebControls.Button GoBackAdminButton;
 
         /// <summary>
-        /// Kontrolka TextBoxAttachmentName.
+        /// Kontrolka ClassRoomButton.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxAttachmentName;
+        protected global::System.Web.UI.WebControls.Button ClassRoomButton;
 
         /// <summary>
-        /// Kontrolka LabelAttachmentContentType.
+        /// Kontrolka TextBoxNumber.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAttachmentContentType;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxNumber;
 
         /// <summary>
-        /// Kontrolka DropDownListAttachmentContentType.
+        /// Kontrolka TextBoxDesc.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListAttachmentContentType;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxDesc;
 
         /// <summary>
-        /// Kontrolka LabelAttachmentLink.
+        /// Kontrolka ButtonAdd.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAttachmentLink;
+        protected global::System.Web.UI.WebControls.Button ButtonAdd;
 
         /// <summary>
-        /// Kontrolka TextBoxAttachmentLink.
+        /// Kontrolka ButtonDelete.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxAttachmentLink;
+        protected global::System.Web.UI.WebControls.Button ButtonDelete;
 
         /// <summary>
-        /// Kontrolka FileUpload1.
+        /// Kontrolka ButtonEdit.
         /// </summary>
         /// <remarks>
         /// Pole generowane automatycznie.
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
-
-        /// <summary>
-        /// Kontrolka ButtonAttachmentAccept.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonAttachmentAccept;
-
-        /// <summary>
-        /// Kontrolka ButtonAttachmentCancel.
-        /// </summary>
-        /// <remarks>
-        /// Pole generowane automatycznie.
-        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonAttachmentCancel;
+        protected global::System.Web.UI.WebControls.Button ButtonEdit;
 
         /// <summary>
         /// Kontrolka LabelInfo.
@@ -103,5 +85,14 @@ namespace EdukuJez
         /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LabelInfo;
+
+        /// <summary>
+        /// Kontrolka myRepeater.
+        /// </summary>
+        /// <remarks>
+        /// Pole generowane automatycznie.
+        /// Aby wprowadzić zmiany, przenieś deklarację pola z pliku projektanta do pliku codebehind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater myRepeater;
     }
 }
