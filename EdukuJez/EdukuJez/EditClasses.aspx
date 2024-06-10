@@ -14,7 +14,7 @@
     <asp:DropDownList ID="GroupDropDown" runat="server" AutoPostBack="true" OnSelectedIndexChanged="GroupSelectionChanged">
     <asp:ListItem Text="-- Wybierz grupę --" Value="" />
     </asp:DropDownList>
-
+                <asp:TextBox ID="DateBox" runat="server" ></asp:TextBox>
         <asp:DropDownList ID="DayDropDown" runat="server">
     <asp:ListItem Text="-- Wybierz grupę --" Value="" />
     </asp:DropDownList>
@@ -36,6 +36,18 @@
     </asp:DropDownList>
 
     <asp:Button ID="AddButton" runat="server" Text="Dodaj" OnClick="AddButton_Click" CssClass="btn btn-primary" />
+    <br/>
+     <asp:Button ID="ChangeButton" runat="server" Text="Zajęcia cykliczne" OnClick="ChangeButton_Click" CssClass="btn btn-primary" />
+    <br/>
+                <asp:Label ID="Label" runat="server" Text="Dla zajęć niecyklicznych wprowadź datę: DD.MM.RRRR "></asp:Label>
+    <br/>
+
+ <div style="text-align: center;">
+
+<asp:ListBox ID="ListBoxDates" runat="server" Width="1200px" Height="400px" Font-Size="20px" style="margin-right: 150px;"></asp:ListBox>
+
+
+ </div>
 
 
 <asp:Table ID="MainTable" runat="server" CellSpacing="20" CssClass="Center-Form Main-Table" >
