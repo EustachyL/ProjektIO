@@ -27,6 +27,7 @@ namespace EdukuJez
                     ButtonAdd.Visible = true;
                     ButtonEdit.Visible = true;
                     ButtonDelete.Visible = true;
+                    ButtonDeactivate.Visible = true;
                 }
         }
 

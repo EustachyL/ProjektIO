@@ -32,7 +32,6 @@ namespace EdukuJez
         protected void Page_Load(object sender, EventArgs e)
         {
             subject = (string)Session["AttendancesSubject"];
-            subject = "przedmiot1"; //tymczasowo
             if (!IsPostBack)
             {
                 if (UserSession.CheckPermission(UserSession.TEACHER_GROUP) == true)

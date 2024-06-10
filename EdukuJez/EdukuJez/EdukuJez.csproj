@@ -266,7 +266,6 @@
     <Content Include="Imgs\Sending_Message_Title.png" />
     <Content Include="Imgs\Subjects_Title.png" />
     <Content Include="Imgs\Users_In_Groups_Management_Title.png" />
-    <Content Include="StudentsListSubject.aspx" />
     <Content Include="SubjectContentPage.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="EditClasses.aspx" />
@@ -469,13 +468,6 @@
     <Compile Include="Model\ServerAccess\Repositories\ClassRoomRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\UserParentsRepository.cs" />
     <Compile Include="Model\ServerAccess\ServerClient.cs" />
-    <Compile Include="StudentsListSubject.aspx.cs">
-      <DependentUpon>StudentsListSubject.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="StudentsListSubject.aspx.designer.cs">
-      <DependentUpon>StudentsListSubject.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SubjectContentPage.aspx.cs">
       <DependentUpon>SubjectContentPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
