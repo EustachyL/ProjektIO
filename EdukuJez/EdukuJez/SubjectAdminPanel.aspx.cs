@@ -21,6 +21,7 @@ namespace EdukuJez
                 {
                     foreach (var s in repoS.Table)
                     {
+                    if(s.Deactivated == false)
                         ListBoxAllSubjects.Items.Add(s.SubjectName);
 
                     }

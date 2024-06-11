@@ -40,7 +40,7 @@ namespace EdukuJez
                     List<string> subjects = new List<string>(); //przedmioty ktorych uczy zalogowany
 
                     subjects = subjectsRepo.Table //przedmioty ktore uczy zalogowany
-                        .Where(x => x.Classes.Any(c => c.Warden == currentuser))
+                        .Where(x => x.Classes.Any(c => c.Warden == currentuser) && x.Deactivated == false)
                         .Select(x => x.SubjectName).ToList();
 
                     if (subjects.Any())
@@ -69,7 +69,7 @@ namespace EdukuJez
                 {
                     //usupelnianie dropdownlist:
                     //przedmioty:
-                    List<Tuple<string, int>> subjects = subjectsRepo.Table
+                    List<Tuple<string, int>> subjects = subjectsRepo.Table.Where(x=> x.Deactivated == false)
                         .Select(x => new Tuple<string, int>(x.SubjectName, x.Id)).ToList();
                     SubjectAdminDropDownList.Items.Add(new ListItem("Wybierz przedmiot", "-1"));
 
@@ -94,7 +94,7 @@ namespace EdukuJez
                         
                     }
                     //grupy:
-                    List<Tuple<string, int>> groups = groupsRepo.Table
+                    List<Tuple<string, int>> groups = groupsRepo.Table.Where(x => x.Deactivated == false)
                         .Select(x => new Tuple<string, int>(x.Name, x.Id)).ToList();
                     GroupDropDownList.Items.Add(new ListItem("Wybierz grupę", "-1"));
                     if (!groups.Any())
@@ -105,7 +105,7 @@ namespace EdukuJez
 
                     //uczniowie:
                     List<Tuple<string, int>> students = usersRepo.Table
-                        .Where(x => x.Groups.Any(g => g.Group.ParentGroup.Name == UserSession.STUDENT_GROUP))
+                        .Where(x => x.Deactivated == false && x.Groups.Any(g => g.Group.ParentGroup.Name == UserSession.STUDENT_GROUP))
                         .Select(x => new Tuple<string, int>(x.UserName + " " + x.UserSurname, x.Id)).ToList();
                     StudentsDropDownList.Items.Add(new ListItem("Wybierz ucznia", "-1"));
                     if (!students.Any())

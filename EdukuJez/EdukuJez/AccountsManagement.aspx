@@ -6,7 +6,7 @@
         <img src="Imgs/Accounts_Management_Page_Title.png" class="logo1" style="height: 82px; width: 661px" />
              <asp:Button ID="x" runat="server" Text=" " Style="width: 250px; height: 40px; font-size: 20px; float: right;" BackColor="#FEFAE0" BorderColor="#FEFAE0" BorderStyle="None" />
         <hr />
-    </div>z
+    </div>
     <div>
         <asp:Label ID="MainInfoLabel" runat="server" Text="Wpisz login użytkownika, którego chcesz dodać, edytować lub usunąć:" Font-Size="28px"></asp:Label>
         <div style="margin-top: 20px; width: 2000px;">

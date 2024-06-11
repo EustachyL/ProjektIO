@@ -24,7 +24,7 @@ namespace EdukuJez
                     foreach (var s in repoS.Table)
                     {
                         foreach (var g in UserSession.GetSession().UserGroups)
-                            if (g.Id == s.StudentGroupId)
+                            if (g.Id == s.StudentGroupId && s.Deactivated == false)
                             {
                                 ListBoxSubjects.Items.Add(s.SubjectName);
                                 break;
@@ -36,7 +36,7 @@ namespace EdukuJez
                     foreach (var s in repoS.Table)
                     {
                         foreach (var g in UserSession.GetSession().UserGroups)
-                            if (g.Id == s.TeacherGroupId)
+                            if (g.Id == s.TeacherGroupId && s.Deactivated == false)
                             {
                                 ListBoxSubjects.Items.Add(s.SubjectName);
                                 break;
@@ -47,9 +47,10 @@ namespace EdukuJez
                 {
                     foreach (var s in repoS.Table)
                     {
-
-                        ListBoxSubjects.Items.Add(s.SubjectName);
-
+                        if (s.Deactivated == false)
+                        {
+                            ListBoxSubjects.Items.Add(s.SubjectName);
+                        }
                     }
                 }
             }

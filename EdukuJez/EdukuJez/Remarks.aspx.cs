@@ -46,7 +46,7 @@ namespace EdukuJez
                 //nauczyciel
                 MainInfoLabel.Text = "Wybierz grupę i ucznia, któremu chcesz wstawić uwagę:";
                 groups = groupsRepo.Table.ToList();
-                StudentsGroupsList.DataSource = groups.Where(x => x.ParentGroup != null).Select(x => x.Name);
+                StudentsGroupsList.DataSource = groups.Where(x => x.ParentGroup != null && x.Deactivated == false).Select(x => x.Name);
                 StudentsGroupsList.DataBind();
 
                 UploadStudentsList(groups);
@@ -86,7 +86,7 @@ namespace EdukuJez
             List<int> studentsId = groupUserList.Where(x => x.Group != null && x.Group.Id == groupId && x.User != null).Select(x => x.User.Id).ToList();
 
 
-            StudentsList.DataSource = users.Where(x => studentsId.Contains(x.Id)).Select(user => $"{user.UserName} {user.UserSurname}");
+            StudentsList.DataSource = users.Where(x => studentsId.Contains(x.Id) && x.Deactivated==false).Select(user => $"{user.UserName} {user.UserSurname}");
 
             StudentsList.DataBind();
         }

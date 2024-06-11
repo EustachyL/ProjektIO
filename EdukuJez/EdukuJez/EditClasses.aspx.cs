@@ -60,10 +60,10 @@ namespace EdukuJez
 
                 List<User> users = userRepo.Table.ToList();
                 List<GroupUser> groupUserList = groupUserRepo.Table.Include(u => u.User).Include(g => g.Group).ToList();
-                List<int> teachersId = groupUserList.Where(x => x.Group != null && x.Group.Name == UserSession.TEACHER_GROUP && x.User != null).Select(x => x.User.Id).ToList();
+                List<int> teachersId = groupUserList.Where(x => x.Group != null && x.Group.Deactivated == false && x.Group.Name == UserSession.TEACHER_GROUP && x.User != null).Select(x => x.User.Id).ToList();
 
 
-                TeachersList.DataSource = users.Where(x => teachersId.Contains(x.Id)).Select(user => $"{user.UserName} {user.UserSurname}");
+                TeachersList.DataSource = users.Where(x => teachersId.Contains(x.Id) && x.Deactivated == false).Select(user => $"{user.UserName} {user.UserSurname}");
                 TeachersList.DataBind();
             }
 
@@ -192,7 +192,7 @@ namespace EdukuJez
             TeacherDropDown.DataBind();
 
             List<Group> groups = groupRepo.Table.ToList();
-            GroupDropDown.DataSource = groups;
+            GroupDropDown.DataSource = groups.Where(x=> x.Deactivated == false);
             GroupDropDown.DataTextField = "Name";
             GroupDropDown.DataValueField = "Id";
             GroupDropDown.DataBind();
