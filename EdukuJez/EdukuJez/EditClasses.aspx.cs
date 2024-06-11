@@ -448,7 +448,7 @@ namespace EdukuJez
             }
             foreach (ClassC lesson in lessonPlan)
             {
-                Class.Add(lesson.Class.ToString());
+                Class.Add(lesson.Class.Number.ToString());
             }
             foreach (ClassRoom rooms in RoomsT)
             {

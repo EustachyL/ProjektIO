@@ -240,8 +240,10 @@ namespace EdukuJez
         //wybor daty w kalendarzu przez nauczyciela
         void SelectedDateTeacher(string subjectName)
         {
-            var students = classUsersRepository.Table //studenci uczeszczajacy na dany przedmiot
-                .Where(x => x.Class.Warden == currentuser && x.Class.Subject.SubjectName == subjectName && x.Class.Day == dayOfWeek) //zajecia gdzie opiekunem jest zalogowany i maja okreslona nazwe
+            //var test = classUsersRepository.Table.Include(x => x.Class).ThenInclude(x => x.Subject).Include(x=> x.Class).ThenInclude(x => x.Warden).Include(x => x.User)  //studenci uczeszczajacy na dany przedmiot
+           //     .Where(x => x.Class.Warden == currentuser && x.Class.Subject.SubjectName == subjectName /*&& x.Class.Day == dayOfWeek*/).Select(x => x.Class).ToList();
+            var students = classUsersRepository.Table.Include(x =>x.Class).Include(x => x.User) //studenci uczeszczajacy na dany przedmiot
+                .Where(x => x.Class.Warden == currentuser && x.Class.Subject.SubjectName == subjectName /*&& x.Class.Day == dayOfWeek*/) //zajecia gdzie opiekunem jest zalogowany i maja okreslona nazwe
                 .SelectMany(x => x.Class.Group.Users.Select(y => y.User)).ToList();
 
             if (students.Count == 0)//jesli  nie ma uczniow
@@ -301,7 +303,7 @@ namespace EdukuJez
                     Attendance attendance = new Attendance();
 
 
-                    attendance.Student = (User)usersRepo.Table
+                    var aStudent = (User)usersRepo.Table
                         .Where(x => x.Id == id)
                         .First();
 
@@ -309,16 +311,18 @@ namespace EdukuJez
 
                     if (subject == null)
                         subject = SubjectDropDownList.SelectedItem.Text;
-                    attendance.Class = (ClassC)classUsersRepository.Table
-                        .Include(x => x.Class.Subject)
-                        .Where(x => x.Class.Subject.SubjectName == subject && x.Class.Day == dayOfWeek)
+                    var aClass = classUsersRepository.Table
+                        .Include(x => x.Class).ThenInclude(x =>x.Subject)
+                        .Where(x => x.Class.Subject.SubjectName == subject /*&& x.Class.Day == dayOfWeek*/)
                         .Select(x => x.Class)
                         .First();
 
                     attendance.Presence = ddl.SelectedValue;
-
-                    attendancesRepo.Table.Add(attendance); //dodanie obecnosci
-                    attendancesRepo.Update(); //<--------------------------------------------------------- sprawdzic !
+                    attendancesRepo.Insert(attendance);
+                    scheduleRepository.Table.First(x => x.Id == aClass.Id).Attendances.Add(attendance);
+                    scheduleRepository.Update();
+                    usersRepo.Table.First(x => x.Id == aStudent.Id).Attendance.Add(attendance);
+                    usersRepo.Update();
                 }
                 else //zmiana wczesniej wpisanej obecnosci
                 {
