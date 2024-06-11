@@ -316,13 +316,25 @@ namespace EdukuJez
                 deleteButton.Click += new EventHandler(DeleteButtonDynamic_Click);  // Podłączenie metody obsługującej zdarzenie kliknięcia
 
                 Button addSubstitutionButton = new Button();
-                addSubstitutionButton.ID = "AddSubstitutionButton" + lesson.Id.ToString();
+                addSubstitutionButton.ID = "AddSubstitutionButton_" + lesson.Id.ToString();
                 addSubstitutionButton.Text = "Dodaj zastępstwo";
-                addSubstitutionButton.Click += new EventHandler(ShowOtherPanelClick);
+                addSubstitutionButton.Click += new EventHandler(ShowSubstitutionSiteClick);
 
                 // Dodanie tekstu i przycisku do komórki
                 Label lbl = new Label();
-                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + "<br />  Sala: " + lesson.Class.Number + "<br />";
+                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + " " + lesson.Warden.UserSurname + "<br />  Sala: " + lesson.Class.Number + "<br />";
+                
+                
+                /*if (lesson.SubstitutionId != null)
+                {
+                    User subTeacher = userRepo.Table.FirstOrDefault(x => x.Id == lesson.Substitution.SubTeacher.Id);
+                    if (subTeacher != null)
+                    {
+                        lbl.Text += "ZASTĘPSTWO: " + "<br />" + subTeacher.UserName + " " + subTeacher.UserSurname + "<br />";
+                    }
+                }*/
+                
+
                 MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(lbl);
 
                 // Dodanie przycisku do komórki
@@ -331,6 +343,24 @@ namespace EdukuJez
             }
         }
 
+        public int dynamicButtonID;
+
+        protected void ShowSubstitutionSiteClick(object sender, EventArgs e)
+        {
+            Button clickedButton = (Button)sender;
+            string buttonId = clickedButton.ID;
+            string[] buttonParts = buttonId.Split('_');
+            if (buttonParts.Length < 2)
+            {
+                throw new Exception("Invalid button ID format.");
+            }
+
+            dynamicButtonID = int.Parse(buttonParts[1]);
+            ViewState["DynamicButtonID"] = dynamicButtonID;
+
+            MainPanel.Visible = false;
+            SubstitutionPanel.Visible = true;
+        }
 
         protected void ShowOtherPanelClick(object sender, EventArgs e)
         {
@@ -340,37 +370,46 @@ namespace EdukuJez
 
         protected void AddSubstitionButtonDynamicClick(object sender, EventArgs e)
         {
-            // Create a new substitution instance
+            if (ViewState["DynamicButtonID"] != null)
+            {
+                dynamicButtonID = (int)ViewState["DynamicButtonID"];
+            }
+            else
+            {
+                throw new Exception("DynamicButtonID is not set.");
+            }
+
             Substitution subst = new Substitution();
-
-            // Get the selected teacher's full name from the list
             var teacherFullName = TeachersList.SelectedValue;
-
-            // Split the full name into first name and surname
             string[] parts = teacherFullName.Split(' ');
 
-            // Insert the new substitution into the repository
-            substRepo.Insert(subst);
-
-            // Find the user (teacher) by matching the full name
             User subTeacher = userRepo.Table.FirstOrDefault(x => (x.UserName + " " + x.UserSurname) == teacherFullName);
             if (subTeacher == null)
             {
-                // Handle the case where the teacher is not found
                 throw new Exception("Teacher not found.");
             }
 
-            // Assign the found teacher to the substitution
             subst.SubTeacher = subTeacher;
 
-            // Add the substitution to the teacher's substitution collection
-            subTeacher.Substitutions.Add(subst);
+            ClassC lesson = scheduleRepo.Table.FirstOrDefault(x => x.Id == dynamicButtonID);
+            if (lesson == null)
+            {
+                throw new Exception("Lesson not found.");
+            }
 
-            // Update the user repository to save changes
+            subst.Class = lesson;
+            lesson.Substitution = subst;
+
             userRepo.Update();
+            scheduleRepo.Update();
+            substRepo.Update();
+
+            ReloadData();
+            LoadLessonPlan();
+            RefreshListBox();
+            MainPanel.Visible = !MainPanel.Visible;
+            SubstitutionPanel.Visible = !SubstitutionPanel.Visible;
         }
-
-
 
         private void ReloadData()
         {
