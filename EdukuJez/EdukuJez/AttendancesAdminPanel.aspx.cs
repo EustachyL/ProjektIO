@@ -19,7 +19,6 @@ namespace EdukuJez
                // LoadStudentsForGroup();
             }
         }
-        /*
         protected void GroupsDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadStudentsForGroup();
@@ -40,7 +39,7 @@ namespace EdukuJez
                 {
                     Student = selectedStudent,
                     Date = currentDate,
-                    Group = groupsRepo.GetById(selectedGroupId),
+                    //Group = groupsRepo.GetById(selectedGroupId),
                     Presence = presence
                 });
 
@@ -88,6 +87,6 @@ namespace EdukuJez
 
             ListBoxAllAttendances.DataSource = listBoxItems;
             ListBoxAllAttendances.DataBind();
-        }*/
+        }
     }
 }
