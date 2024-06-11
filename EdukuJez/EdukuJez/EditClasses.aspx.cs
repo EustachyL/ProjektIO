@@ -224,6 +224,7 @@ namespace EdukuJez
                     .Include(u => u.Group)
                     .Include(w => w.Subject)
                     .Include (w => w.Class)
+                    .Include(w => w.Substitution)
                     .ToList();
 
                 ClearTable();
@@ -238,6 +239,7 @@ namespace EdukuJez
                .Include(u => u.Group)
                .Include(w => w.Subject)
                .Include(w => w.Class)
+               .Include(w => w.Substitution)
                .ToList();
 
                 AssignToCell(lessonPlan);
@@ -325,16 +327,20 @@ namespace EdukuJez
                 lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + " " + lesson.Warden.UserSurname + "<br />  Sala: " + lesson.Class.Number + "<br />";
                 
                 
-                /*if (lesson.SubstitutionId != null)
+                if (lesson.SubstitutionId != null)
                 {
-                    User subTeacher = userRepo.Table.FirstOrDefault(x => x.Id == lesson.Substitution.SubTeacher.Id);
-                    if (subTeacher != null)
+                    List<Substitution> subtitutions = substRepo.Table.Where(x => x.Id == lesson.SubstitutionId)
+               .Include(a => a.SubTeacher)
+               .ToList();
+
+                    var sub = subtitutions.FirstOrDefault().SubTeacher.Id;
+
+                    User subTeacher = userRepo.Table.FirstOrDefault(x => x.Id == sub);
+                   if (subTeacher != null)
                     {
                         lbl.Text += "ZASTĘPSTWO: " + "<br />" + subTeacher.UserName + " " + subTeacher.UserSurname + "<br />";
                     }
-                }*/
-                
-
+                }
                 MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(lbl);
 
                 // Dodanie przycisku do komórki
@@ -420,7 +426,7 @@ namespace EdukuJez
             List<GroupUser> groupUserList = groupUserRepo.Table.Include(u => u.User).Include(g => g.Group).ToList();
             var userList = groupUserList.Where(x => x.Group != null && x.Group.Name == UserSession.TEACHER_GROUP && x.User != null).Select(x => x.User).ToList(); ;
 
-            var lessonPlan = scheduleRepo.Table.Include(u => u.Group).Include(u => u.Warden).Include(u => u.Subject).Include(u => u.Class).ToList();
+            var lessonPlan = scheduleRepo.Table.Include(u => u.Group).Include(u => u.Warden).Include(u => u.Subject).Include(u => u.Class).Include(u => u.Substitution).ToList();
 
             LoadToChose(groupList, subList, userList, lessonPlan, roomList);
 
