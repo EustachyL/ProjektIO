@@ -294,6 +294,7 @@
     <Content Include="Imgs\Calendar_Title.png" />
     <Content Include="Imgs\Changing_Password_Title.png" />
     <Content Include="Imgs\Child_To_Parent_Management_Title.png" />
+    <Content Include="Imgs\Classrooms_Management_Page_Title.png" />
     <Content Include="Imgs\Grades_Title.png" />
     <Content Include="Imgs\Groups_Management_Page_Title2.png" />
     <Content Include="Imgs\Lesson_Plan_Title.png" />

@@ -45,6 +45,7 @@ namespace EdukuJez
             }
         }
 
+
         protected string returnGroup(int UserId)
         {
             string groupName = null;
@@ -55,55 +56,66 @@ namespace EdukuJez
             return groupName;
         }
 
-        private void SetControlVisibility(bool loginBox, bool passwordBox, bool groupBox, bool confirmAddButton, bool confirmEditButton,
-            bool confirmDeactivateButton, bool confirmDeleteButton, bool restartButton, bool nameLabel, bool nameBox,
-            bool surnameLabel, bool surnameBox, bool passwordLabel, bool groupLabel, bool loginLabel, bool loginBoxVisible = true)
-        {
-            LoginBox.Enabled = loginBox;
-            PasswordBox.Visible = passwordBox;
-            GroupBox.Visible = groupBox;
-            ConfirmAddButton.Visible = confirmAddButton;
-            ConfirmEditButton.Visible = confirmEditButton;
-            ConfirmDeactivateButton.Visible = confirmDeactivateButton;
-            ConfirmDeleteButton.Visible = confirmDeleteButton;
-            RestartButton.Visible = restartButton;
-            NameLabel.Visible = nameLabel;
-            NameBox.Visible = nameBox;
-            SurnameLabel.Visible = surnameLabel;
-            SurnameBox.Visible = surnameBox;
-            PasswordLabel.Visible = passwordLabel;
-            GroupLabel.Visible = groupLabel;
-            LoginLabel.Visible = loginLabel;
-            LoginBox.Visible = loginBoxVisible;
-        }
 
         protected void AddClick(object sender, EventArgs e)
         {
             MainInfoLabel.Text = "Wypełnij dane nowego użytkownika:";
-            SetControlVisibility(false, true, true, true, false, false, false, false, true, true, true, true, true, true, false);
+            LoginBox.Enabled = false;
+            EditUserButton.Visible = false;
+            AddUserButton.Visible = false;
             DeleteUserButton.Visible = false;
             DeactivateUserButton.Visible = false;
-            AddUserButton.Visible = false;
-            EditUserButton.Visible = false;
+            PasswordBox.Visible = true;
+            GroupBox.Visible = true;
+            ConfirmAddButton.Visible = true;
+            NameLabel.Visible = true;
+            NameBox.Visible = true;
+            SurnameLabel.Visible = true;
+            SurnameBox.Visible = true;
+            PasswordLabel.Visible = true;
+            GroupLabel.Visible = true;
         }
 
         protected void DeactivateClick(object sender, EventArgs e)
         {
             MainInfoLabel.Text = "Czy na pewno chcesz dezaktywować tego użytkownika? Konto o tej nazwie zostanie usunięte, ale aktywności do niego przypisane nadal będą widoczne.";
-            SetControlVisibility(false, false, false, false, false, true, false, false, false, false, false, false, false, false, false);
+            LoginBox.Enabled = false;
+            EditUserButton.Visible = false;
+            AddUserButton.Visible = false;
+            DeleteUserButton.Visible = false;
+            DeactivateUserButton.Visible = false;
+            ConfirmDeleteButton.Visible = false;
+            ConfirmDeactivateButton.Visible = true;
         }
 
         protected void DeleteClick(object sender, EventArgs e)
         {
             MainInfoLabel.ForeColor = System.Drawing.ColorTranslator.FromHtml("#CC0000");
             MainInfoLabel.Text = "Czy na pewno chcesz usunąć tego użytkownika?  TA OPERACJA JEST NIEODWRACALNA! <br> Spowoduje to również usunięcie wszystkich powiązanych z nim aktywności. Jeśli chcesz usunąć użytkownika bez usuwania jego aktywności, użyj opcji dezaktywacji.";
-            SetControlVisibility(false, false, false, false, false, false, true, false, false, false, false, false, false, false, false);
+            LoginBox.Enabled = false;
+            EditUserButton.Visible = false;
+            AddUserButton.Visible = false;
+            DeleteUserButton.Visible = false;
+            DeactivateUserButton.Visible = false;
+            ConfirmDeleteButton.Visible = true;
+            ConfirmDeactivateButton.Visible = false;
         }
 
         protected void EditClick(object sender, EventArgs e)
         {
             MainInfoLabel.Text = "Wpisz nowe dane wybranego użytkownika:";
-            SetControlVisibility(false, true, false, false, true, false, false, false, true, true, true, true, true, false, true);
+            LoginBox.Enabled = false;
+            AddUserButton.Visible = false;
+            EditUserButton.Visible = false;
+            DeleteUserButton.Visible = false;
+            DeactivateUserButton.Visible = false;
+            PasswordBox.Visible = true;
+            ConfirmEditButton.Visible = true;
+            NameLabel.Visible = true;
+            NameBox.Visible = true;
+            SurnameLabel.Visible = true;
+            SurnameBox.Visible = true;
+            PasswordLabel.Visible = true;
 
             userToEdit = usersRepository.Table.FirstOrDefault(x => x.UserLogin == LoginBox.Text);
             NameBox.Text = userToEdit.UserName;
@@ -123,8 +135,21 @@ namespace EdukuJez
 
             MainInfoLabel.Text = "Dezaktywowałeś konto użytkownika o loginie " + LoginBox.Text + ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywować lub usunąć kolejnego użytkownika.";
 
-            SetControlVisibility(false, false, false, false, false, false, false, true, false, false, false, false, false, false, false);
+
+            PasswordBox.Visible = false;
+            GroupBox.Visible = false;
+            ConfirmDeactivateButton.Visible = false;
+            NameLabel.Visible = false;
+            NameBox.Visible = false;
+            SurnameLabel.Visible = false;
+            SurnameBox.Visible = false;
+            PasswordLabel.Visible = false;
+            GroupLabel.Visible = false;
+            LoginBox.Visible = false;
+            LoginLabel.Visible = false;
+            RestartButton.Visible = true;
             myRepeater.DataBind();
+
         }
 
         protected void ConfirmDeleteClick(object sender, EventArgs e)
@@ -132,7 +157,11 @@ namespace EdukuJez
             MainInfoLabel.ForeColor = System.Drawing.ColorTranslator.FromHtml("#000000");
             usersRepository.Delete(usersRepository.Table.First(x => x.UserLogin == LoginBox.Text));
             MainInfoLabel.Text = "Usunąłeś z bazy danych użytkownika o loginie " + LoginBox.Text + ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywować lub usunąć kolejnego użytkownika.";
-            SetControlVisibility(false, false, false, false, false, false, false, true, false, false, false, false, false, false, false);
+            ConfirmDeleteButton.Visible = false;
+            ConfirmDeactivateButton.Visible = false;
+            LoginBox.Visible = false;
+            LoginLabel.Visible = false;
+            RestartButton.Visible = true;
             myRepeater.DataBind();
         }
 
@@ -158,6 +187,7 @@ namespace EdukuJez
                 newUser.UserSurname = SurnameBox.Text;
                 newUser.UserPassword = PasswordBox.Text;
 
+
                 Group g = groupsRepo.Table.FirstOrDefault(x => x.Name == GroupBox.SelectedValue.ToString());
                 var gu = new GroupUser();
                 g.Users = new List<GroupUser>() { gu };
@@ -165,10 +195,23 @@ namespace EdukuJez
                 usersRepository.Insert(newUser);
                 groupsRepo.Update();
 
+
+
                 MainInfoLabel.Text = "Dodałeś do bazy danych użytkownika o loginie " + newUser.UserLogin +
                                      ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywować lub usunąć kolejnego użytkownika.";
 
-                SetControlVisibility(false, false, false, false, false, false, false, true, false, false, false, false, false, false, false);
+                PasswordBox.Visible = false;
+                GroupBox.Visible = false;
+                ConfirmAddButton.Visible = false;
+                NameLabel.Visible = false;
+                NameBox.Visible = false;
+                SurnameLabel.Visible = false;
+                SurnameBox.Visible = false;
+                PasswordLabel.Visible = false;
+                GroupLabel.Visible = false;
+                LoginBox.Visible = false;
+                LoginLabel.Visible = false;
+                RestartButton.Visible = true;
                 myRepeater.DataBind();
             }
         }
@@ -213,7 +256,18 @@ namespace EdukuJez
                 MainInfoLabel.Text = "Edytowałeś dane użytkownika o loginie " + userToEdit.UserLogin +
                                      ". <br> Kliknij poniższy przycisk, aby dodać, edytować, dezaktywować lub usunąć kolejnego użytkownika.";
 
-                SetControlVisibility(false, false, false, false, false, false, false, true, false, false, false, false, false, false, false);
+                PasswordBox.Visible = false;
+                GroupBox.Visible = false;
+                ConfirmEditButton.Visible = false;
+                NameLabel.Visible = false;
+                NameBox.Visible = false;
+                SurnameLabel.Visible = false;
+                SurnameBox.Visible = false;
+                PasswordLabel.Visible = false;
+                GroupLabel.Visible = false;
+                LoginBox.Visible = false;
+                LoginLabel.Visible = false;
+                RestartButton.Visible = true;
                 myRepeater.DataBind();
             }
         }

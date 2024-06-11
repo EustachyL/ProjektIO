@@ -30,14 +30,14 @@ namespace EdukuJez
 
                 foreach (User users in userList)
                 {
-                    if(users.UserName!= UserSession.GetSession().UserName)
+                    if(users.UserName!= UserSession.GetSession().UserName && users.Deactivated == false)
                     DropDownList.Items.Add(users.UserName +" "+ users.UserSurname);
 
                 }
                 foreach (Group group in groupList)
                 {
-
-                    DropDownList.Items.Add(group.Name);
+                    if (group.Deactivated == false)
+                        DropDownList.Items.Add(group.Name);
 
                 }
             }

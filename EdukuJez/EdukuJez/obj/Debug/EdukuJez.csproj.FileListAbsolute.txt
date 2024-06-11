@@ -2484,7 +2484,6 @@ D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\xunit.core.dll
 D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\xunit.execution.desktop.dll
 D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\System.Reflection.Metadata.xml
 D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\WebDriver.xml
-D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\xunit.abstractions.xml
 D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\xunit.assert.xml
 D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\xunit.core.xml
 D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\xunit.execution.desktop.xml
@@ -2514,3 +2513,9 @@ D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\ru\Microsoft.Visual
 D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\tr\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
 D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\zh-Hans\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
 D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\zh-Hant\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
+D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\selenium-manager\linux\selenium-manager
+D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\selenium-manager\macos\selenium-manager
+D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\selenium-manager\windows\selenium-manager.exe
+D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\xunit.runner.visualstudio.testadapter.dll
+D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\xunit.runner.reporters.net452.dll
+D:\source\repos\Edukujez\new\ProjektIO\EdukuJez\EdukuJez\bin\xunit.runner.utility.net452.dll
