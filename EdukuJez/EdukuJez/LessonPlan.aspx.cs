@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.UI.WebControls;
 using EdukuJez.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Substitution = EdukuJez.Repositories.Substitution;
 
 namespace EdukuJez
 {
@@ -12,6 +13,9 @@ namespace EdukuJez
         ScheduleRepository Lessons = new ScheduleRepository();
         GroupsRepository GroupsRepo = new GroupsRepository(); // Dodane repozytorium do obsługi grup
         DateTime currentTime = DateTime.Now; // obecny czas systemowy
+        private UsersRepository userRepo = new UsersRepository();
+        private SubstitutionRepository substRepo = new SubstitutionRepository();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -133,7 +137,25 @@ namespace EdukuJez
 
                 // Dodanie tekstu i przycisku do komórki
                 Label lbl = new Label();
-                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + "<br />  Sala: " + lesson.Class.Number + "<br />";
+                lbl.Text = lesson.Subject.SubjectName + "<br />" + lesson.Warden.UserName + " " + lesson.Warden.UserSurname + "<br />  Sala: " + lesson.Class.Number + "<br />";
+
+                if (lesson.SubstitutionId != null)
+                {
+                    List<Substitution> subtitutions = substRepo.Table.Where(x => x.Id == lesson.SubstitutionId)
+               .Include(a => a.SubTeacher)
+               .ToList();
+
+                    var sub = subtitutions.FirstOrDefault().SubTeacher.Id;
+
+                    User subTeacher = userRepo.Table.FirstOrDefault(x => x.Id == sub);
+                    if (subTeacher != null)
+                    {
+                        lbl.Text += "ZASTĘPSTWO: " + "<br />" + subTeacher.UserName + " " + subTeacher.UserSurname + "<br />";
+                    }
+                }
+                MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(lbl);
+
+
                 MainTable.Rows[rowIndex].Cells[colIndex].Controls.Add(lbl);
 
 
