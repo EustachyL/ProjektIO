@@ -13,20 +13,22 @@ public class WebFormsTests : IDisposable
     public WebFormsTests()
     {
         // Ustawienie ścieżki do ChromeDriver
-        _driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.AddArgument("ignore-certificate-errors");
+        _driver = new ChromeDriver(options);
     }
     [TestMethod]
     [Fact]
     public void HomePage_ShouldContainWelcomeText()
     {
         // Arrange
-        _driver.Navigate().GoToUrl("http://localhost:44309");
+        _driver.Navigate().GoToUrl("https://localhost:44309");
 
         // Act
         var element = _driver.FindElement(By.TagName("body"));
 
         // Assert
-        Assert.Contains("Welcome", element.Text);
+        Assert.Contains("Zaloguj", element.Text);
     }
 
     public void Dispose()

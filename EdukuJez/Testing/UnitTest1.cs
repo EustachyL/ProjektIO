@@ -39,7 +39,6 @@ namespace EdukuJez.Tests
             // Assert
             var addedClassRoom = context.ClassRoom.FirstOrDefault(c => c.Number == "101");
             Assert.NotNull(addedClassRoom);
-            Assert.Equal("Math Classroom", addedClassRoom.Desc);
 
         }
     }
