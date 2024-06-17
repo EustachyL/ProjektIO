@@ -42,8 +42,10 @@ namespace EdukuJez.Repositories
 
         public BaseContext()
         {
+        }
+        public BaseContext(DbContextOptions options): base(options)
+        {
             
-
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
