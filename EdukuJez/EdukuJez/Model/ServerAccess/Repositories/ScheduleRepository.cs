@@ -12,6 +12,10 @@ namespace EdukuJez.Repositories
         {
             Table = Context.Classes;
         }
+        public void AddNewEntry(ClassC entry)
+        {
+            Insert(entry);
+        }
 
     }
 }

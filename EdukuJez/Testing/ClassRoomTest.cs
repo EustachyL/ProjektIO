@@ -6,9 +6,9 @@ using Xunit;
 
 namespace EdukuJez.Tests
 {
-    public class UnitTest1
+    public class ClassRoomTest
     {
-        public UnitTest1()
+        public ClassRoomTest()
         {
             var options = new DbContextOptionsBuilder<BaseContext>()
                 .UseInMemoryDatabase(databaseName: "EdukuJezTestDb")

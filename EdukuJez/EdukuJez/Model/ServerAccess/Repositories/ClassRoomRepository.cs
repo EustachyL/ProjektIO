@@ -10,6 +10,12 @@ namespace EdukuJez.Repositories
 {
     public class ClassRoomsRepository : ARepository<ClassRoom>
     {
+        private readonly BaseContext _context;
+
+        public ClassRoomsRepository(BaseContext context)
+        {
+            _context = context;
+        }
         public ClassRoomsRepository()
         {
             Table = Context.ClassRoom;

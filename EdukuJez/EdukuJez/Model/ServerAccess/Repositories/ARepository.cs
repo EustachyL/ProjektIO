@@ -11,10 +11,13 @@ namespace EdukuJez.Repositories
     {
         public DbSet<T> Table { get; protected set; }
         protected BaseContext Context { get; }
+
         public ARepository()
         {
             Context = BaseContext.GetContext();
         }
+
+
         virtual public void Insert(T entity)
         {
             if (entity == null)
