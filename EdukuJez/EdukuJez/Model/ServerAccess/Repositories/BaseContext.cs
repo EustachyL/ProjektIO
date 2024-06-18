@@ -10,6 +10,8 @@ namespace EdukuJez.Repositories
     public class BaseContext : DbContext 
     {
         static BaseContext _instance;
+        public static bool testing = false;
+        public static DbContextOptions options;
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
@@ -34,22 +36,25 @@ namespace EdukuJez.Repositories
         {
             if (_instance == null)
             {
+                if(testing==false)
                 _instance = new BaseContext();
-            }
-            return new BaseContext();
-        }
+                else
+                _instance = new BaseContext(options);
 
+            }
+            return _instance;
+        }
 
         public BaseContext()
         {
         }
         public BaseContext(DbContextOptions options): base(options)
         {
-            
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Konfiguracja połączenia z bazą danych
+            if(testing == false)
             optionsBuilder.UseSqlServer(ServerClient.CONSTRING);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

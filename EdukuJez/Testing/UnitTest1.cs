@@ -8,21 +8,19 @@ namespace EdukuJez.Tests
 {
     public class UnitTest1
     {
-        private readonly BaseContext _context;
-
         public UnitTest1()
         {
             var options = new DbContextOptionsBuilder<BaseContext>()
                 .UseInMemoryDatabase(databaseName: "EdukuJezTestDb")
                 .Options;
 
-            _context = new BaseContext(options);
+            BaseContext.options = options;
+            BaseContext.testing = true;
         }
 
         [Fact]
         public void AddNewEntry_ShouldAddClassRoomToDatabase()
         {
-            var BaseContext = new BaseContext();
             var context = BaseContext.GetContext();
             // Arrange
             var repository = new ClassRoomsRepository();
