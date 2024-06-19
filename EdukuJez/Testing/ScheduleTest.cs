@@ -46,10 +46,6 @@ namespace Testing
 
             };
 
-            repositoryUser.Insert(NewUser);
-
-            repositoryGroup.Insert(NewGroup);
-
             var Class = new ClassC
             {
                 Warden = NewUser,

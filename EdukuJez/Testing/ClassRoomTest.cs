@@ -35,7 +35,7 @@ namespace Testing
             repository.AddNewEntry(newClassRoom);
 
             // Assert
-            var addedClassRoom = context.ClassRoom.FirstOrDefault(c => c.Number == "101");
+            var addedClassRoom = context.ClassRoom.FirstOrDefault(c => c== newClassRoom);
             Assert.NotNull(addedClassRoom);
 
         }

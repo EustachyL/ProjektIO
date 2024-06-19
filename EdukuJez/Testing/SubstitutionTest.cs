@@ -38,7 +38,6 @@ namespace Testing
                 UserPassword = "AAAAAAAAAAAAA"
             };
 
-            repositoryUser.Insert(NewUser);
 
             var Class = new ClassC
             {
@@ -48,7 +47,6 @@ namespace Testing
 
             };
 
-            repositoryClass.Insert(Class);  
 
             var sub = new Substitution
             {

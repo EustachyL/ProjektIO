@@ -20,10 +20,12 @@ namespace EdukuJez.Repositories
 
         virtual public void Insert(T entity)
         {
-            if (entity == null)
-                return;
-            Context.Add(entity);
-            Context.SaveChanges();
+
+                if (entity == null)
+                    return;
+                Context.Add(entity);
+                Context.SaveChanges();
+
         }
         virtual public void Delete(T entity)
         {

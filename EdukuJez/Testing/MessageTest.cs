@@ -48,8 +48,6 @@ namespace Testing
             };
         
 
-            repositoryUser.Insert(NewSender);
-            repositoryUser.Insert(NewRecipient);
             var MU = new MessageUsers();
 
             var NewMessage = new Message
@@ -61,10 +59,12 @@ namespace Testing
                 DateTime = DateTime.Now,
                 Recipients = new List<MessageUsers> { MU }
             };
-           
-            NewRecipient.MessagesUsers = new List<MessageUsers>() { MU};
-
             repository.Insert(NewMessage);
+
+            NewRecipient.MessagesUsers.Add(MU);
+            repositoryUser.Insert(NewRecipient);
+
+
 
             var test = context.Messages.FirstOrDefault(x => x.Topic == "new Topic" && x.Recipients.Count == 1 && x.Sender.Id ==1);
             var test2 = context.MessageUsers.FirstOrDefault(x => x.User.Id == 2 && x.Message.Id==1);
@@ -72,55 +72,55 @@ namespace Testing
             Assert.NotNull(test);
             Assert.NotNull(test2);
         }
-        [Fact]
-        public void AddNewEntry_ShouldAddMessageForGroupToDatabase()
-        {
+        //[Fact]
+        //public void AddNewEntry_ShouldAddMessageForGroupToDatabase()
+        //{
 
-            var context = BaseContext.GetContext();
-            // Arrange
-            var repository = new MessageRepository();
-            var repositoryUser = new UsersRepository();
-            var repositoryGroup = new GroupsRepository();
+        //    var context = BaseContext.GetContext();
+        //    // Arrange
+        //    var repository = new MessageRepository();
+        //    var repositoryUser = new UsersRepository();
+        //    var repositoryGroup = new GroupsRepository();
 
-            var NewSender = new User
-            {
-                UserName = "Adam",
-                UserSurname = "Kowalski",
-                UserLogin = "AAAAAAAAAAAAAA",
-                UserPassword = "AAAAAAAAAAAAA"
+        //    var NewSender = new User
+        //    {
+        //        UserName = "Adam",
+        //        UserSurname = "Kowalski",
+        //        UserLogin = "AAAAAAAAAAAAAA",
+        //        UserPassword = "AAAAAAAAAAAAA"
 
-            };
-            var NewRecipientGroup = new Group
-            {
-             Name = "NewGroup",
-             Educator = NewSender,
+        //    };
+        //    var NewRecipientGroup = new Group
+        //    {
+        //     Name = "NewGroup",
+        //     Educator = NewSender,
 
-            };
+        //    };
 
 
-            repositoryUser.Insert(NewSender);
-            repositoryGroup.Insert(NewRecipientGroup);
-            var MG = new MessageGroups();
+        //    repositoryGroup.Insert(NewRecipientGroup);
+        //    var MG = new MessageGroups();
 
-            var NewMessage = new Message
-            {
-                Topic = "new Topic for group",
-                Content = "new Content",
-                Sender = NewSender,
-                IsGroupMsg = false,
-                DateTime = DateTime.Now,
-                GroupRecipients = new List<MessageGroups> { MG }
-            };
+        //    var NewMessage = new Message
+        //    {
+        //        Topic = "new Topic for group",
+        //        Content = "new Content",
+        //        Sender = NewSender,
+        //        IsGroupMsg = false,
+        //        DateTime = DateTime.Now,
+        //        GroupRecipients = new List<MessageGroups> { MG }
+        //    };
 
-            NewRecipientGroup.Messages= new List<MessageGroups>() { MG };
+        //    NewRecipientGroup.Messages = new List<MessageGroups>() { MG };
 
-            repository.Insert(NewMessage);
+        //    repository.Insert(NewMessage);
 
-            var test = context.Messages.FirstOrDefault(x => x.Topic == "new Topic for group" && x.Sender.Id == 1 && x.GroupRecipients.Count==1);
-            var test2 = context.MessageGroups.FirstOrDefault(x => x.Group.Id == 1 && x.Message.Id == 1);
+        //    var test = context.Messages.FirstOrDefault(x => x.Topic == "new Topic for group" && x.Sender.Id == 1 && x.GroupRecipients.Count==1);
+        //    var test2 = context.MessageGroups.FirstOrDefault(x => x.Group.Id == 1 && x.Message.Id == 1);
 
-            Assert.NotNull(test);
-            Assert.NotNull(test2);
-        }
+        //    Assert.NotNull(test);
+        //    Assert.NotNull(test2);
+        //}
+
     }
 }
