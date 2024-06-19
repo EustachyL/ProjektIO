@@ -46,7 +46,10 @@ namespace Testing
                 UserLogin = "AAA",
                 UserPassword = "AAA"
             };
-        
+
+            context.Users.Add(NewSender);
+            context.Users.Add(NewRecipient);
+            context.SaveChanges();
 
             var MU = new MessageUsers();
 
@@ -60,11 +63,12 @@ namespace Testing
                 Recipients = new List<MessageUsers> { MU }
             };
             repository.Insert(NewMessage);
+            MU.Message = NewMessage; // Przypisanie wiadomości do MessageUsers
 
             NewRecipient.MessagesUsers.Add(MU);
             repositoryUser.Insert(NewRecipient);
 
-
+            context.SaveChanges(); // Zapisujemy zmiany w kontekście
 
             var test = context.Messages.FirstOrDefault(x => x.Topic == "new Topic" && x.Recipients.Count == 1 && x.Sender.Id ==1);
             var test2 = context.MessageUsers.FirstOrDefault(x => x.User.Id == 2 && x.Message.Id==1);
