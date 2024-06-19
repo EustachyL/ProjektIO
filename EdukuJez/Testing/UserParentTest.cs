@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Xunit;
 
-namespace EdukuJez.Tests
+namespace Testing
 {
     public class UserParentTest
     {
@@ -16,16 +16,17 @@ namespace EdukuJez.Tests
                 .UseInMemoryDatabase(databaseName: "EdukuJezTestDb")
                 .Options;
 
-            _context = new BaseContext(options);
+            BaseContext.options = options;
+            BaseContext.testing = true;
         }
 
         [Fact]
         public void AddNewEntry_ShouldAddClassRoomToDatabase()
         {
-            var BaseContext = new BaseContext();
             var context = BaseContext.GetContext();
             // Arrange
             var repository = new UserParentsRepository();
+            var repositoryUser = new UsersRepository();
 
 
             var NewStudent = new User
@@ -44,11 +45,13 @@ namespace EdukuJez.Tests
                 UserPassword = "AAA"
             };
 
+            repositoryUser.Insert(NewStudent);
+            repositoryUser.Insert(NewParent);
 
             var NewUserParentRelation = new UserParent
             {
-             StudentId = 0,
-             ParentId = 0,
+             StudentId = NewStudent.Id,
+             ParentId = NewParent.Id,
              Student = NewStudent,
              Parent = NewParent
             };
@@ -57,7 +60,7 @@ namespace EdukuJez.Tests
             repository.AddNewEntry(NewUserParentRelation);
 
             // Assert
-            var added = context.UserParents.FirstOrDefault(c => c.Id == 1);
+            var added = context.UserParents.FirstOrDefault(c => c.ParentId == 2 && c.StudentId == 1);
             Assert.NotNull(added);
         }
     }

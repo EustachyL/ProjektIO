@@ -608,7 +608,6 @@
     <Compile Include="Model\ServerAccess\Repositories\RemarkRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\ScheduleRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\SubjectsRepository.cs" />
-    <Compile Include="Model\ServerAccess\Repositories\SubjViewRepository.cs" />
     <Compile Include="Model\ServerAccess\Repositories\UsersRepository.cs" />
     <Compile Include="Model\ServerAccess\UserSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

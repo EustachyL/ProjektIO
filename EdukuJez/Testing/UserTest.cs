@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Xunit;
 
-namespace EdukuJez.Tests
+namespace Testing
 {
     public class UserTest
     {
@@ -16,13 +16,13 @@ namespace EdukuJez.Tests
                 .UseInMemoryDatabase(databaseName: "EdukuJezTestDb")
                 .Options;
 
-            _context = new BaseContext(options);
+            BaseContext.options = options;
+            BaseContext.testing = true;
         }
 
         [Fact]
-        public void AddNewUser_ShouldAddNewUserToDatabase()
+        public void AddNewUser_ShouldAddNewUserToDatabaseAndCheckHisLoginData()
         {
-            var BaseContext = new BaseContext();
             var context = BaseContext.GetContext();
             // Arrange
             var repository = new UsersRepository();

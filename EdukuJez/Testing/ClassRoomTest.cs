@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Xunit;
 
-namespace EdukuJez.Tests
+namespace Testing
 {
     public class ClassRoomTest
     {

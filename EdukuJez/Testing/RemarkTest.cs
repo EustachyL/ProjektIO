@@ -15,23 +15,23 @@ namespace Testing
     public class RemarkTest
     {
         private readonly BaseContext _context;
+            public RemarkTest()
+            {
+                var options = new DbContextOptionsBuilder<BaseContext>()
+                    .UseInMemoryDatabase(databaseName: "EdukuJezTestDb")
+                    .Options;
 
-        public RemarkTest()
-        {
-            var options = new DbContextOptionsBuilder<BaseContext>()
-                .UseInMemoryDatabase(databaseName: "EdukuJezTestDb")
-                .Options;
+                BaseContext.options = options;
+                BaseContext.testing = true;
+            }
 
-            _context = new BaseContext(options);
-        }
-
-        [Fact]
-        public void AddNewEntry_ShouldAddClassRoomToDatabase()
-        {
-            var BaseContext = new BaseContext();
-            var context = BaseContext.GetContext();
-            // Arrange
-            var repository = new RemarkRepository();
+            [Fact]
+            public void AddNewEntry_ShouldAddClassRoomToDatabase()
+            {
+                var context = BaseContext.GetContext();
+                // Arrange
+                var repository = new RemarkRepository();
+                var repositoryUser = new UsersRepository();
 
             var Student = new User 
             {
@@ -48,17 +48,19 @@ namespace Testing
                 UserLogin = "BBBBBB",
                 UserPassword = "BBBBBB"
             };
-
-
+            repositoryUser.Insert(Student);
+            repositoryUser.Insert(Submitter);
             var sub = new Remark
             {
-                StudentId = 0,
+                   Student = Student,
+                   Submitter = Submitter,
+                   Contents ="opis"
 
-            };
+    };
+            repository.Insert(sub);
+            var test = context.Remark.FirstOrDefault(x => x.Contents == "opis" && x.SubmitterId==2&& x.StudentId==1);
 
-           // var test = context.Remark.FirstOrDefault(x => x.Desc == "OpisTest");
-
-           // Assert.NotNull(test);
+            Assert.NotNull(test);
 
         }
     }

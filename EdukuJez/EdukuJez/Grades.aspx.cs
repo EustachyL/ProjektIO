@@ -16,7 +16,6 @@ namespace EdukuJez
         public DataTable dataTable = new DataTable();
         public GradesRepository repoGrades = new GradesRepository();
         public SubjectsRepository repoSubj = new SubjectsRepository();
-        public SubjViewRepository View = new SubjViewRepository();
         public GroupsRepository repoGroups = new GroupsRepository();
         String permission;
         User currentuser = UserSession.GetSession()?.user;
