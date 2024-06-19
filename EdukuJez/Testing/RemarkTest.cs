@@ -48,8 +48,6 @@ namespace Testing
                 UserLogin = "BBBBBB",
                 UserPassword = "BBBBBB"
             };
-            repositoryUser.Insert(Student);
-            repositoryUser.Insert(Submitter);
             var sub = new Remark
             {
                    Student = Student,

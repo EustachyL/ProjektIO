@@ -34,7 +34,7 @@ namespace EdukuJez.Repositories
         public DbSet<UserParent> UserParents { get; set; }
         public static BaseContext GetContext()
         {
-            if (_instance == null)
+            if (_instance == null || testing==true)
             {
                 if(testing==false)
                 _instance = new BaseContext();

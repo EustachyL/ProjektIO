@@ -3,6 +3,7 @@ using EdukuJez.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Xunit;
+using System;
 
 namespace Testing
 {
@@ -45,13 +46,9 @@ namespace Testing
                 UserPassword = "AAA"
             };
 
-            repositoryUser.Insert(NewStudent);
-            repositoryUser.Insert(NewParent);
 
             var NewUserParentRelation = new UserParent
             {
-             StudentId = NewStudent.Id,
-             ParentId = NewParent.Id,
              Student = NewStudent,
              Parent = NewParent
             };
@@ -60,7 +57,7 @@ namespace Testing
             repository.AddNewEntry(NewUserParentRelation);
 
             // Assert
-            var added = context.UserParents.FirstOrDefault(c => c.ParentId == 2 && c.StudentId == 1);
+            var added = context.UserParents.FirstOrDefault(c => c == NewUserParentRelation);
             Assert.NotNull(added);
         }
     }
