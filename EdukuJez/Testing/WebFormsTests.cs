@@ -5,35 +5,37 @@ using OpenQA.Selenium.Chrome;
 using Xunit;
 using Assert = Xunit.Assert;
 
-[TestClass]
-public class WebFormsTests : IDisposable
+namespace Testing
 {
-    private readonly IWebDriver _driver;
-
-    public WebFormsTests()
+    public class WebFormsTests : IDisposable
     {
-        // Ustawienie ścieżki do ChromeDriver
-        ChromeOptions options = new ChromeOptions();
-        options.AddArgument("ignore-certificate-errors");
-        _driver = new ChromeDriver(options);
-    }
-    [TestMethod]
-    [Fact]
-    public void HomePage_ShouldContainWelcomeText()
-    {
-        // Arrange
-        _driver.Navigate().GoToUrl("https://localhost:44309");
+        private readonly IWebDriver _driver;
 
-        // Act
-        var element = _driver.FindElement(By.TagName("body"));
+        public WebFormsTests()
+        {
+            // Ustawienie ścieżki do ChromeDriver
+            ChromeOptions options = new ChromeOptions();
+            options.AddArgument("ignore-certificate-errors");
+            _driver = new ChromeDriver(options);
+        }
+        [TestMethod]
+        [Fact]
+        public void HomePage_ShouldContainWelcomeText()
+        {
+            // Arrange
+            _driver.Navigate().GoToUrl("https://localhost:44309");
 
-        // Assert
-        Assert.Contains("Zaloguj", element.Text);
-    }
+            // Act
+            var element = _driver.FindElement(By.TagName("body"));
 
-    public void Dispose()
-    {
-        _driver.Quit();
-        _driver.Dispose();
+            // Assert
+            Assert.Contains("Zaloguj", element.Text);
+        }
+
+        public void Dispose()
+        {
+            _driver.Quit();
+            _driver.Dispose();
+        }
     }
 }
