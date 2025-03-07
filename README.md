@@ -5,6 +5,7 @@ Dziennik Elektroniczny to aplikacja webowa przeznaczona do zarządzania ocenami,
 
 Celem aplikacji jest ułatwienie zarządzania procesem edukacyjnym w szkołach i uczelniach poprzez dostarczenie intuicyjnego narzędzia do wystawiania ocen, tworzenia planów zajęć, zarządzania przedmiotami oraz komunikacji między użytkownikami.
 
+Projekt realizowany w ramach zajęć akademickich, sprawozdanie projektu jest dostępne w pliku "sprawozdanie.pdf".
 ## 🚀 Funkcjonalności
 Aplikacja oferuje następujące funkcjonalności:
 - **System kont** z podziałem na role: Administrator, Nauczyciel, Uczeń, Rodzic.
