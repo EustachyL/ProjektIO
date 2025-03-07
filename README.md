@@ -1,5 +1,11 @@
 # Dziennik Elektroniczny 📓
-
+## 👨‍💻 Autorzy
+- Eustachy Lisiński – [GitHub](https://github.com/EustachyL)
+- Karolina Barszcz – [GitHub](https://github.com/karolinab11)
+- Kamila Młynarczyk – [GitHub](https://github.com/KamilaMlyn)
+- Agata Sobczyk – [GitHub](https://github.com/agatoneq)
+- Artur Ulman – [GitHub](https://github.com/Stam8231)
+- Miłosz Wojtanek – [GitHub](https://github.com/ElMilos)
 ## 📖 Opis projektu
 Dziennik Elektroniczny to aplikacja webowa przeznaczona do zarządzania ocenami, planem zajęć oraz komunikacją między uczniami, nauczycielami, rodzicami i administratorami. Projekt został stworzony w ramach zajęć z Inżynierii Oprogramowania na kierunku Informatyka.
 
