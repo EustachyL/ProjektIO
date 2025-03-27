@@ -27,7 +27,7 @@ Aplikacja oferuje następujące funkcjonalności:
 ## 🛠️ Technologie
 Projekt został zrealizowany przy użyciu następujących technologii:
 - **Backend**: C#, [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/), [Entity Framework](https://docs.microsoft.com/en-us/ef/core/)
-- **Frontend**: HTML, CSS, JavaScript, [Bootstrap](https://getbootstrap.com/)
+- **Frontend**: WebForms
 - **Baza danych**: [SQL Server](https://docs.microsoft.com/en-us/sql/sql-server/)
 - **Narzędzia**: Visual Studio, Git
 
